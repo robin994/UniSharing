@@ -94,7 +94,7 @@
 	                <td>91</td>
 									<td><div id="stars-existing" class="starrr coloreStelle" data-rating="4"><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span></div></td>
 
-
+CIAO
 <br/></td>
 	            </tr>
 	            <tr>
