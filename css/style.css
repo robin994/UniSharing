@@ -1,0 +1,24 @@
+/* CSS Document */
+
+.img-responsive {
+	margin-left: 8%;
+	margin-bottom: 5%;
+}
+
+#conteiner {
+	margin-top: 12%;
+	margin-bottom: 12%;
+	margin-left: 33%;
+}
+
+.breadcrumb {
+	margin-top: 0.3%;
+}
+
+.nav-tabs > li {
+	padding-top: 0.5%;
+}
+
+.panel-footer {
+	bottom: 0;
+}
