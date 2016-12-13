@@ -18,7 +18,7 @@
     	<script type="text/javascript" src="../js/jquery-confirm-master/dist/jquery-confirm.min.js"></script>
 
 
-		<script>
+		<script>        
 
 		// ONLOAD JQUERY
 		$(function(){
