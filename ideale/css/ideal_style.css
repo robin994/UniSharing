@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+.size_icon{
+	font-size:22px;
+	}
+	
+.size_iconremove{
+	font-size:22px;
+	color: red;
+	cursor:pointer;
+	}
+	
+	.size_iconremove:hover{
+	font-size:22px;
+	color: #ccc;
+	}
