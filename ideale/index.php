@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="../js/jquery-confirm-master/jquery-confirm.min.css"/>
     	<script type="text/javascript" src="../js/jquery-confirm-master/jquery-confirm.min.js"></script>
         
-        <script>
+        <script>        
 			$(function(){
 				$(".btn-primary").on("click", function(e){
 					$.confirm({
