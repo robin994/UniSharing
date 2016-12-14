@@ -8,7 +8,7 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../../css/group_style.css" rel="stylesheet" media="screen">
-        <script src="../../js/jquery.1.12.js"></script>
+        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
     	<script src="js/bootstrap.min.js"></script>
         
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
