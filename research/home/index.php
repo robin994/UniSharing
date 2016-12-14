@@ -16,8 +16,7 @@
 					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");			
 					var arr_features = [];
 					var boo = false;
-					$(".features").each(function(){
-						
+					$(".features").each(function(){					
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
 							boo = true;
