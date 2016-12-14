@@ -42,7 +42,6 @@
 							tmp += 		'<tr>';
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
-							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
 							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
@@ -53,7 +52,9 @@
 						$("#ris").html("");
 						$("#ris").html(tmp);
 					}
+
 					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
+
 				});
 			});
 		</script>

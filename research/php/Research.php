@@ -1,44 +1,15 @@
 <?
 
-class User{
+class Research{
 
 	private $connect;
 
 	public function init(){
-
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
-
 	}
-
-	public function echoQualcosa(){
-		var_dump("OK!");
-	}
-
-
-
-	public function login(){
-
-		//inizializzo il json da restituire come risultato del metodo
-		$objJSON = array();
-
-		//eseguo la connessione al database definita in ConnectionDB.php
-		$this->connect->connetti();
-		//Costruisco la select prelevando tutte l'username e la password
-		$user = $post["user"]["username"];
-		$pass = $post["user"]["password"];
-
-		if(!$user || !$pass){
-			//la chiamata non ha avuto successo
-			$objJSON["success"] = false;
-			$objJSON["messageError"] = "Errore:";
-			$objJSON["error"] = "errore di inserimento dei dati";
-		}
-	}
-
-	/*
+	
 	public function researchUsers($post){
-
 
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -71,8 +42,6 @@ class User{
 			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features).")";
 		}
 
-
-
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
@@ -89,7 +58,6 @@ class User{
 			return json_encode($objJSON);
 
 		}else{
-
 
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
@@ -108,14 +76,10 @@ class User{
 			}
 		}
 
-
 		//Disconnetto dal database
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-
 	}
-	*/
-
 }
 
 
