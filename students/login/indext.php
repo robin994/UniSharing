@@ -4,9 +4,9 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="../css/style.css" rel="stylesheet" media="screen">
+        <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="./css/styleRob.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
         <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
@@ -41,12 +41,10 @@
             </nav>
         </header>
         <div id="conteiner" class="container">
-			<div class="row">
-			/*	<div class="row" id="pwd-container">*/
-    <div class="col-lg-4">
-		</div>
+					<div class="col-md-4"></div>
+					<div class="row" id="pwd-container">
 
-    <div class="col-lg-4">
+					<div class="col-md-4">
       <section class="login-form">
         <form method="post" action="#" role="login">
           <center><img src="./img/logo.png" class="img-responsive" alt=""></center><br>
@@ -57,14 +55,14 @@
 
           <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Log in</button>
           <div><br>
-            <center><a href="#">Create account</a> or <a href="#">reset password</a></center>
+            <center><a href="#">Crea account</a> o <a href="#">ripristina password</a></center>
           </div>
 
         </form>
 
       </section>
-      </div>
-	<div class="col-lg-4"></div>
+		</div>
+	<div class="col-md-4"></div>
 
 			</div>
 		</div>
