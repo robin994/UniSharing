@@ -11,16 +11,11 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script>
-			$(function() {
-								
-				$("#btn-start-research").on("click", function() {
-					
-					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
-					
+			$(function() {								
+				$("#btn-start-research").on("click", function() {				
+					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");			
 					var arr_features = [];
 					var boo = false;
-					
-					
 					$(".features").each(function(){
 						
 						if($(this).is(":checked")){
@@ -28,26 +23,17 @@
 							boo = true;
 						}
 					});
-					
-					
-					console.log(arr_features);
-					
+					console.log(arr_features);					
 					if(!boo){
 						alert("Non hai selezionato nessuna caratteristica!");
 						return;
 					}
-					
-					
 					function callBackUsers(data){
-						
-						
 						console.log(data);
-				
 						if(!data.success){
 							alert("Errore! " + data.errorMessage);	
 							return;
 						}
-								
 						var tmp = "";
 						for(var i = 0; i < data.results.length;i++){
 							console.log(data.results[i]);
@@ -58,24 +44,18 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<span class="user-subhead" user="'+data.results[i]["id"]+'">Aggiungi</span>';
+							tmp += '				<button class="user-subhead" user="'+data.results[i]["id"]+'">Aggiungi</button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
 							tmp += '</table>';
 							tmp += '</div>';
 						}
-						
-						
+											
 						$("#ris").html("");
 						$("#ris").html(tmp);
-						
-						
 					}
-					
-					
 					$.unisharing("User", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);	
-					
 				});
 			});
 		</script>
@@ -302,14 +282,17 @@
                 </div>
                 <div class="col-lg-4">                
                 </div>
-            </div>
-            
-            
+            </div>           
             <!-- RISULTATI DELLA RICERCA -->
             <div class="row">
-            		<div class="col-lg-2"></div>
-                    <div class="col-lg-8" id="ris"></div>
-                    <div class="col-lg-2"></div>
+            	<div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                	<div class="row" id="ris">
+                    </div>
+                </div>
+                <div class="col-lg-3"
+                ></div>
             </div>
         </div>
         <footer>
