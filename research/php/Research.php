@@ -5,14 +5,11 @@ class Research{
 	private $connect;
 
 	public function init(){
-
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
-
 	}
 	
 	public function researchUsers($post){
-
 
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -45,8 +42,6 @@ class Research{
 			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features).")";
 		}
 
-
-
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
@@ -63,7 +58,6 @@ class Research{
 			return json_encode($objJSON);
 
 		}else{
-
 
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
@@ -82,13 +76,10 @@ class Research{
 			}
 		}
 
-
 		//Disconnetto dal database
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-
 	}
-
 }
 
 
