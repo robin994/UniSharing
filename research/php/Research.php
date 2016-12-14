@@ -82,9 +82,4 @@ class Research{
 	}
 }
 
-
-
-
-
-
 ?>
