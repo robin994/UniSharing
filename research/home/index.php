@@ -74,7 +74,7 @@
 					}
 
 
-					$.unisharing("User", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
+					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
 
 				});
 			});
