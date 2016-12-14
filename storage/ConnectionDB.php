@@ -7,7 +7,7 @@ class ConnectionDB{
 	
 	private $db_host = "localhost";
 	private $db_user = "root";
-	private $db_password = "root";
+	private $db_password = "rootciaociao";
 	private $db_database = "unisharing";
 	
 	
