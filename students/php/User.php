@@ -15,9 +15,6 @@ class User{
 		var_dump("OK!");
 	}
 
-	public function echoQualcosa(){
-		var_dump("OK!");
-	}
 
 
 	public function login(){
@@ -27,11 +24,16 @@ class User{
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
-		//Costruisco la select prelevando tutte le caratteristiche
+		//Costruisco la select prelevando tutte l'username e la password
 		$user = $post["user"]["username"];
 		$pass = $post["user"]["password"];
 
-
+		if(!$user || !$pass)){
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = "errore di inserimento dei dati";
+		}
 	}
 
 	/*
