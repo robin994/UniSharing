@@ -1,16 +1,16 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Dic 13, 2016 alle 17:12
--- Versione del server: 10.1.19-MariaDB
--- Versione PHP: 7.0.13
+-- Host: localhost:8889
+-- Creato il: Dic 14, 2016 alle 10:55
+-- Versione del server: 5.6.28
+-- Versione PHP: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
- 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -36,8 +36,8 @@ CREATE TABLE `_account` (
 --
 
 INSERT INTO `_account` (`username`, `password`) VALUES
-('annatomeo@alice.it', 'ciao'),
-('robi@alice.it', 'ciaociao');
+('tester1@unisharing.it', 'enter1'),
+('tester2@unisharing.it', 'enter2');
 
 -- --------------------------------------------------------
 
@@ -50,13 +50,6 @@ CREATE TABLE `_accountpartecipateuser` (
   `groupId` int(11) DEFAULT NULL,
   `admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `_accountpartecipateuser`
---
-
-INSERT INTO `_accountpartecipateuser` (`userId`, `groupId`, `admin`) VALUES
-(11, 22, 100);
 
 -- --------------------------------------------------------
 
@@ -82,6 +75,14 @@ CREATE TABLE `_exam` (
   `idFaculty` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `_exam`
+--
+
+INSERT INTO `_exam` (`idExam`, `name`, `idFaculty`) VALUES
+(1, 'Ingegneria del software', 1),
+(2, 'Algebra I', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -94,6 +95,14 @@ CREATE TABLE `_faculty` (
   `idUniversity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `_faculty`
+--
+
+INSERT INTO `_faculty` (`idFaculty`, `name`, `idUniversity`) VALUES
+(1, 'Informatica', 1),
+(2, 'Matematica', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -104,6 +113,20 @@ CREATE TABLE `_features` (
   `idFeature` int(11) NOT NULL,
   `label` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `_features`
+--
+
+INSERT INTO `_features` (`idFeature`, `label`) VALUES
+(1, 'Simpatico'),
+(2, 'Cordiale'),
+(3, 'Socievole'),
+(4, 'Diligente'),
+(5, 'Timido'),
+(6, 'Estroverso'),
+(7, 'Informatica'),
+(8, 'Matematica');
 
 -- --------------------------------------------------------
 
@@ -134,13 +157,6 @@ CREATE TABLE `_group` (
   `account` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `_group`
---
-
-INSERT INTO `_group` (`idGroup`, `name`, `creationDate`, `expiartionDate`, `description`, `account`) VALUES
-(22, 'fantastico', '2016-12-14', '2016-12-31', NULL, 'annatomeo@alice.it');
-
 -- --------------------------------------------------------
 
 --
@@ -161,8 +177,17 @@ CREATE TABLE `_ideallist` (
 
 CREATE TABLE `_university` (
   `idUniversity` int(11) NOT NULL,
-  `name` varchar(60) NOT NULL
+  `name` varchar(60) NOT NULL,
+  `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `_university`
+--
+
+INSERT INTO `_university` (`idUniversity`, `name`, `description`) VALUES
+(1, 'Unisa', 'Università degli studi di Salerno'),
+(2, 'Unina', 'Università Federico II');
 
 -- --------------------------------------------------------
 
@@ -192,8 +217,8 @@ CREATE TABLE `_user` (
 --
 
 INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathImage`, `telephone`, `description`, `address`, `score`, `active`, `numberOfFeedback`, `numberOfDesertedGroup`, `typeStudent`) VALUES
-(11, 'anna', 'tomeo', 'annatomeo@alice.it', '2016-12-18', NULL, NULL, NULL, NULL, 0, NULL, 0, 0, NULL),
-(12, 'roberto', 'tortora', 'robi@alice.it', '2016-12-04', NULL, NULL, NULL, NULL, 0, NULL, 0, 0, NULL);
+(13, 'Antonio', 'Fasulo', 'tester1@unisharing.it', '2016-12-23', 'img/avatar/tester1@unisharing.it/', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 0, 1, 0, 0, 'corsista-pendolare'),
+(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 0, 1, 0, 0, 'corsista-pendolare');
 
 -- --------------------------------------------------------
 
@@ -205,6 +230,16 @@ CREATE TABLE `_userasfeatures` (
   `idFeature` int(11) DEFAULT NULL,
   `idUser` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `_userasfeatures`
+--
+
+INSERT INTO `_userasfeatures` (`idFeature`, `idUser`) VALUES
+(1, 13),
+(2, 13),
+(4, 14),
+(6, 14);
 
 --
 -- Indici per le tabelle scaricate
@@ -308,17 +343,17 @@ ALTER TABLE `_blacklist`
 -- AUTO_INCREMENT per la tabella `_exam`
 --
 ALTER TABLE `_exam`
-  MODIFY `idExam` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idExam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT per la tabella `_faculty`
 --
 ALTER TABLE `_faculty`
-  MODIFY `idFaculty` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFaculty` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT per la tabella `_features`
 --
 ALTER TABLE `_features`
-  MODIFY `idFeature` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFeature` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT per la tabella `_feedback`
 --
@@ -338,12 +373,12 @@ ALTER TABLE `_ideallist`
 -- AUTO_INCREMENT per la tabella `_university`
 --
 ALTER TABLE `_university`
-  MODIFY `idUniversity` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idUniversity` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT per la tabella `_user`
 --
 ALTER TABLE `_user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- Limiti per le tabelle scaricate
 --
