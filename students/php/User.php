@@ -28,7 +28,7 @@ class User{
 		$user = $post["user"]["username"];
 		$pass = $post["user"]["password"];
 
-		if(!$user || !$pass)){
+		if(!$user || !$pass){
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
