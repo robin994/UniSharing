@@ -9,7 +9,7 @@ $(function(){
 	
 	// function send post request to server
 	$.unisharing = function(classe, metodo, isPublic, dataJS, as, callback){
-		
+		"use strict";
 
 		var url = "../../storage/proxy.php";
 		

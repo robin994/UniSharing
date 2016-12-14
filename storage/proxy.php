@@ -11,7 +11,7 @@ include "../students/php/User.php";
 
 $obj = new $_POST['classe']();
 $obj->init();
-echo $obj->$_POST['metodo']($_POST);
+echo $obj->$_POST["metodo"]($_POST);
 
 
 ?>

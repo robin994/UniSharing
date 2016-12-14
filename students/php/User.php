@@ -12,7 +12,7 @@ class User{
 	}
 	
 	public function echoQualcosa(){
-		
+		var_dump("OK!");
 	}
 	
 	public function researchUsers($post){
@@ -41,16 +41,15 @@ class User{
 		//costruisco la query di select
 		$query = "";
 		if(count($features) > 0){
-			$query .= " SELECT * FROM _users WHERE _users.id IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature AND (";
+			$query .= " SELECT * FROM _user WHERE _user.idUser IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature AND (";
 			for($i = 0; $i < count($features);$i++){
 				$query.= " _features.label = '".$features[$i]["features"]."' OR";
 			}
-			$query = substr($query,0,strlen($query)-2);
-			$query .= " GROUP BY _features.idUser HAVING COUNT(*) = ".count($features).")";
+			$query = substr($query,0,strlen($query)-2).")";
+			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features).")";
 		}
 		
-		
-		var_dump($query);
+	
 		
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -79,10 +78,10 @@ class User{
 			//itero i risultati ottenuti dal metodo
 			while($rowValori = mysqli_fetch_array($result)){
 				$objJSON["results"][$cont]["id"] = $rowValori["idUser"];
-				$objJSON["results"][$cont]["nome"] = $rowValori["nome"];
-				$objJSON["results"][$cont]["cognome"] = $rowValori["cognome"];
-				$objJSON["results"][$cont]["email"] = $rowValori["email"];
-				$objJSON["results"][$cont]["indirizzo"] = $rowValori["indirizzo"];
+				$objJSON["results"][$cont]["name"] = $rowValori["name"];
+				$objJSON["results"][$cont]["surname"] = $rowValori["surname"];
+				$objJSON["results"][$cont]["pathImage"] = $rowValori["pathImage"];
+				$objJSON["results"][$cont]["address"] = $rowValori["address"];
 				$cont++;
 			}
 		}

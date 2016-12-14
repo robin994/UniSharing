@@ -29,6 +29,7 @@
 						}
 					});
 					
+					
 					console.log(arr_features);
 					
 					if(!boo){
@@ -39,11 +40,41 @@
 					
 					function callBackUsers(data){
 						
+						
 						console.log(data);
+				
+						if(!data.success){
+							alert("Errore! " + data.errorMessage);	
+							return;
+						}
+								
+						var tmp = "";
+						for(var i = 0; i < data.results.length;i++){
+							console.log(data.results[i]);
+							tmp += '<div class="col-lg-4">';
+							tmp += '<table class="table user-list">';
+							tmp += 	'<tbody>';
+							tmp += 		'<tr>';
+							tmp += '			<td>';
+							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
+							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
+							tmp += '				<span class="user-subhead" user="'+data.results[i]["id"]+'">Aggiungi</span>';
+							tmp += '			</td>';
+							tmp += '		</tr>';
+							tmp += '	</tbody>';
+							tmp += '</table>';
+							tmp += '</div>';
+						}
+						
+						
+						$("#ris").html("");
+						$("#ris").html(tmp);
+						
+						
 					}
 					
 					
-					$.unisharing("User", "echoQualcosa", "private", {"features":  arr_features}, false, callBackUsers);	
+					$.unisharing("User", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);	
 					
 				});
 			});
@@ -275,8 +306,10 @@
             
             
             <!-- RISULTATI DELLA RICERCA -->
-            <div class="row" id="ris">
-            		
+            <div class="row">
+            		<div class="col-lg-2"></div>
+                    <div class="col-lg-8" id="ris"></div>
+                    <div class="col-lg-2"></div>
             </div>
         </div>
         <footer>
