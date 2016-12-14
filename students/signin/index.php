@@ -4,19 +4,19 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
 
-        <link href="../css/style.css" rel="stylesheet" media="screen">
+        <link href="../../css/style.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
-		<script type="text/javascript" src="/js/jquery.js"></script>
-		<script type="text/javascript" src="/js/moment.js"></script>
-		<script type="text/javascript" src="/js/transition.js"></script>
-		<script type="text/javascript" src="/js/collapse.js"></script>
-		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/moment.js"></script>
+		<script type="text/javascript" src="../../js/transition.js"></script>
+		<script type="text/javascript" src="../../js/collapse.js"></script>
+		<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../js/bootstrap-datetimepicker.min.js"></script>
       <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-    	<script src="js/bootstrap.min.js"></script>
+    	<script src="../../js/bootstrap.min.js"></script>
         <header>
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">

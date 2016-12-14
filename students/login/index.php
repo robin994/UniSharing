@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>UniSharing</title>
-        <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="./css/styleRob.css" rel="stylesheet" media="screen">
+				<title>UniSharing</title>
+        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../../css/styleRob.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
         <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
@@ -47,7 +47,7 @@
 					<div class="col-md-4">
       <section class="login-form">
         <form method="post" action="#" role="login">
-          <center><img src="./img/logo.png" class="img-responsive" alt=""></center><br>
+          <center><img src="http://localhost/unisharing/img/logo.png" class="img-responsive" alt=""></center><br>
           <input type="email" name="email" placeholder="Username" required="" class="form-control input-lg">
 
           <input type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
