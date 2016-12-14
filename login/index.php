@@ -4,9 +4,9 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="./css/style.css" rel="stylesheet" media="screen">
+        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="../css/style.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
         <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
@@ -40,44 +40,35 @@
                 </div>
             </nav>
         </header>
-<div class ="contaniner">
-	<div class ="row">
-			<div class ="col-md-1">
-			</div>
-		<div class ="col-md-4">
+        <div id="conteiner" class="container">
+			<div class="row">
+			/*	<div class="row" id="pwd-container">*/
+    <div class="col-lg-4">
+		</div>
 
-			<h1>Segnalazione</h1>
+    <div class="col-lg-4">
+      <section class="login-form">
+        <form method="post" action="#" role="login">
+          <center><img src="./img/logo.png" class="img-responsive" alt=""></center><br>
+          <input type="email" name="email" placeholder="Username" required="" class="form-control input-lg">
+
+          <input type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
+
+
+          <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Log in</button>
+          <div><br>
+            <center><a href="#">Create account</a> or <a href="#">reset password</a></center>
+          </div>
+
+        </form>
+
+      </section>
+      </div>
+	<div class="col-lg-4"></div>
+
+			</div>
 		</div>
 	</div>
-		<div class="row">
-			<div class ="col-md-1">
-			</div>
-			<div class ="col-md-4">
-			<label>Titolo</label>
-
-			<div class ="input-group" style="width:100%;">
-				<input type="text" class ="form-control" placeholder="">
-			</div>
-			<label>Testo</label>
-			<div class ="input-group" style="width:100%;">
-			<textarea class="form-control" rows="10"></textarea>
-			</div>
-			<div class ="col-md-7">
-			</div>
-			<div class ="input-group"></br>
-			<button  type="button" class="btn btn-default btn-lg" disabled="disabled">Annulla</button>
-
-				<button  type="button " class="btn btn-default btn-lg" disabled="disabled">Invia</button>
-			</div>
-		</div>
-		</div>
-
-	</div>
-
-</div>
-
-
-
     <footer>
 
     </footer>
