@@ -10,7 +10,7 @@
         <link href="css/group_style.css" rel="stylesheet" media="screen">
 				<link href="css/ranking.css" rel="stylesheet" media="screen">
 
-   	 	<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+   	 <script src="../../js/jquery.1.12.js"></script>
     	<script src="../js/bootstrap.min.js"></script>
        	<link rel="stylesheet"
           	type="text/css"

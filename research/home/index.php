@@ -12,42 +12,42 @@
         <script src="../../js/jquery.cookie.js"></script>
         <script>
 			$(function() {
-								
+
 				$("#btn-start-research").on("click", function() {
-					
+
 					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
-					
+
 					var arr_features = [];
 					var boo = false;
-					
-					
+
+
 					$(".features").each(function(){
-						
+
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
 							boo = true;
 						}
 					});
-					
-					
+
+
 					console.log(arr_features);
-					
+
 					if(!boo){
 						alert("Non hai selezionato nessuna caratteristica!");
 						return;
 					}
-					
-					
+
+
 					function callBackUsers(data){
-						
-						
+
+
 						console.log(data);
-				
+
 						if(!data.success){
-							alert("Errore! " + data.errorMessage);	
+							alert("Errore! " + data.errorMessage);
 							return;
 						}
-								
+
 						var tmp = "";
 						for(var i = 0; i < data.results.length;i++){
 							console.log(data.results[i]);
@@ -65,17 +65,17 @@
 							tmp += '</table>';
 							tmp += '</div>';
 						}
-						
-						
+
+
 						$("#ris").html("");
 						$("#ris").html(tmp);
-						
-						
+
+
 					}
-					
-					
-					$.unisharing("User", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);	
-					
+
+
+					$.unisharing("User", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
+
 				});
 			});
 		</script>
@@ -89,10 +89,10 @@
                         <button class="navbar-toggle" data-toggle="collapse" data-target="#navHeaderCollapse" >
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>   
+                            <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <div class="collapse navbar-collapse" id="navHeaderCollapse">                   
+                    <div class="collapse navbar-collapse" id="navHeaderCollapse">
                         <ul class= "nav navbar-nav navbar-right">
                             <li class="active"><a href="index.html">Home</a></li>
                             <li><a href="">Profilo</a></li>
@@ -102,14 +102,14 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="">A cui partcipo</a></li>
                                     <li><a href="">Di cui sono amministratore</a></li>
-                                </ul> 
+                                </ul>
                              </li>
                             <li><a href=""> Segnalazione</a></li>
-                        </ul>                  
+                        </ul>
                     </div>
                 </div>
-            </nav> 
-        </header>       
+            </nav>
+        </header>
         <div id="container">
         	<div class="row">
             	<div class="col-lg-4">
@@ -156,7 +156,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                	</div>                              	
+                                	</div>
                                 	<div class="col-lg-6">
                                     	<div class="checkbox">
                                         	<div class="row" style="margin-bottom: 2px">
@@ -178,7 +178,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                	</div> 
+                                	</div>
                                 </div>
                             	<div class="tab-pane fade" id="knowledge">
                                	<div class="col-lg-6">
@@ -232,7 +232,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                	</div>                              	
+                                	</div>
                                 	<div class="col-lg-6">
                                     	<div class="checkbox">
                                         	<div class="row" style="margin-bottom: 2px">
@@ -278,7 +278,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                	</div>                                
+                                	</div>
                                 </div>
                             	<div class="tab-pane fade" id="geolocalizzazione">
                                 	<div class="col-lg-6">
@@ -300,11 +300,11 @@
                 	</div>
                     </div>
                 </div>
-                <div class="col-lg-4">                
+                <div class="col-lg-4">
                 </div>
             </div>
-            
-            
+
+
             <!-- RISULTATI DELLA RICERCA -->
             <div class="row">
             		<div class="col-lg-2"></div>

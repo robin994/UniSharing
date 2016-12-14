@@ -4,40 +4,39 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="../css/style.css" rel="stylesheet" media="screen">
-        <link href="css/group_style.css" rel="stylesheet" media="screen">
-				<link href="css/cssFeedback.css" rel="stylesheet" media="screen">
-
-   	 	<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-    	<script src="../js/bootstrap.min.js"></script>
-       	<link rel="stylesheet"
-          	type="text/css"
-          	href="../js/jquery-confirm-master/dist/css/jquery-confirm.min.css"/>
-    	<script type="text/javascript" src="../js/jquery-confirm-master/dist/jquery-confirm.min.js"></script>
+		<script src="../../js/jquery.1.12.js"></script>
+		<link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+		<link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<script src="../js/bootstrap.min.js"></script>
+		<link href="../../css/style.css" rel="stylesheet" media="screen">
+		<link rel="stylesheet"	type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
+	  <script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
 
 
-		<script>        
+<script>
 
 		// ONLOAD JQUERY
 		$(function(){
 
 
 
-			$(".btn_leave_g").on("click", function(e){
+			$(".bottoneInvio").on("click", function(e){
 
-				    $.alert({
-						title: 'Alert!',
-						content: 'Simple alert!',
+					 $.confirm({
+						title: 'Attenzione!',
+						content: 'Sei sicuro di voler inviare il feedback?',
+						buttons: {
+							confirm: function () {
+								alert("HAI CLICCATO CONFERMA!");
+							},
+							cancel: function (){
+							}
+						}
 					});
-
-			});
-
 
 
 		});
-
+	});
 
 		</script>
 
@@ -144,7 +143,7 @@
 				  								<label><input type="radio" name="optradio_4">Ottimo</label>
 											</div>
 											<div>
-										<center>	<button type="button" class="btn btn-primary btn-lg">Salva Feedback</button> </center>
+										<center>	<a class="bottoneInvio"><button type="button" class="btn btn-primary btn-lg">Salva Feedback</button></a> </center>
 											</div>
 						</div>
 						<div class= "col-lg-2">
