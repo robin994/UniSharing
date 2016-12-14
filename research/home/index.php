@@ -6,10 +6,50 @@
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../css/research.css" rel="stylesheet" media="screen">
+        <script src="../../js/jquery.1.12.js"></script>
+    	<script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/functions.js"></script>
+        <script src="../../js/jquery.cookie.js"></script>
+        <script>
+			$(function() {
+								
+				$("#btn-start-research").on("click", function() {
+					
+					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
+					
+					var arr_features = [];
+					var boo = false;
+					
+					
+					$(".features").each(function(){
+						
+						if($(this).is(":checked")){
+							arr_features.push({"features": $(this).val()});
+							boo = true;
+						}
+					});
+					
+					console.log(arr_features);
+					
+					if(!boo){
+						alert("Non hai selezionato nessuna caratteristica!");
+						return;
+					}
+					
+					
+					function callBackUsers(data){
+						
+						console.log(data);
+					}
+					
+					
+					$.unisharing("User", "echoQualcosa", "private", {"features":  arr_features}, false, callBackUsers);	
+					
+				});
+			});
+		</script>
 	</head>
 	<body>
-        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
         <header>
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
@@ -48,7 +88,7 @@
                     <div class="input-group">
                   	<input type="text" class="form-control" placeholder="Search">
                   	<span class="input-group-btn">
-                    	<button class="btn btn-default" type="button">Avvia</button>
+                    	<button class="btn btn-default" id="btn-start-research" type="button">Avvia</button>
                   	</span>
                 	</div>
                     <h5 style="text-align:right"><a href="#advancedsearch" data-toggle="collapse">advanced search</a></h5>
@@ -68,19 +108,19 @@
                                     	<div class="checkbox">
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Simpatico" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Simpatico
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Cordiale" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Cordiale
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Diligente" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diligente
                                                 </label>
                                             </div>
@@ -90,19 +130,19 @@
                                     	<div class="checkbox">
                                         	<div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Socievole" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Socievole
                                                 </label>
                                             </div>
                                         	<div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Timido" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Timido
                                                 </label>
                                             </div>
                                         	<div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Estroverso
                                                 </label>
                                             </div>
@@ -231,6 +271,12 @@
                 </div>
                 <div class="col-lg-4">                
                 </div>
+            </div>
+            
+            
+            <!-- RISULTATI DELLA RICERCA -->
+            <div class="row" id="ris">
+            		
             </div>
         </div>
         <footer>

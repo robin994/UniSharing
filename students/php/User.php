@@ -8,7 +8,7 @@ class User{
 		
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
-		
+	
 	}
 	
 	public function echoQualcosa(){
@@ -25,9 +25,9 @@ class User{
 		$this->connect->connetti();
 
 		//Costruisco la select prelevando tutte le caratteristiche
-		$caratteristiche = $post["caratteristiche"];
+		$features = $post["features"];
 		
-		if(count($caratteristiche) <= 0){
+		if(count($features) <= 0){
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
@@ -40,15 +40,17 @@ class User{
 		
 		//costruisco la query di select
 		$query = "";
-		if(count($caratteristiche) > 0){
-			$query .= " SELECT * FROM users WHERE users.id IN (SELECT caratteristiche.user as user FROM caratteristiche WHERE ";
-			for($i = 0; $i < count($caratteristiche);$i++){
-				$query.= " caratteristiche.label = '".$caratteristiche[$i]["caratteristica"]."' OR";
+		if(count($features) > 0){
+			$query .= " SELECT * FROM _users WHERE _users.id IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature AND (";
+			for($i = 0; $i < count($features);$i++){
+				$query.= " _features.label = '".$features[$i]["features"]."' OR";
 			}
 			$query = substr($query,0,strlen($query)-2);
-			$query .= " GROUP BY caratteristiche.user HAVING COUNT(*) = ".count($caratteristiche).")";
+			$query .= " GROUP BY _features.idUser HAVING COUNT(*) = ".count($features).")";
 		}
 		
+		
+		var_dump($query);
 		
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -76,7 +78,7 @@ class User{
 			
 			//itero i risultati ottenuti dal metodo
 			while($rowValori = mysqli_fetch_array($result)){
-				$objJSON["results"][$cont]["id"] = $rowValori["id"];
+				$objJSON["results"][$cont]["id"] = $rowValori["idUser"];
 				$objJSON["results"][$cont]["nome"] = $rowValori["nome"];
 				$objJSON["results"][$cont]["cognome"] = $rowValori["cognome"];
 				$objJSON["results"][$cont]["email"] = $rowValori["email"];
