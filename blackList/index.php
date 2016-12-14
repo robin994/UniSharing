@@ -15,7 +15,7 @@
     	<script src="../../js/bootstrap.min.js"></script>
         
         <link href="../css/style.css" rel="stylesheet" media="screen">
-        <link href="../blackList/css/ideal_style.css" rel="stylesheet" media="screen">
+        <link href="css/ideal_style.css" rel="stylesheet" media="screen">
         
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
     	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
@@ -23,14 +23,6 @@
         
         <script>        
 			$(function(){
-				
-				$(".creationgroup").animate({
-					"borderWidth" : "4px", //bordo a 4 pixel
-					"width" : "+150px" //aumenta la larghezza di 200 pixel
-				});
-				
-				$(".creationgroup").balloon({position: "top right"});
-				
 				$(".creationgroup").on("click", function(e){
 					$.confirm({
 						title: 'Attenzione!',
@@ -47,6 +39,21 @@
 			});
 		</script>
         
+        <script>
+        	$(function() {
+  				$('.creationgroup').balloon(options);
+			}); 
+        </script>
+        
+        <script>
+			$(function(){
+				$(".creationgroup").animate({
+					"borderWidth" : "4px", //bordo a 4 pixel
+					"width" : "+20px" //aumenta la larghezza di 200 pixel
+				});
+			});
+			
+		</script>
         
         <script>        
 			$(function(){
@@ -100,12 +107,13 @@
         	<div class= "row">
             	<div class= "col-lg-2"></div>
                 <div class= "col-lg-8">
-                	<h2>Lista ideale</h2>
+                	<h2>Lista nera</h2>
           			<table class="table">
     					<thead>
       						<tr>
         						<th class= "colownsmall"></th>
-        						<th></th>
+        						<th>Nome</th>
+                                <th>Data scadenza</th>
                                 <th></th>
       						</tr>
     					</thead>
@@ -113,16 +121,19 @@
       					<tr>
        						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
        						 <td>Antonio Fasulo</td>
+                             <td> 28/10/2018</td>
                              <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
       					</tr>   
                         <tr>
        						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
        						 <td>Lorenzo Vitale</td>
+                             <td> 29/02/2017</td>
                              <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
       					</tr>
                         <tr>
        						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Giuseppe Vitale</td>
+       						 <td>Giuseppe Altobelli</td>
+                             <td>18/02/2018</td>
                              <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
       					</tr>     
     			 </tbody>
@@ -135,7 +146,7 @@
         	<div class: "row">
             	<div class= "col-lg-4"></div>
                 <div class= "col-lg-4">
-                	<center><div class="col-lg-8"><button type="button" class="btn btn-primary creationgroup" title="crea un nuovo gruppo">Crea gruppo</button></div></center>
+                	<center><div class="col-lg-8"><button type="button" class="btn btn-primary creationgroup">Crea gruppo</button></div></center>
                 </div>
                 <div class= "col-lg-4"></div>
             </div>

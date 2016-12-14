@@ -49,7 +49,6 @@
           			<table class="table">
     					<thead>
       						<tr>
-        						<th>Autore</th>
         						<th>Nome</th>
        					 		<th>Data scadenza</th>
                                 <th>Attività</th>
@@ -57,42 +56,36 @@
     					</thead>
     				<tbody>
       					<tr>
-       						 <td>Antonio Fasulo</td>
        						 <td>I magnifici 4</td>
        						 <td>16/05/2017</td>
                              <td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>
                              </td>
       					</tr>      
                          <tr class="success">
-                            <td>Giuseppe Altobelli</td>
                             <td>I disperati</td>
                             <td>20/10/2018</td>
                             <td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>
                             </td>
                         </tr>
                         <tr class="danger">
-                            <td>Lorenzo Vitale</td>
                             <td>Il mio team</td>
                             <td>25/01/2018</td>
                             <td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>
                             </td>
                         </tr>
                         <tr class="info">
-                            <td>Roberto Tortora</td>
                             <td>Help me</td>
                             <td>26/05/2017</td>
                             <td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>
                             </td>
                         </tr>
                         <tr class="warning">
-                            <td>Gianluca Passaro</td>
                             <td>Gli bestiammatori</td>
                             <td>28/03/2018</td>
                             <td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>
                             </td>
                         </tr>
                         <tr class="active">
-                            <td>Anna Tomeo</td>
                             <td>Gli infelici</td>
                             <td>10/06/2018</td>
                             <td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>

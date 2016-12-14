@@ -10,6 +10,8 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <script src="../../js/bootstrap.min.js"></script>
         
+        <script src="/js/jquery.balloon.js"></script>
+        
         
         <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../css/group_style.css" rel="stylesheet" media="screen">
@@ -29,35 +31,20 @@
 			// sdfosdif	
 			$(".btn_leave_g").on("click", function(e){
 				
-				
-				
-				
+				   
 				
 				   $.confirm({
-					title: 'Attenzione!',
-					content: 'Sei sicuro di voler abbandonare il gruppo?',
-					buttons: {
-						confirm: function () {
-							
-							
-							alert("HAI CLICCATO CONFERMA!");
-							
-							
-						},
-						cancel: function () {
-							
-							
-							
+						title: 'Attenzione!',
+						content: 'Sei sicuro di voler abbandonare il gruppo?',
+						buttons: {
+							confirm: function () {
+								alert("HAI CLICCATO CONFERMA!");
+							},
+							cancel: function (){	
+							}
 						}
-					}
-				});
-						
-				
-				
-				
-				
+					});
 			});
-			
 			
 			
 		});
@@ -96,7 +83,13 @@
                     </div>
                 </div>
             </nav> 
-        </header>    
+        </header> 
+        <div>
+			<ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Gruppi partecipanti</li>
+			</ol>
+        </div>   
         <div class="container">   
        		<div class="row">
         		<div class="col-lg-2"></div>

@@ -14,3 +14,16 @@
 	font-size:22px;
 	color: #ccc;
 	}
+	
+	.imageStyle{
+		width: 60px;
+		height: 60px;
+	}
+	
+	.colownsmall{
+		width: 25px;
+	}
+	
+	.creationgroup:hover{
+		background: red;
+	}

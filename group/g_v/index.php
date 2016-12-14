@@ -20,11 +20,18 @@
 					$.confirm({
 						title: 'Attenzione!',
 						content: 'Sei sicuro di voler abbandonare il gruppo?',
-						button: {
-							confirm: function(){
-								alert ("Sei sicuro di voler abbandonare il gruppo?");
+						buttons: {
+							confirm: function () {
+								
+								
+								alert("HAI CLICCATO CONFERMA!");
+								
+								
 							},
-							cancel: function(){
+							cancel: function () {
+								
+								
+								
 							}
 						}
 					});
