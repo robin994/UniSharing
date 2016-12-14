@@ -9,7 +9,7 @@
         <link href="../css/button.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
-        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+        <script src="../../js/jquery.cookie.js"></script>
     	<script src="js/bootstrap.min.js"></script>
         <header>
             <nav class="navbar navbar-default navbar-static-top">
