@@ -1,43 +1,63 @@
 <?
 
 class User{
-	
+
 	private $connect;
-	
+
 	public function init(){
-		
+
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
-	
+
 	}
-	
+
 	public function echoQualcosa(){
 		var_dump("OK!");
 	}
-	
-	public function researchUsers($post){
-		
-		
+
+	public function echoQualcosa(){
+		var_dump("OK!");
+	}
+
+
+	public function login(){
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
-		
-		//eseguo la connessione al database definita in ConnectionDB.php	
+
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+		//Costruisco la select prelevando tutte le caratteristiche
+		$user = $post["user"]["username"];
+		$pass = $post["user"]["password"];
+
+
+	}
+
+	/*
+	public function researchUsers($post){
+
+
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 
 		//Costruisco la select prelevando tutte le caratteristiche
 		$features = $post["features"];
-		
+
 		if(count($features) <= 0){
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
 			$objJSON["error"] = "Nessun filtro di ricerca fornito";
-			
+
 			//Disconnetto dal database
 			$this->connect->disconnetti();
 			return json_encode($objJSON);
 		}
-		
+
 		//costruisco la query di select
 		$query = "";
 		if(count($features) > 0){
@@ -48,33 +68,33 @@ class User{
 			$query = substr($query,0,strlen($query)-2).")";
 			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features).")";
 		}
-		
-	
-		
+
+
+
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
-		
+
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
-			
+
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
 			$objJSON["error"] = $this->connect->error();
-			
+
 			//Disconnetto dal database
 			$this->connect->disconnetti();
 			return json_encode($objJSON);
-		
+
 		}else{
-		
-			
+
+
 			//la chiamata ha avuto successo
-			$objJSON["success"] = true;	
+			$objJSON["success"] = true;
 			$objJSON["results"] = array();
-			
+
 			$cont = 0;
-			
+
 			//itero i risultati ottenuti dal metodo
 			while($rowValori = mysqli_fetch_array($result)){
 				$objJSON["results"][$cont]["id"] = $rowValori["idUser"];
@@ -85,15 +105,15 @@ class User{
 				$cont++;
 			}
 		}
-		
-		
+
+
 		//Disconnetto dal database
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-		
+
 	}
-	
-	
+	*/
+
 }
 
 
