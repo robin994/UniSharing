@@ -19,10 +19,14 @@
 
 					var arr_features = [];
 					var boo = false;
+<<<<<<< HEAD
 
 
 					$(".features").each(function(){
 
+=======
+					$(".features").each(function(){					
+>>>>>>> origin/master
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
 							boo = true;

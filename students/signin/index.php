@@ -5,18 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-
         <link href="../../css/style.css" rel="stylesheet" media="screen">
+        <script src="../../js/jquery.1.12.js"></script>
+    		<script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/functions.js"></script>
+        <script src="../../js/jquery.cookie.js"></script>
+				<script>
+				$(function() {
+
+					$("#btn-iscriviti").on("click", function() {
+
+						console.log("HO CLICCATO SUL TASTO ISCRIVITI");
+
+						var name = $("#name").val();
+						var surname = $("#surname").val();
+						var email = $("#email").val();
+						var password = $("#password").val();
+						var confpassword = $("#confpassword").val();
+						var bday = $("#bday").val();
+						var sesso = $("#sesso").val();
+						var indirizzo = $("#indirizzo").val();
+						var cellulare = $("#cellulare").val();
+						var universita = $("#universita").val();
+						var facolta = $("#facolta").val();
+
+
+
+					});
+				});
+			</script>
+
 	</head>
 	<body>
-		<script type="text/javascript" src="../../js/jquery.js"></script>
-		<script type="text/javascript" src="../../js/moment.js"></script>
-		<script type="text/javascript" src="../../js/transition.js"></script>
-		<script type="text/javascript" src="../../js/collapse.js"></script>
-		<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../js/bootstrap-datetimepicker.min.js"></script>
-      <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
         <header>
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
@@ -40,7 +60,7 @@
                                     <li><a href="">Di cui sono amministratore</a></li>
                                 </ul>
                              </li>
-                            <li><a href=""> Segnalazione</a></li>
+                            <li><a href="">Segnalazione</a></li>
                         </ul>
                     </div>
                 </div>
@@ -54,13 +74,13 @@
 						<div class="form-group col-lg-6">
 							<Label>Nome</Label>
 							<div class="input-group" style="width:100%;">
-								<input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1">
+								<input type="text" class="form-control" placeholder="Nome" id="name" aria-describedby="basic-addon1" required="true">
 							</div>
 						</div>
 						<div class="form-group col-lg-6">
 							<Label>Cognome</Label>
 							<div class="input-group" style="width:100%;">
-								<input type="text" class="form-control" placeholder="Cognome" aria-describedby="basic-addon1">
+								<input type="text" class="form-control" placeholder="Cognome" id="surname" aria-describedby="basic-addon1" required>
 							</div>
 						</div>
 					</div>
@@ -68,7 +88,7 @@
 						<div class="form-group col-lg-12">
 							<Label>Email</Label>
 							<div class="input-group" style="width:100%;">
-								<input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
+								<input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1" required>
 							</div>
 						</div>
 					</div>
@@ -76,36 +96,21 @@
 								<div class="form-group col-lg-6">
 								<Label>Password</Label>
 									<div class="input-group" style="width:100%;">
-										<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+										<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" required>
 									</div>
 								</div>
 								<div class="form-group col-lg-6">
 								<Label>Conferma Password</Label>
 									<div class="input-group" style="width:100%;">
-										<input type="password" class="form-control" placeholder="Conferma Password" aria-describedby="basic-addon1">
+										<input type="password" class="form-control" placeholder="Conferma Password" aria-describedby="basic-addon1" required>
 									</div>
 								</div>
 							</div>
 							<div class="row-fluid">
 								<div class='col-lg-8'>
 									<label>Data di nascita</label>
-									<div class="form-group">
-										<div class='input-group date' id='datetimepicker9'>
-												<input type='text' class="form-control" />
-												<span class="input-group-addon">
-														<span class="glyphicon glyphicon-calendar">
-														</span>
-												</span>
-										</div>
-								</div>
-								</div>
-								<script type="text/javascript">
-								$(function () {
-										$('#datetimepicker9').datetimepicker({
-												viewMode: 'years'
-										});
-								});
-								</script>
+										<input type="date" class="form-control" id="bday" placeholder="" aria-describedby="basic-addon1">
+									</div>
 								<div class="col-md-4">
 										<label>Sesso</label>
 										<select id="selectbasic" name="selectbasic" class="form-control">
@@ -131,16 +136,16 @@
 					<div class="row-fluid">
 						<div class="col-md-12">
 								<label>Università</label>
-								<select id="selectbasic" name="selectbasic" class="form-control">
+								<select id="selectbasic" name="selectbasic" class="form-control" required>
 								</select>
 						</div>
 						<div class="col-md-12">
 								<label>Facoltà</label>
-								<select id="selectbasic" name="selectbasic" class="form-control">
+								<select id="selectbasic" name="selectbasic" class="form-control" required>
 
 								</select>
 								<br>
-								<button type="button" class="btn btn-primary" style="width:100%;">Conferma</button></br>
+								<button type="submit" class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Iscriviti</button>
 						</div>
 					</div>
 				</div>
