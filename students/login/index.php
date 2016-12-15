@@ -99,8 +99,9 @@
 
           <input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
 
-					<div id="btn-login">prova</div>
+<div id="btn-login">prova</div>
           <button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Log in</button>
+
           <div><br>
             <center><a href="#">Crea account</a> o <a href="#">ripristina password</a></center>
           </div>
