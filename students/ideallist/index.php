@@ -7,7 +7,7 @@
         
         
         
-        <script src="../../js/jquery.1.12.js"></script>
+        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
         
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">

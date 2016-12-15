@@ -6,20 +6,20 @@
 */
 
 $(function(){
-	
+
 	// function send post request to server
 	$.unisharing = function(classe, metodo, isPublic, dataJS, as, callback){
 		"use strict";
 
 		var url = "../../storage/proxy.php";
-		
+
 		dataJS.classe = classe;
 		dataJS.metodo = metodo;
-		
-		
+
+
 		console.log("QUI IL CONTENUTO DELLA CHIAMATA AD AJAX");
 		console.log(dataJS);
-		
+
 		 return jQuery.ajax({
 			 url: url,
 			 type: 'POST',

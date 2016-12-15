@@ -13,6 +13,58 @@
 				<script>
 				$(function() {
 
+					/////////////////////////////////////////////////////////////////
+					/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
+					/////////////////////////////////////////////////////////////////
+					
+					var callBackUni = function(data){
+						
+						console.log(data);
+						
+						if(!data.success){
+							alert("Errore! " + data.errorMessage);
+							return;
+						}
+						
+						$("#universita").append("<option value=''>Seleziona l'università</option>");
+						for(var i = 0;i < data.results.length;i++)
+							$("#universita").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
+						
+					}
+					
+					$.unisharing("Istitutes", "getUniversities", "private", {}, false, callBackUni);
+
+					
+					/////////////////////////////////////////////////////////////////////////
+					/////////////// DEFINISCO L'AZIONE SULLA SCELTA DELL'UNI ////////////////
+					////////////////////////////////////////////////////////////////////////
+					$("#universita").on("change", function(){
+						
+						var uni = $(this).val();
+						
+						var callBackFaculties = function(data){
+							
+							if(!data.success){
+								alert("Errore! " + data.errorMessage);
+								return;
+							}
+							
+							$("#facolta").html("");
+							$("#facolta").append("<option value=''>Seleziona la facoltà</option>");
+							for(var i = 0;i < data.results.length;i++)
+								$("#facolta").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
+								
+							}
+						
+						$.unisharing("Istitutes", "getFaculties", "private", {"university": uni}, false, callBackFaculties);
+						
+					});
+					
+					
+					////////////////////////////////////////////////////////////////
+					/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
+					////////////////////////////////////////////////////////////////
+					
 					$("#btn-iscriviti").on("click", function() {
 
 						console.log("HO CLICCATO SUL TASTO ISCRIVITI");
@@ -26,10 +78,98 @@
 						var sesso = $("#sesso").val();
 						var indirizzo = $("#indirizzo").val();
 						var cellulare = $("#cellulare").val();
-						var universita = $("#universita").val();
-						var facolta = $("#facolta").val();
-
-
+						var universita = $("#universita:selected").val();
+						var facolta = $("#facolta:selected").val();
+						
+						
+						// DATI DA INSERIRE PER IL TESTING
+						name = "Lorenzo";
+						surname = "Vitale"
+						email = "l.vitale@live.it";
+						password = "provapassword";
+						confpassword = "provapassword";
+						universita = "1";
+						facolta = "1";
+						
+						// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
+						var message_err = "";
+						var boo_err = false;
+						
+						if(!name){
+							message_err += "Non è stato inserito il nome<br>";
+							boo_err = true;
+						}
+						
+						if(!surname){
+							message_err += "Non è stato inserito il cognome<br>";
+							boo_err = true;
+						}
+						
+						if(!email){
+							message_err += "Non è stato inserita l'email<br>";
+							boo_err = true;
+						}
+						
+						if(!password){
+							message_err += "Non è stato inserita la password<br>";
+							boo_err = true;
+						}
+						
+						
+						if(password.length < 8 && password.length > 16){
+							message_err += "La lunghezza della password deve essere almeno di 8 caratteri e al più di 16<br>";
+							boo_err = true;
+						}
+						
+						if(password != confpassword){
+							message_err += "Le password inserite non coincidono<br>";
+							boo_err = true;
+						}
+						
+						if(!universita){
+							message_err += "Non è stata selezionata l'università<br>";
+							boo_err = true;
+						}	
+						
+						if(!facolta){
+							boo_err = true;
+						}	
+						
+						if(boo_err){
+							alert(message_err);
+							return;
+						}
+						
+						
+						var callBackSignin = function(data){
+							console.log(data);
+							if(!data.success){
+								alert("Errore! " + data.errorMessage);
+								return;
+							}
+						}
+						
+						var param = {
+							"user": {
+								"name": name,
+								"surname":surname,
+								"univerista":universita,
+								"facolta":facolta,
+								"bday":bday,
+								"sesso": sesso,
+								"email":email,
+								"cellulare":cellulare,
+								"indirizzo":indirizzo
+							},
+							
+							"account":{
+								"username":email,
+								"password":password
+							}
+						}
+						
+						
+						$.unisharing("User", "signin", "private", param, false, callBackSignin);
 
 					});
 				});
@@ -68,19 +208,20 @@
         </header>
 	<div class="container">
 		<div class="row-fluid">
-			<div class="col-md-6">
+        	<div class="col-lg-2"></div>
+			<div class="col-lg-8">
 				<h1>Registrazione</h1>
 					<div class="row-fluid">
 						<div class="form-group col-lg-6">
 							<Label>Nome</Label>
 							<div class="input-group" style="width:100%;">
-								<input type="text" class="form-control" placeholder="Nome" id="name" aria-describedby="basic-addon1" required="true">
+								<input type="text" id="name" class="form-control" placeholder="Nome" id="name" aria-describedby="basic-addon1" required>
 							</div>
 						</div>
 						<div class="form-group col-lg-6">
 							<Label>Cognome</Label>
 							<div class="input-group" style="width:100%;">
-								<input type="text" class="form-control" placeholder="Cognome" id="surname" aria-describedby="basic-addon1" required>
+								<input type="text" id="surname" class="form-control" placeholder="Cognome" id="surname" aria-describedby="basic-addon1" required>
 							</div>
 						</div>
 					</div>
@@ -88,7 +229,7 @@
 						<div class="form-group col-lg-12">
 							<Label>Email</Label>
 							<div class="input-group" style="width:100%;">
-								<input type="text" class="form-control" placeholder="Email" aria-describedby="basic-addon1" required>
+								<input type="text" id="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" required>
 							</div>
 						</div>
 					</div>
@@ -96,13 +237,13 @@
 								<div class="form-group col-lg-6">
 								<Label>Password</Label>
 									<div class="input-group" style="width:100%;">
-										<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" required>
+										<input type="password" id="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" required>
 									</div>
 								</div>
 								<div class="form-group col-lg-6">
 								<Label>Conferma Password</Label>
 									<div class="input-group" style="width:100%;">
-										<input type="password" class="form-control" placeholder="Conferma Password" aria-describedby="basic-addon1" required>
+										<input type="password" id="confpassword" class="form-control" placeholder="Conferma Password" aria-describedby="basic-addon1" required>
 									</div>
 								</div>
 							</div>
@@ -113,7 +254,7 @@
 									</div>
 								<div class="col-md-4">
 										<label>Sesso</label>
-										<select id="selectbasic" name="selectbasic" class="form-control">
+										<select id="selectbasic" id="sesso" name="selectbasic" class="form-control">
 											<option value="1">Maschio</option>
 											<option value="2">Femmina</option>
 										</select>
@@ -123,34 +264,35 @@
 							<div class="form-group col-lg-6">
 								<Label>Indirizzo</Label>
 								<div class="input-group" style="width:100%;">
-									<input type="text" class="form-control" placeholder="Indirizzo" aria-describedby="basic-addon1">
+									<input type="text" id="indirizzo" class="form-control" placeholder="Indirizzo" aria-describedby="basic-addon1">
 								</div>
 							</div>
 							<div class="form-group col-lg-6">
 								<Label>Cellulare</Label>
 							<div class="input-group" style="width:100%;">
-									<input type="text" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
+									<input type="text" id="cellulare" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
 							</div>
 						</div>
 					</div>
 					<div class="row-fluid">
 						<div class="col-md-12">
 								<label>Università</label>
-								<select id="selectbasic" name="selectbasic" class="form-control" required>
+								<select id="universita" name="selectbasic" class="form-control" required>
 								</select>
 						</div>
 						<div class="col-md-12">
 								<label>Facoltà</label>
-								<select id="selectbasic" name="selectbasic" class="form-control" required>
+								<select id="facolta" name="selectbasic" class="form-control" required>
 
 								</select>
 								<br>
-								<button type="submit" class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Iscriviti</button>
+								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Iscriviti</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
+            <div class="col-log-2"></div>
+			<!--<div class="col-md-6">
 				<label>Prova</label>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 				sed do eiusmod tempor incididunt ut labore et dolore magna
@@ -164,7 +306,7 @@
 				</br>
 
 				</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 
