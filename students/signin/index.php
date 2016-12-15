@@ -110,7 +110,6 @@
 						var password = $("#password").val();
 						var confpassword = $("#confpassword").val();
 						var bday = $("#bday").val();
-						var sesso = $("#sesso").val();
 						var address = $("#indirizzo").val();
 						var cellulare = $("#cellulare").val();
 						var universita = $("#universita").val();
@@ -186,7 +185,12 @@
 						}	
 						
 						if(boo_err){
-							alert(message_err);
+							
+							$.alert({
+								title: 'Attenzione!',
+								content: message_err
+							});
+							
 							return;
 						}
 						
@@ -211,7 +215,6 @@
 								"univerista":universita,
 								"facolta":facolta,
 								"bday":bday,
-								"sesso": sesso,
 								"email":email,
 								"address": address,
 								"cellulare":cellulare,
@@ -345,13 +348,7 @@
 									<label>Data di nascita</label>
 										<input type="date" class="form-control" id="bday" placeholder="" aria-describedby="basic-addon1">
 									</div>
-								<div class="col-md-4">
-										<label>Sesso</label>
-										<select id="selectbasic" id="sesso" name="selectbasic" class="form-control">
-											<option value="1">Maschio</option>
-											<option value="2">Femmina</option>
-										</select>
-								</div>
+								
 						</div>
 						<div class="row-fluid">
 							<div class="form-group col-lg-6">

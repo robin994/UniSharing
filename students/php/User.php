@@ -52,6 +52,7 @@ class User extends Account{
 										telephone, 
 										description, 
 										address, 
+										typeStudent,
 										pathImage
 										) VALUES (
 										'".$user["name"]."',
@@ -60,6 +61,7 @@ class User extends Account{
 										'".$user["bday"]."',
 										'".$user["cellulare"]."',
 										'".$user["description"]."',
+										'".$user["tipo_studente"]."',
 										'".$user["address"]."',
 										'img/avatar/".$user["email"]."/'
 										)";	
@@ -139,7 +141,7 @@ class User extends Account{
 		$message = "<html><body style='font-family:courier;font-size:16px;'>Benvenuto in unisharing,<br>Di seguito le credenziali per l'accesso<br><br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br></body></html>";
 			
 		//creo il messaggio di benvenuto all'utente iscritto
-		var_dump($this->notify->send($from, $to, $object, $message));	
+		$this->notify->send($from, $to, $object, $message);	
 			
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
