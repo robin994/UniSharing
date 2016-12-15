@@ -11,39 +11,40 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script>
+
 			$(function() {
 				$("#btn-start-research").on("click", function() {
-					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");			
+					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
 					var arr_features = [];
 					var booF = false;
 					var booP = false;
-					
+
 					console.log("Qui");
-					
-					
+
+
 					var parola_chiave = $("#parola_chiave").val();
-					
-					
+
+
 					if(parola_chiave) booP = true;
-					
-					$(".features").each(function(){					
+
+					$(".features").each(function(){
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
 							booF = true;
 						}
 					});
-					
-										
+
+
 					if(!booF && !booP){
 						alert("Non hai selezionato nessuna caratteristica!");
 						return;
 					}
-				
+
 					var callBackUsers = function(data){
-						
+
 						console.log(data);
 						if(!data.success){
-							alert("Errore! " + data.errorMessage);	
+							alert("Errore! " + data.errorMessage);
 							return;
 						}
 						var tmp = "";
@@ -55,7 +56,7 @@
 							tmp += 		'<tr>';
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
-							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';							
+							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
 							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi  <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
@@ -63,12 +64,12 @@
 							tmp += '</table>';
 							tmp += '</div>';
 						}
-											
+
 						$("#ris").html("");
 						$("#ris").html(tmp);
 					}
-					
-					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parola_chiave":parola_chiave}, false, callBackUsers);	
+
+					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parola_chiave":parola_chiave}, false, callBackUsers);
 				});
 			});
 		</script>

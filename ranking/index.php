@@ -4,18 +4,16 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+ 				<script src="../../js/jquery.1.12.js"></script>
+				<link href="../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="../css/style.css" rel="stylesheet" media="screen">
-        <link href="css/group_style.css" rel="stylesheet" media="screen">
+  		<script src="../../js/functions.js"></script>
 				<link href="css/ranking.css" rel="stylesheet" media="screen">
 
-   	 <script src="../../js/jquery.1.12.js"></script>
+
     	<script src="../js/bootstrap.min.js"></script>
-       	<link rel="stylesheet"
-          	type="text/css"
-          	href="../js/jquery-confirm-master/dist/css/jquery-confirm.min.css"/>
-    	<script type="text/javascript" src="../js/jquery-confirm-master/dist/jquery-confirm.min.js"></script>
+
 
 
 		<script>
@@ -25,17 +23,95 @@
 		$(function(){
 
 
+				function callBackRanking(data) {
+						console.log(data);
 
-			$(".btn_leave_g").on("click", function(e){
+						if(!data.success){
+							alert("Errore! " + data.errorMessage);
+							return;
+						}
 
-				    $.alert({
-						title: 'Alert!',
-						content: 'Simple alert!',
-					});
+						var tmp = "";
+						for(var i = 0; i < data.results.length;i++){
+							console.log(data.results[i]);
+							tmp += '<tr>';
+							tmp +=  '<td>'+(i+1)+'</td>';
+	            tmp +=  '<td>'+data.results[i].name+' '+data.results[i].surname+'</td>';
+	            tmp +=  '<td>'+ data.results[i].score+ ' </td>';
+							tmp +=	'<td>';
 
-			});
-		});
+							/*tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+							tmp += '</div>';
+*/
 
+							console.log(data.results[i].percent);
+							if(data.results[i].percent > 0 && data.results[i].percent <= 20){
+								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '</div>';
+							}
+
+	/*
+
+							if(data.results[i].percent >20 && data.results[i].score <= 40){
+								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '</div>';
+							}
+
+							if(data.results[i].percent >40 && data.results[i].score <= 60){
+								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '</div>';
+							}
+
+							if(data.results[i].percent >60 && data.results[i].score <= 80){
+								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
+								tmp += '</div>';
+							}
+
+							if(data.results[i].percent >80 && data.results[i].score <= 100){
+								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
+								tmp += '</div>';
+							}
+*/
+							tmp += '</td>';
+						  tmp += '</tr>';
+
+				}
+
+				$("#idRanking").append(tmp);
+		}
+		$.unisharing("Ranking" , "getRanking" , "private" , {}, false, callBackRanking);
+
+});
 
 		</script>
 
@@ -82,32 +158,9 @@
 					<h1> Ranking </h1>
 
 	        </thead>
-	        <tbody>
-						<h7> Clicca i nomi per visualizzare i profili sulla destra </h7><br><br>
-	            <tr>
-	                <td><i class="glyphicon glyphicon-chevron-up" style="color: green"></i></td>
-									<td> 1 </td>
-	                <td>Antonio Fasulo</td>
-	                <td>91</td>
-									<td><div id="stars-existing" class="starrr coloreStelle" data-rating="4"><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span></div></td>
-								<br/></td>
-	            </tr>
-	            <tr>
-								<td><i class="glyphicon glyphicon-chevron-down" style="color: red"></i></td>
-	                <td>2</td>
-	                <td>Anna Tomeo</td>
-	                <td>20</td>
-									<td><div id="stars-existing" class="starrr coloreStelle" data-rating="4"><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span></div></td>
+					<h7> Clicca i nomi per visualizzare i profili sulla destra </h7><br><br>
+					<tbody id="idRanking">
 
-<br/></td>
-	            </tr>
-	            <tr>
-									<td><i class="glyphicon glyphicon-chevron-up" style="color: green"></i></td>
-	                <td>3</td>
-	                <td>Giuseppe Altobelli</td>
-	                <td>40</td>
-<td><div id="stars-existing" class="starrr coloreStelle" data-rating="4"><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span><span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span></div></td>
-	            </tr>
 	        </tbody>
 	    </table>
 			</div>
