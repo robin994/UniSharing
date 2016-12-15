@@ -155,8 +155,7 @@ class User extends Account{
 	
 	public function login($post){
 		
-		$objJSON = $this->access($post);
-		return json_encode($objJSON);
+		return $this->access($post);
 		
 	}
 	
