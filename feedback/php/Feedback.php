@@ -60,5 +60,6 @@ class Feedbck{
 		return json_encode($objJSON);
 
 	}
+}
 
 ?>
