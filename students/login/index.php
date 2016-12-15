@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../../css/styleRob.css" rel="stylesheet" media="screen">
+        <link href="../css/login.css" rel="stylesheet" media="screen">
 				<script src="../../js/jquery.1.12.js"></script>
     		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
@@ -93,20 +93,18 @@
 
 					<div class="col-md-4">
       <section class="login-form">
-        <form method="post" action="#" role="login">
+        <div class="divlogin">
           <center><img src="../../img/logo.png" class="img-responsive" alt=""></center><br>
           <input id="username" type="email" name="email" placeholder="Username" required="" class="form-control input-lg">
 
           <input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
-
-<div id="btn-login">prova</div>
           <button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Log in</button>
 
           <div><br>
             <center><a href="#">Crea account</a> o <a href="#">ripristina password</a></center>
           </div>
 
-        </form>
+        </div>
 
       </section>
 		</div>

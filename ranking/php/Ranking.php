@@ -1,6 +1,6 @@
 <?
 
-class Research{
+class Ranking{
 
 	private $connect;
 
@@ -8,49 +8,19 @@ class Research{
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
 	}
-	
-	public function researchUsers($post){
 
-		
+	public function getRanking($post){
+
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 
-		//Costruisco la select prelevando tutte le caratteristiche
-		$features = $post["features"];
-
-		if(count($features) <= 0 && !$post["parola_chiave"]){
-			//la chiamata non ha avuto successo
-			$objJSON["success"] = false;
-			$objJSON["messageError"] = "Errore:";
-			$objJSON["error"] = "Nessun filtro di ricerca fornito";
-
-			//Disconnetto dal database
-			$this->connect->disconnetti();
-			return json_encode($objJSON);
-		}
-		
-		if($post["parola_chiave"]){
-			$search_parolachiave = "AND _user.name LIKE '%".$post["parola_chiave"]."%'".
-									"OR _user.surname LIKE '%".$post["parola_chiave"]."%'";
-		}
-
 		//costruisco la query di select
-		$query = "";
-		
-		$query .= " SELECT * FROM _user WHERE _user.idUser IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature ".$search_parolachiave;
-		if(count($features) > 0){
-			$query = "AND (";
-			for($i = 0; $i < count($features);$i++){
-				$query.= " _features.label = '".$features[$i]["features"]."' OR";
-			}
-			$query = substr($query,0,strlen($query)-2).")";
-			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
-		}
-		$query .= ")";
-		
+	  $query = " SELECT * FROM _user WHERE score > 0 ORDER BY score DESC";
+
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -81,8 +51,11 @@ class Research{
 				$objJSON["results"][$cont]["name"] = $rowValori["name"];
 				$objJSON["results"][$cont]["surname"] = $rowValori["surname"];
 				$objJSON["results"][$cont]["pathImage"] = $rowValori["pathImage"];
-				$objJSON["results"][$cont]["address"] = $rowValori["address"];
-				$cont++;
+        $objJSON["results"][$cont]["address"] = $rowValori["address"];
+        $objJSON["results"][$cont]["score"] = $rowValori["score"];
+        $perc= $rowValori["score"]/($rowValori["numberOfFeedback"]*100);
+        $objJSON["results"][$cont]["percent"] = $perc;
+        $cont++;
 			}
 		}
 
