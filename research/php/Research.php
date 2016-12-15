@@ -11,6 +11,7 @@ class Research{
 	
 	public function researchUsers($post){
 
+		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
@@ -20,7 +21,7 @@ class Research{
 		//Costruisco la select prelevando tutte le caratteristiche
 		$features = $post["features"];
 
-		if(count($features) <= 0){
+		if(count($features) <= 0 && !$post["parola_chiave"]){
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
@@ -30,17 +31,26 @@ class Research{
 			$this->connect->disconnetti();
 			return json_encode($objJSON);
 		}
+		
+		if($post["parola_chiave"]){
+			$search_parolachiave = "AND _user.name LIKE '%".$post["parola_chiave"]."%'".
+									"OR _user.surname LIKE '%".$post["parola_chiave"]."%'";
+		}
 
 		//costruisco la query di select
 		$query = "";
+		
+		$query .= " SELECT * FROM _user WHERE _user.idUser IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature ".$search_parolachiave;
 		if(count($features) > 0){
-			$query .= " SELECT * FROM _user WHERE _user.idUser IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature AND (";
+			$query = "AND (";
 			for($i = 0; $i < count($features);$i++){
 				$query.= " _features.label = '".$features[$i]["features"]."' OR";
 			}
 			$query = substr($query,0,strlen($query)-2).")";
-			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features).")";
+			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 		}
+		$query .= ")";
+		
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
