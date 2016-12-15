@@ -14,7 +14,7 @@ class Account{
 		
 	}
 	
-	private function userExist($post){
+	private function accountExist($post){
 		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -144,7 +144,7 @@ class Account{
 	protected function saveAccount($post){
 		
 		//verifico se l'utente esiste già
-		$objJSON = $this->userExist($post);
+		$objJSON = $this->accountExist($post);
 		if($objJSON["success"]){
 			if(count($objJSON["results"]) > 0){
 				$objJSON_NEW["success"] = false;

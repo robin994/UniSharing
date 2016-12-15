@@ -124,25 +124,22 @@ class User extends Account{
 			
 			}
 			
-		
 		}
 			
-		
-		
-		
 		
 		
 		//////////////////////////////////////////////////
 		/////////// INVIO L'EMAIL DI BENVENUTO ///////////
 		//////////////////////////////////////////////////
 			
-		$from = "info@unisharing.it";
+		
+		$from = "l.vitale@live.it";
 		$to = $user["email"];
 		$object = "Benvenuto in unisharing!";	
-		$message = "Benvenuto in unisharing,<br>Di seguito le tue credenziali per l'accesso<br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br>";
+		$message = "<html><body style='font-family:courier;font-size:16px;'>Benvenuto in unisharing,<br>Di seguito le credenziali per l'accesso<br><br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br></body></html>";
 			
 		//creo il messaggio di benvenuto all'utente iscritto
-		$this->notify->send($from, $to, $object, $message);	
+		var_dump($this->notify->send($from, $to, $object, $message));	
 			
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
