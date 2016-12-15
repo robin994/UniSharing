@@ -15,7 +15,7 @@ class Account{
 	}
 	
 	
-	protected function login($post){
+	protected function access($post){
 		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
