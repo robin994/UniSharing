@@ -108,9 +108,10 @@
 						var sesso = $("#sesso").val();
 						var address = $("#indirizzo").val();
 						var cellulare = $("#cellulare").val();
-						var universita = $("#universita:selected").val();
-						var facolta = $("#facolta:selected").val();
+						var universita = $("#universita").val();
+						var facolta = $("#facolta").val();
 						var description = $("#description").val();
+						
 						
 						/*
 						// DATI DA INSERIRE PER IL TESTING
@@ -168,10 +169,12 @@
 						}	
 						
 						if(!facolta){
+							message_err += "Non è stata selezionata la facoltà<br>";
 							boo_err = true;
 						}	
 						
 						if(boo_err){
+							alert("ERROREEEE");
 							alert(message_err);
 							return;
 						}
@@ -183,6 +186,11 @@
 								alert("Errore! " + data.messageError);
 								return;
 							}
+							
+							
+							
+							alert("Utente iscritto correttamente!");
+							
 						}
 						
 						var param = {
@@ -330,12 +338,12 @@
 					<div class="row-fluid">
 						<div class="col-md-12">
 								<label>Università</label>
-								<select id="universita" name="selectbasic" class="form-control" required>
+								<select id="universita" name="selectbasic" class="form-control">
 								</select>
 						</div>
 						<div class="col-md-12">
 								<label>Facoltà</label>
-								<select id="facolta" name="selectbasic" class="form-control" required>
+								<select id="facolta" name="selectbasic" class="form-control">
 
 								</select>
 								<br>

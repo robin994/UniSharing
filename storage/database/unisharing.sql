@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Creato il: Dic 15, 2016 alle 09:21
+-- Creato il: Dic 15, 2016 alle 17:45
 -- Versione del server: 5.6.28
 -- Versione PHP: 5.6.25
 
@@ -36,6 +36,8 @@ CREATE TABLE `_account` (
 --
 
 INSERT INTO `_account` (`username`, `password`) VALUES
+('345345@45345345.it', '4461d28de0cfade61711ed6401c18cef'),
+('l.vitale@live.it', '4f5ad3e03dabda820f3c2b6ca5c2283e'),
 ('tester1@unisharing.it', 'enter1'),
 ('tester2@unisharing.it', 'enter2'),
 ('tester3@unisharing.it', 'tester3');
@@ -43,10 +45,10 @@ INSERT INTO `_account` (`username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `_accountpartecipateuser`
+-- Struttura della tabella `_accountpartecipategroup`
 --
 
-CREATE TABLE `_accountpartecipateuser` (
+CREATE TABLE `_accountpartecipategroup` (
   `userId` int(11) DEFAULT NULL,
   `groupId` int(11) DEFAULT NULL,
   `admin` tinyint(1) NOT NULL
@@ -219,9 +221,13 @@ CREATE TABLE `_user` (
 --
 
 INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathImage`, `telephone`, `description`, `address`, `score`, `active`, `numberOfFeedback`, `numberOfDesertedGroup`, `typeStudent`) VALUES
-(13, 'Antonio', 'Fasulo', 'tester1@unisharing.it', '2016-12-23', 'img/avatar/tester1@unisharing.it/icon.png', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 0, 1, 0, 0, 'corsista-pendolare'),
-(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 0, 1, 0, 0, 'corsista-pendolare'),
-(15, 'Vito', 'Del Vecchio', 'tester3@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '2354435', '345345', 'via repubblica 2, Roma', 0, 1, 0, 0, NULL);
+(13, 'Antonio', 'Fasulo', 'tester1@unisharing.it', '2016-12-23', 'img/avatar/tester1@unisharing.it/icon.png', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 25, 1, 1, 0, 'corsista-pendolare'),
+(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 50, 1, 1, 0, 'corsista-pendolare'),
+(15, 'Vito', 'Del Vecchio', 'tester3@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '2354435', '345345', 'via repubblica 2, Roma', 75, 1, 1, 0, NULL),
+(35, 'Lorenzo', 'Vitale', 'l.vitale@live.it', '2016-12-16', 'img/avatar/l.vitale@live.it/', '', 'Mi piace IS', 'via Repubblica, 2 ', 0, 1, 0, 0, NULL),
+(36, '345345', '345345', '345345@45345345.it', '0000-00-00', 'img/avatar/345345@45345345.it/', '345345345', '', '345345', 0, 1, 0, 0, NULL),
+(37, '345345', '345345', '345345@45345345.it', '0000-00-00', 'img/avatar/345345@45345345.it/', '345345345', '', '345345', 0, 1, 0, 0, NULL),
+(38, '345345', '345345', '345345@45345345.it', '0000-00-00', 'img/avatar/345345@45345345.it/', '345345345', '', '345345', 0, 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -256,9 +262,9 @@ ALTER TABLE `_account`
   ADD PRIMARY KEY (`username`);
 
 --
--- Indici per le tabelle `_accountpartecipateuser`
+-- Indici per le tabelle `_accountpartecipategroup`
 --
-ALTER TABLE `_accountpartecipateuser`
+ALTER TABLE `_accountpartecipategroup`
   ADD KEY `userId` (`userId`),
   ADD KEY `groupId` (`groupId`);
 
@@ -383,17 +389,17 @@ ALTER TABLE `_university`
 -- AUTO_INCREMENT per la tabella `_user`
 --
 ALTER TABLE `_user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
--- Limiti per la tabella `_accountpartecipateuser`
+-- Limiti per la tabella `_accountpartecipategroup`
 --
-ALTER TABLE `_accountpartecipateuser`
-  ADD CONSTRAINT `_accountpartecipateuser_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `_accountpartecipateuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `_group` (`idGroup`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_accountpartecipategroup`
+  ADD CONSTRAINT `_accountpartecipategroup_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `_accountpartecipategroup_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `_group` (`idGroup`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `_blacklist`

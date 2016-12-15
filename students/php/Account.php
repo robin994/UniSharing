@@ -14,6 +14,60 @@ class Account{
 		
 	}
 	
+	private function userExist($post){
+		
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+		
+		// creo la query in sql
+		$query = "SELECT username FROM _account WHERE username = '".$post["username"]."' LIMIT 1";
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+			
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+			//la chiamata ha avuto successo
+			$objJSON["success"] = true;
+			$objJSON["results"] = array();
+			
+			$cont = 0;
+			
+			//itero i risultati ottenuti dal metodo
+			while($rows = mysqli_fetch_array($result)){
+				$objJSON["results"][$cont]["idUser"] = $rows["idUser"];
+				$objJSON["results"][$cont]["username"] = $rows["username"];
+				$objJSON["results"][$cont]["name"] = $rows["name"];
+				$objJSON["results"][$cont]["surname"] = $rows["surname"];
+				$objJSON["results"][$cont]["pathImage"] = $rows["pathImage"];
+				$cont++;
+			}
+
+		}
+
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+		
+	}
+	
+	
 	
 	protected function access($post){
 		
@@ -89,6 +143,13 @@ class Account{
 	
 	protected function saveAccount($post){
 		
+		//verifico se l'utente esiste già
+		$objJSON = $this->userExist($post);
+		if($objJSON["success"]){
+			if(count($objJSON["results"]) > 0){
+				return $objJSON;
+			}
+		}
 		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
