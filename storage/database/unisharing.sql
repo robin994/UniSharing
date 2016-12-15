@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.15.5
--- http://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 14, 2016 at 12:22 PM
--- Server version: 5.5.49-log
--- PHP Version: 5.6.24
+-- Host: localhost:8889
+-- Creato il: Dic 15, 2016 alle 09:21
+-- Versione del server: 5.6.28
+-- Versione PHP: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,16 +23,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_account`
+-- Struttura della tabella `_account`
 --
 
-CREATE TABLE IF NOT EXISTS `_account` (
+CREATE TABLE `_account` (
   `username` varchar(50) NOT NULL,
-  `password` varchar(16) NOT NULL
+  `password` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_account`
+-- Dump dei dati per la tabella `_account`
 --
 
 INSERT INTO `_account` (`username`, `password`) VALUES
@@ -43,10 +43,10 @@ INSERT INTO `_account` (`username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_accountpartecipateuser`
+-- Struttura della tabella `_accountpartecipateuser`
 --
 
-CREATE TABLE IF NOT EXISTS `_accountpartecipateuser` (
+CREATE TABLE `_accountpartecipateuser` (
   `userId` int(11) DEFAULT NULL,
   `groupId` int(11) DEFAULT NULL,
   `admin` tinyint(1) NOT NULL
@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS `_accountpartecipateuser` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_blacklist`
+-- Struttura della tabella `_blacklist`
 --
 
-CREATE TABLE IF NOT EXISTS `_blacklist` (
+CREATE TABLE `_blacklist` (
   `codeBlackList` int(11) NOT NULL,
   `idUser` int(11) DEFAULT NULL,
   `idBlockedUser` int(11) DEFAULT NULL
@@ -67,17 +67,17 @@ CREATE TABLE IF NOT EXISTS `_blacklist` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_exam`
+-- Struttura della tabella `_exam`
 --
 
-CREATE TABLE IF NOT EXISTS `_exam` (
+CREATE TABLE `_exam` (
   `idExam` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `idFaculty` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_exam`
+-- Dump dei dati per la tabella `_exam`
 --
 
 INSERT INTO `_exam` (`idExam`, `name`, `idFaculty`) VALUES
@@ -87,36 +87,37 @@ INSERT INTO `_exam` (`idExam`, `name`, `idFaculty`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_faculty`
+-- Struttura della tabella `_faculty`
 --
 
-CREATE TABLE IF NOT EXISTS `_faculty` (
+CREATE TABLE `_faculty` (
   `idFaculty` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `idUniversity` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_faculty`
+-- Dump dei dati per la tabella `_faculty`
 --
 
 INSERT INTO `_faculty` (`idFaculty`, `name`, `idUniversity`) VALUES
 (1, 'Informatica', 1),
-(2, 'Matematica', 1);
+(2, 'Matematica', 1),
+(3, 'Lettere moderne', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_features`
+-- Struttura della tabella `_features`
 --
 
-CREATE TABLE IF NOT EXISTS `_features` (
+CREATE TABLE `_features` (
   `idFeature` int(11) NOT NULL,
   `label` varchar(16) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_features`
+-- Dump dei dati per la tabella `_features`
 --
 
 INSERT INTO `_features` (`idFeature`, `label`) VALUES
@@ -132,10 +133,10 @@ INSERT INTO `_features` (`idFeature`, `label`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_feedback`
+-- Struttura della tabella `_feedback`
 --
 
-CREATE TABLE IF NOT EXISTS `_feedback` (
+CREATE TABLE `_feedback` (
   `idFeedback` int(11) NOT NULL,
   `idUser` int(11) DEFAULT NULL,
   `author` int(11) DEFAULT NULL,
@@ -146,10 +147,10 @@ CREATE TABLE IF NOT EXISTS `_feedback` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_group`
+-- Struttura della tabella `_group`
 --
 
-CREATE TABLE IF NOT EXISTS `_group` (
+CREATE TABLE `_group` (
   `idGroup` int(11) NOT NULL,
   `name` varchar(16) DEFAULT NULL,
   `creationDate` date DEFAULT NULL,
@@ -161,10 +162,10 @@ CREATE TABLE IF NOT EXISTS `_group` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_ideallist`
+-- Struttura della tabella `_ideallist`
 --
 
-CREATE TABLE IF NOT EXISTS `_ideallist` (
+CREATE TABLE `_ideallist` (
   `codeIdealList` int(11) NOT NULL,
   `idUser` int(11) DEFAULT NULL,
   `idIdealUser` int(11) DEFAULT NULL
@@ -173,17 +174,17 @@ CREATE TABLE IF NOT EXISTS `_ideallist` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_university`
+-- Struttura della tabella `_university`
 --
 
-CREATE TABLE IF NOT EXISTS `_university` (
+CREATE TABLE `_university` (
   `idUniversity` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `description` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_university`
+-- Dump dei dati per la tabella `_university`
 --
 
 INSERT INTO `_university` (`idUniversity`, `name`, `description`) VALUES
@@ -193,10 +194,10 @@ INSERT INTO `_university` (`idUniversity`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_user`
+-- Struttura della tabella `_user`
 --
 
-CREATE TABLE IF NOT EXISTS `_user` (
+CREATE TABLE `_user` (
   `idUser` int(11) NOT NULL,
   `name` varchar(16) NOT NULL,
   `surname` varchar(16) NOT NULL,
@@ -211,10 +212,10 @@ CREATE TABLE IF NOT EXISTS `_user` (
   `numberOfFeedback` int(11) DEFAULT '0',
   `numberOfDesertedGroup` int(11) DEFAULT '0',
   `typeStudent` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_user`
+-- Dump dei dati per la tabella `_user`
 --
 
 INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathImage`, `telephone`, `description`, `address`, `score`, `active`, `numberOfFeedback`, `numberOfDesertedGroup`, `typeStudent`) VALUES
@@ -225,16 +226,16 @@ INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathIm
 -- --------------------------------------------------------
 
 --
--- Table structure for table `_userhasfeatures`
+-- Struttura della tabella `_userhasfeatures`
 --
 
-CREATE TABLE IF NOT EXISTS `_userhasfeatures` (
+CREATE TABLE `_userhasfeatures` (
   `idFeature` int(11) NOT NULL DEFAULT '0',
   `idUser` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `_userhasfeatures`
+-- Dump dei dati per la tabella `_userhasfeatures`
 --
 
 INSERT INTO `_userhasfeatures` (`idFeature`, `idUser`) VALUES
@@ -245,24 +246,24 @@ INSERT INTO `_userhasfeatures` (`idFeature`, `idUser`) VALUES
 (6, 14);
 
 --
--- Indexes for dumped tables
+-- Indici per le tabelle scaricate
 --
 
 --
--- Indexes for table `_account`
+-- Indici per le tabelle `_account`
 --
 ALTER TABLE `_account`
   ADD PRIMARY KEY (`username`);
 
 --
--- Indexes for table `_accountpartecipateuser`
+-- Indici per le tabelle `_accountpartecipateuser`
 --
 ALTER TABLE `_accountpartecipateuser`
   ADD KEY `userId` (`userId`),
   ADD KEY `groupId` (`groupId`);
 
 --
--- Indexes for table `_blacklist`
+-- Indici per le tabelle `_blacklist`
 --
 ALTER TABLE `_blacklist`
   ADD PRIMARY KEY (`codeBlackList`),
@@ -270,27 +271,27 @@ ALTER TABLE `_blacklist`
   ADD KEY `idBlockedUser` (`idBlockedUser`);
 
 --
--- Indexes for table `_exam`
+-- Indici per le tabelle `_exam`
 --
 ALTER TABLE `_exam`
   ADD PRIMARY KEY (`idExam`),
   ADD KEY `idFaculty` (`idFaculty`);
 
 --
--- Indexes for table `_faculty`
+-- Indici per le tabelle `_faculty`
 --
 ALTER TABLE `_faculty`
   ADD PRIMARY KEY (`idFaculty`),
   ADD KEY `idUniversity` (`idUniversity`);
 
 --
--- Indexes for table `_features`
+-- Indici per le tabelle `_features`
 --
 ALTER TABLE `_features`
   ADD PRIMARY KEY (`idFeature`);
 
 --
--- Indexes for table `_feedback`
+-- Indici per le tabelle `_feedback`
 --
 ALTER TABLE `_feedback`
   ADD PRIMARY KEY (`idFeedback`),
@@ -299,14 +300,14 @@ ALTER TABLE `_feedback`
   ADD KEY `groups` (`groups`);
 
 --
--- Indexes for table `_group`
+-- Indici per le tabelle `_group`
 --
 ALTER TABLE `_group`
   ADD PRIMARY KEY (`idGroup`),
   ADD KEY `account` (`account`);
 
 --
--- Indexes for table `_ideallist`
+-- Indici per le tabelle `_ideallist`
 --
 ALTER TABLE `_ideallist`
   ADD PRIMARY KEY (`codeIdealList`),
@@ -314,20 +315,20 @@ ALTER TABLE `_ideallist`
   ADD KEY `idIdealUser` (`idIdealUser`);
 
 --
--- Indexes for table `_university`
+-- Indici per le tabelle `_university`
 --
 ALTER TABLE `_university`
   ADD PRIMARY KEY (`idUniversity`);
 
 --
--- Indexes for table `_user`
+-- Indici per le tabelle `_user`
 --
 ALTER TABLE `_user`
   ADD PRIMARY KEY (`idUser`),
   ADD KEY `email` (`email`);
 
 --
--- Indexes for table `_userhasfeatures`
+-- Indici per le tabelle `_userhasfeatures`
 --
 ALTER TABLE `_userhasfeatures`
   ADD PRIMARY KEY (`idFeature`,`idUser`),
@@ -335,86 +336,86 @@ ALTER TABLE `_userhasfeatures`
   ADD KEY `idUser` (`idUser`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT for table `_blacklist`
+-- AUTO_INCREMENT per la tabella `_blacklist`
 --
 ALTER TABLE `_blacklist`
   MODIFY `codeBlackList` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `_exam`
+-- AUTO_INCREMENT per la tabella `_exam`
 --
 ALTER TABLE `_exam`
-  MODIFY `idExam` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `idExam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `_faculty`
+-- AUTO_INCREMENT per la tabella `_faculty`
 --
 ALTER TABLE `_faculty`
-  MODIFY `idFaculty` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `idFaculty` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `_features`
+-- AUTO_INCREMENT per la tabella `_features`
 --
 ALTER TABLE `_features`
-  MODIFY `idFeature` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `idFeature` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `_feedback`
+-- AUTO_INCREMENT per la tabella `_feedback`
 --
 ALTER TABLE `_feedback`
   MODIFY `idFeedback` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `_group`
+-- AUTO_INCREMENT per la tabella `_group`
 --
 ALTER TABLE `_group`
   MODIFY `idGroup` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `_ideallist`
+-- AUTO_INCREMENT per la tabella `_ideallist`
 --
 ALTER TABLE `_ideallist`
   MODIFY `codeIdealList` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `_university`
+-- AUTO_INCREMENT per la tabella `_university`
 --
 ALTER TABLE `_university`
-  MODIFY `idUniversity` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `idUniversity` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `_user`
+-- AUTO_INCREMENT per la tabella `_user`
 --
 ALTER TABLE `_user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
--- Constraints for dumped tables
+-- Limiti per le tabelle scaricate
 --
 
 --
--- Constraints for table `_accountpartecipateuser`
+-- Limiti per la tabella `_accountpartecipateuser`
 --
 ALTER TABLE `_accountpartecipateuser`
   ADD CONSTRAINT `_accountpartecipateuser_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `_accountpartecipateuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `_group` (`idGroup`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_blacklist`
+-- Limiti per la tabella `_blacklist`
 --
 ALTER TABLE `_blacklist`
   ADD CONSTRAINT `_blacklist_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `_blacklist_ibfk_2` FOREIGN KEY (`idBlockedUser`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_exam`
+-- Limiti per la tabella `_exam`
 --
 ALTER TABLE `_exam`
   ADD CONSTRAINT `_exam_ibfk_1` FOREIGN KEY (`idFaculty`) REFERENCES `_faculty` (`idFaculty`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_faculty`
+-- Limiti per la tabella `_faculty`
 --
 ALTER TABLE `_faculty`
   ADD CONSTRAINT `_faculty_ibfk_1` FOREIGN KEY (`idUniversity`) REFERENCES `_university` (`idUniversity`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_feedback`
+-- Limiti per la tabella `_feedback`
 --
 ALTER TABLE `_feedback`
   ADD CONSTRAINT `_feedback_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -422,26 +423,26 @@ ALTER TABLE `_feedback`
   ADD CONSTRAINT `_feedback_ibfk_3` FOREIGN KEY (`groups`) REFERENCES `_group` (`idGroup`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_group`
+-- Limiti per la tabella `_group`
 --
 ALTER TABLE `_group`
   ADD CONSTRAINT `_group_ibfk_1` FOREIGN KEY (`account`) REFERENCES `_account` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_ideallist`
+-- Limiti per la tabella `_ideallist`
 --
 ALTER TABLE `_ideallist`
   ADD CONSTRAINT `_ideallist_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `_ideallist_ibfk_2` FOREIGN KEY (`idIdealUser`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_user`
+-- Limiti per la tabella `_user`
 --
 ALTER TABLE `_user`
   ADD CONSTRAINT `_user_ibfk_1` FOREIGN KEY (`email`) REFERENCES `_account` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `_userhasfeatures`
+-- Limiti per la tabella `_userhasfeatures`
 --
 ALTER TABLE `_userhasfeatures`
   ADD CONSTRAINT `_userhasfeatures_ibfk_1` FOREIGN KEY (`idFeature`) REFERENCES `_features` (`idFeature`) ON DELETE CASCADE ON UPDATE CASCADE,
