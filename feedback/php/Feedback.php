@@ -1,6 +1,6 @@
 <?
 
-class Feedbck{
+class Feedback{
 
 	//private $connect;
 	private $connect;
@@ -13,7 +13,7 @@ class Feedbck{
 	}
 
 
-	private function checkFeedback($post){
+	public function checkFeedback($post){
 
 
 		//re-inizializzo il json da restituire come risultato del metodo
@@ -27,12 +27,17 @@ class Feedbck{
 		$gruppo = $post["gruppo"];
 
 		//formulo la query
-		$query = " SELECT * FROM _feedback WHERE idGroup ='".$gruppo."' AND author != '".$user."'";
+		$query = " SELECT * FROM _feedback WHERE groups ='".$gruppo."' AND author != '".$user."'";
 
-		var_dump($query);
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
+
+		for ($i = 0; $i < mssql_num_rows($result); ++$i) {
+        echo mssql_result($result, $i, 'idUser'), PHP_EOL;
+    }
+
+		echo var_dump($result);
 
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
