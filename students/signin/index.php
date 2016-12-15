@@ -112,7 +112,7 @@
 						var facolta = $("#facolta:selected").val();
 						var description = $("#description").val();
 						
-						
+						/*
 						// DATI DA INSERIRE PER IL TESTING
 						name = "Lorenzo";
 						surname = "Vitale"
@@ -124,6 +124,8 @@
 						bday = "2016-12-16";
 						facolta = "1";
 						description = "Mi piace IS";
+						*/
+						
 						
 						// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
 						var message_err = "";
