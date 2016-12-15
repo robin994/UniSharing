@@ -30,6 +30,10 @@
 				}
 
 
+					data.results[i].user
+					data.results[i].gruppo
+
+
 
 			}
 
@@ -75,7 +79,7 @@
         <header>
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
-                    <div class="navbar-header">
+								    <div class="navbar-header">
                         <a href="index.html" class="navbar-brand">UniSharing</a>
                         <button class="navbar-toggle" data-toggle="collapse" data-target="#navHeaderCollapse" >
                             <span class="icon-bar"></span>
@@ -103,6 +107,7 @@
         </header>
 
         <div class="container">
+
        		<div class= "row">
 						<div class= "col-lg-2">
 						</div>
@@ -179,6 +184,8 @@
 						</div>
       </div>
 
+
+</div>
         <footer>
         </footer>
 
