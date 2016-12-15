@@ -11,6 +11,7 @@
 		<link href="../../css/style.css" rel="stylesheet" media="screen">
 		<link rel="stylesheet"	type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
 	  <script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
+		<script type="text/javascript" src="../../js/functions.js"></script>
 
 
 <script>
@@ -18,8 +19,23 @@
 		// ONLOAD JQUERY
 		$(function(){
 
+			var idGruppo = "13";
+			var user = "tester1@unisharing.it";
+
+			function callBackCheckFeedback(data){
+
+				if(!data.success){
+					alert("Errore! " + data.errorMessage);
+					return;
+				}
 
 
+
+			}
+
+			$.unisharing("Feedback", "checkFeedback", "private", {"gruppo": idGruppo, "user": user}, false, callBackCheckFeedback);
+});
+			/*
 			$(".bottoneInvio").on("click", function(e){
 
 					 $.confirm({
@@ -28,7 +44,20 @@
 						buttons: {
 							confirm: function () {
 								alert("HAI CLICCATO CONFERMA!");
-							},
+								var param = {
+									"scadenza": scadenza,
+								}
+								function callBackSendFeedback(data){
+										console.log(data);
+
+																if(!data.success){
+																	alert("Errore! " + data.errorMessage);
+																	return;
+																}
+
+															}
+
+							$.unisharing("Feedback", "sendFeedback", "private", {"feedback":  param}, false, callBackSendFeedback);,
 							cancel: function (){
 							}
 						}
@@ -37,7 +66,7 @@
 
 		});
 	});
-
+*/
 		</script>
 
     </head>
