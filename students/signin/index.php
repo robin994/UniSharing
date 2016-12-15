@@ -6,13 +6,42 @@
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
+        <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
         <link href="../css/students_style.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
     		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
+        <script src="../../js/jquery.Jcrop.min.js"></script>
 				<script>
+				
+				var imageLoaded = {};
+				var aspectRatio = 500/500;
+				var dimW = 500;
+				var dimH = 500;
+				var boxWidth=500;
+				var boxHeight=500;
+				
+				
 				$(function() {
+					
+					/*
+					$("#clickHere").on("click", function(){
+						$("#file").trigger("change");
+					});	
+					*/
+					
+					$("#file").on("change", function (e){
+					  
+					  if(this.files && this.files[0]) {
+						  	hideCoordinate();
+							handleFiles(this.files);
+							$("#drop-zone").css({"background":"none"});
+						}
+					 });	
+					
+					
+					
 
 					/////////////////////////////////////////////////////////////////
 					/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
@@ -77,10 +106,11 @@
 						var confpassword = $("#confpassword").val();
 						var bday = $("#bday").val();
 						var sesso = $("#sesso").val();
-						var indirizzo = $("#indirizzo").val();
+						var address = $("#indirizzo").val();
 						var cellulare = $("#cellulare").val();
 						var universita = $("#universita:selected").val();
 						var facolta = $("#facolta:selected").val();
+						var description = $("#description").val();
 						
 						
 						// DATI DA INSERIRE PER IL TESTING
@@ -89,9 +119,11 @@
 						email = "l.vitale@live.it";
 						password = "provapassword";
 						confpassword = "provapassword";
+						address = "via Repubblica, 2 ";
 						universita = "1";
 						bday = "2016-12-16";
 						facolta = "1";
+						description = "Mi piace IS";
 						
 						// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
 						var message_err = "";
@@ -146,7 +178,7 @@
 						var callBackSignin = function(data){
 							console.log(data);
 							if(!data.success){
-								alert("Errore! " + data.errorMessage);
+								alert("Errore! " + data.messageError);
 								return;
 							}
 						}
@@ -160,14 +192,17 @@
 								"bday":bday,
 								"sesso": sesso,
 								"email":email,
+								"address": address,
 								"cellulare":cellulare,
-								"indirizzo":indirizzo
+								"description": description
 							},
 							
 							"account":{
 								"username":email,
 								"password":password
-							}
+							},
+							
+							"image": imageLoaded
 						}
 						
 						
@@ -240,12 +275,11 @@
                         	<div style="float:left;width:100%;" class="imageDropZone">
                                 <div id="ritaglio">Carica l'immagine dell'avatar:</div>
                                 <div id="drop-zone" style="width: 100%;">
-                                <div id="clickHere" class="button_input_form">carica l'immagine
-                                <label class="control-label">Upload File From Folder</label>
-                                <input id="input-folder-1" type="file" class="file-loading" webkitdirectory>
+                                 <input type="file" name="file" id="file" style="opacity: 1;filter: alpha(opacity=100);" accept="image/jpeg">
+                                <!--<div id="clickHere" class="button_input_form">carica l'immagine
                                 
-                                <!--<input type="file" name="file" id="file" style="opacity: 0;filter: alpha(opacity=0);" accept="image/jpeg">-->
-                                </div>
+                               
+                                </div>-->
                                 </div>
                                 </div>
                         </div>
@@ -333,3 +367,161 @@
 
 	</body>
 </html>
+
+
+<script>
+
+
+var dragAndDrop = function(){
+		
+		try{
+		
+			var dropbox;
+	
+			dropbox = document.getElementById("drop-zone");
+			dropbox.addEventListener("dragenter", dragenter, false);
+			dropbox.addEventListener("dragover", dragover, false);
+			dropbox.addEventListener("drop", drop, false);
+			
+			function dragenter(e) {
+			  e.stopPropagation();
+			  e.preventDefault();
+			}
+			
+			function dragover(e) {
+			  e.stopPropagation();
+			  e.preventDefault();
+			}
+			
+			function drop(e) {
+			  e.stopPropagation();
+			  e.preventDefault();
+			
+			  var dt = e.dataTransfer;
+			  var files = dt.files;
+			
+			  handleFiles(files);
+			}
+		}catch(e){
+			
+		}
+	}
+	
+	var handleFiles = function(files) {
+		 for (var i = 0; i < files.length; i++) {
+			var file = files[i];
+			var imageType = /image.*/;
+			
+			
+			var size = Number(file.size);
+			if(size > 2097152 || size > 2097152){
+				alert("L'immagine selezionata ha una dimensione che supera il massimo consentito di 2Mb");	
+				return;
+			}
+			
+			if (!file.type.match(imageType)) {
+			  continue;
+			}
+			
+		
+			var img = document.createElement("img");
+			//img.setAttribute("style", "max-width:200px;");
+			img.setAttribute("id", "_image");
+			img.classList.add("obj");
+			img.file = file;
+			
+			
+			$("#drop-zone").html(img); // Assuming that "preview" is a the div output where the content will be displayed.
+			$("#drop-zone").animate({"width":boxWidth, "height":boxHeight});
+			$("#drop-zone").append("<div style='width:50px;height:50px;position:absolute;top:0px;right:0px;cursor:pointer;z-index:99999;' class='rimuovi_immagine'><i class=\"fa fa-close\" style=\"font-size:22px;position:absolute;top:10px;right:10px;\"></i></div>");
+			
+			var reader = new FileReader();
+			reader.onload = (function(aImg) { 
+				return function(e) { 
+					aImg.src = e.target.result;
+					
+					$("#ritaglio").html("Ritaglia l'immagine");
+					//$("#_image").Jcrop({aspectRatio: _this.aspectRatio, boxWidth:_this.boxWidth,boxHeight:_this.boxHeight, onSelect: _this.showCordinate});
+					$("#_image").Jcrop(
+						{
+							boxWidth: boxWidth,
+							boxHeight: boxHeight, 
+							onSelect:  showCordinate,
+							onRelease:  hideCoordinate,
+							aspectRatio: aspectRatio,
+							bgColor: ""
+						});
+					
+				}; 
+			})(img);
+			reader.readAsDataURL(file);
+
+			
+		  }
+		}
+		
+	
+	var showCordinate = function(c){
+		
+		imageLoaded.ritagliata = true;
+		imageLoaded.cancellata = false;
+		imageLoaded.caricata = true;
+		
+		if($(".obj").attr("src"))
+			imageLoaded.image = $(".obj").attr("src").split(",")[1];
+		
+		imageLoaded.cx = c.x;
+		imageLoaded.cy = c.y;
+		imageLoaded.c2x = c.x2;
+		imageLoaded.c2y = c.y2;
+		imageLoaded.cw = c.w;
+		imageLoaded.ch = c.h;
+		
+		////console.log(_this.imageLoaded);
+		
+	   $("#drop-zone").css({border:"1px solid #ccc"});
+			try{
+				//$("#drop-zone").hideBalloon();
+			}catch(error){
+				
+			}
+		
+		
+		$("#cx").val(c.x);
+		$("#cy").val(c.y);
+		$("#c2x").val(c.x2);
+		$("#c2y").val(c.y2);
+		$("#cw").val(c.w);
+		$("#ch").val(c.h);
+	}
+	
+	var hideCoordinate = function(){
+		$("#cx").val("");
+		$("#cy").val("");
+		$("#c2x").val("");
+		$("#c2y").val("");
+		$("#cw").val("");
+		$("#ch").val("");	
+		
+		imageLoaded.ritagliata = false;
+		imageLoaded.cancellata = false;
+		imageLoaded.caricata = true;
+		
+		if($(".obj").attr("src"))
+			imageLoaded.image = $(".obj").attr("src").split(",")[1];
+		
+		imageLoaded.cx = 0;
+		imageLoaded.cy = 0;
+		imageLoaded.c2x = 0;
+		imageLoaded.c2y = 0;
+		imageLoaded.cw = 0;
+		imageLoaded.ch = 0;
+		////console.log(_this.imageLoaded);
+		
+	}
+
+
+
+
+</script>
+

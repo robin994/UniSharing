@@ -6,10 +6,11 @@ include "ConnectionDB.php";
 include "../istitutes/php/Istitutes.php";
 include "../students/php/User.php";
 include "../research/php/Research.php";
+include "../ranking/php/Ranking.php";
+include "../notification/php/Notification.php";
 
 //if(is_file($_POST['classe'].".php"))
 //	include $_POST['classe'].".php";
-
 
 $obj = new $_POST['classe']();
 $obj->init();

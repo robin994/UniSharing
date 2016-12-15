@@ -5,6 +5,7 @@ include "Account.php";
 class User extends Account{
 
 	//private $connect;
+	private $notify;
 
 	public function init(){
 
@@ -13,6 +14,9 @@ class User extends Account{
 		
 		// inizializzo la classe Account che estende
 		$this->initialize();
+		
+		//inizializza l'oggetto Notification
+		$this->notify = new Notification();
 		 
 	}
 
@@ -57,7 +61,7 @@ class User extends Account{
 										'".$user["cellulare"]."',
 										'".$user["description"]."',
 										'".$user["address"]."',
-										'img/avatar/".$user["username"]."/'
+										'img/avatar/".$user["email"]."/'
 										)";	
 		
 			
@@ -85,7 +89,7 @@ class User extends Account{
 			
 			
 			// creo l'avatar dell'utente
-			if($post["imageLoaded"]["caricata"] == "true"){
+			if($post["image"]["caricata"] == "true"){
 			
 				
 				//se non esiste la cartella avatar la creo
@@ -94,37 +98,49 @@ class User extends Account{
 				}
 				
 				//se non esiste la cartella dell'utente la creo
-				if(!is_dir("../img/avatar/".$account["username"])){
-					mkdir("../img/avatar/".$account["username"]);	
+				if(!is_dir("../img/avatar/".$user["email"])){
+					mkdir("../img/avatar/".$user["email"]);	
 				}
 			
 			
-				$pathImage = base64_decode($post["imageLoaded"]["image"]);
+				$pathImage = base64_decode($post["image"]["image"]);
 				$jpeg_quality = 90;
 				$img_r = imagecreatefromstring($pathImage);
 				$dst_r = imagecreatetruecolor(250,250);
-				imagecopyresampled($dst_r,$img_r,0,0,$post["imageLoaded"]['cx'],$post["imageLoaded"]['cy'],250,250, $post["imageLoaded"]['cw'],$post["imageLoaded"]['ch']);
+				imagecopyresampled($dst_r,$img_r,0,0,$post["image"]['cx'],$post["image"]['cy'],250,250, $post["image"]['cw'],$post["image"]['ch']);
+				imagejpeg($dst_r,"../img/avatar/".$user["email"]."/icon250x250.jpg",$jpeg_quality);
 				
 				$dst_r2 = imagecreatetruecolor(80, 80);
-				imagecopyresampled($dst_r2,$img_r,0,0,$post["imageLoaded"]['cx'],$post["imageLoaded"]['cy'],80,80, $post["imageLoaded"]['cw'],$post["imageLoaded"]['ch']);
-				imagejpeg($dst_r2,"../img/avatar/".$account['username']."/icon80x80.jpg",$jpeg_quality);
+				imagecopyresampled($dst_r2,$img_r,0,0,$post["image"]['cx'],$post["image"]['cy'],80,80, $post["image"]['cw'],$post["image"]['ch']);
+				imagejpeg($dst_r2,"../img/avatar/".$user["email"]."/icon80x80.jpg",$jpeg_quality);
 			
 				$dst_r3 = imagecreatetruecolor(40, 40);
-				imagecopyresampled($dst_r3,$img_r,0,0,$post["imageLoaded"]['cx'],$post["imageLoaded"]['cy'],40,40, $post["imageLoaded"]['cw'], $post["imageLoaded"]['ch']);
-				imagejpeg($dst_r3,"../img/avatar/".$account['username']."/icon40x40.jpg",$jpeg_quality);
+				imagecopyresampled($dst_r3,$img_r,0,0,$post["image"]['cx'],$post["image"]['cy'],40,40, $post["image"]['cw'], $post["image"]['ch']);
+				imagejpeg($dst_r3,"../img/avatar/".$user["email"]."/icon40x40.jpg",$jpeg_quality);
 			
+				/*		
+				var_dump(error_get_last());
 			
 				$objJSON =  array();	
 				if(error_get_last()){
 					$objJSON["success"] = false;
-					$objJSON["messageError"] = error_get_last();
+					$objJSON["messageError"] = "Error di inserimento dell'immagine";
 					return json_encode($objJSON);
 				}
+				*/
 			}
 			
 		
 		}
 			
+			
+		$from = "info@unisharing.it";
+		$to = $user["email"];
+		$object = "Benvenuto in unisharing!";	
+		$message = "Benvenuto in unisharing,<br>Di seguito le tue credenziali per l'accesso<br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br>";
+			
+		//creo il messaggio di benvenuto all'utente iscritto
+		$this->notify->send($from, $to, $object, $message);	
 			
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();

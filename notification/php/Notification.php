@@ -30,7 +30,6 @@ class Notification{
 		$this->send->Subject=$object;
 		$this->send->Body=$message;	
 		
-		$result;
 		
 		//definiamo i comportamenti in caso di invio corretto 
 		//o di errore
