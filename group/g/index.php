@@ -34,40 +34,40 @@
 			
 			function callBackViewGroup(data){
 
-
 						console.log(data);
 
 						if(!data.success){
 							alert("Errore! " + data.errorMessage);
 							return;
 						}
-						
-						var temp= "";
-						
-						if(data.result.lenght == 0){
+												
+						if(data.results.length <= 0){
 							alert ("Non hai nessun riusultato nei gruppi nei quali partecipi");
 						}
 						
-						for (var i=0; i<data.result.lenght; i++){
-							console.log (data.result[i]);
-							tmp += '<tr class="active">';
-							tmp += 	'<td>'+data.result[i].account+'</td>';
-							tmp +=  '<td>'data.result[i].name+'</td>';
-							tmp += 	'<td>data.result[i].expirationDate</td>';
-							tmp += 	'<td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>';
-							tmp += 	'	 <a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a>';
-							tmp += 	'</td>';
-							tmp += '</tr>';
-						}
+						else {
+							var tmp= "";		
+							for (var i=0; i<data.results.length; i++){
+								console.log (data.results[i]);
+								
+								tmp += '<tr class="active">';
+								tmp += 	'<td>'+data.results[i].name + data.results[i].surname+'</td>'; 
+								tmp +=  '<td>'+data.results[i].namegroup+'</td>';
+								tmp += 	'<td>'+data.results[i].expirationDate+'</td>';
+								tmp += 	'<td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>';
+								tmp += 		'<a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a>';
+								tmp += 	'</td>';
+								tmp += '</tr>';
+							}
 						
 						$("#ris").html("");
 						$("#ris").html(tmp);
-
+						}
 			}
 
 			
 
-			$.unisharing("Group", "generatePage", "public", {"group": param}, false, callBackViewGroup);
+			$.unisharing("Group", "leftGroup", "private", {"group": param}, false, callBackViewGroup);
 			
 			
 			// sdfosdif	
