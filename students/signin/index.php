@@ -6,6 +6,7 @@
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
+        <link href="../css/students_style.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
     		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
@@ -89,6 +90,7 @@
 						password = "provapassword";
 						confpassword = "provapassword";
 						universita = "1";
+						bday = "2016-12-16";
 						facolta = "1";
 						
 						// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
@@ -233,6 +235,21 @@
 							</div>
 						</div>
 					</div>
+                    <div class="row-fluid">
+                    	<div class="form-group col-lg-12">
+                        	<div style="float:left;width:100%;" class="imageDropZone">
+                                <div id="ritaglio">Carica l'immagine dell'avatar:</div>
+                                <div id="drop-zone" style="width: 100%;">
+                                <div id="clickHere" class="button_input_form">carica l'immagine
+                                <label class="control-label">Upload File From Folder</label>
+                                <input id="input-folder-1" type="file" class="file-loading" webkitdirectory>
+                                
+                                <!--<input type="file" name="file" id="file" style="opacity: 0;filter: alpha(opacity=0);" accept="image/jpeg">-->
+                                </div>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
 						<div class="row-fluid">
 								<div class="form-group col-lg-6">
 								<Label>Password</Label>
