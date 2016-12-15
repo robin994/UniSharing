@@ -11,37 +11,23 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script>
-
 			$(function() {
 				$("#btn-start-research").on("click", function() {
 					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
 					var arr_features = [];
-					var booF = false;
-					var booP = false;
-
-					console.log("Qui");
-
-
-					var parola_chiave = $("#parola_chiave").val();
-
-
-					if(parola_chiave) booP = true;
-
+					var boo = false;
 					$(".features").each(function(){
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
-							booF = true;
+							boo = true;
 						}
 					});
-
-
-					if(!booF && !booP){
+					console.log(arr_features);
+					if(!boo){
 						alert("Non hai selezionato nessuna caratteristica!");
 						return;
 					}
-
-					var callBackUsers = function(data){
-
+					function callBackUsers(data){
 						console.log(data);
 						if(!data.success){
 							alert("Errore! " + data.errorMessage);
@@ -57,18 +43,19 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi  <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
 							tmp += '</table>';
 							tmp += '</div>';
 						}
-
 						$("#ris").html("");
 						$("#ris").html(tmp);
 					}
-					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parola_chiave":parola_chiave}, false, callBackUsers);
+
+					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
+
 				});
 			});
 		</script>
@@ -110,7 +97,7 @@
                 <div class="col-lg-4">
                 	<center><img src="../../img/logo.jpg" class="img-responsive" alt="logo"></center>
                     <div class="input-group">
-                  	<input type="text" id="parola_chiave" class="form-control" placeholder="Search" >
+                  	<input type="text" class="form-control" placeholder="Search">
                   	<span class="input-group-btn">
                     	<button class="btn btn-default" id="btn-start-research" type="button">Avvia</button>
                   	</span>
@@ -300,9 +287,9 @@
 
             <!-- RISULTATI DELLA RICERCA -->
             <div class="row">
-            		<div class="col-lg-3"></div>
-                    <div class="col-lg-6" id="ris"></div>
-                    <div class="col-lg-3"></div>
+            		<div class="col-lg-2"></div>
+                    <div class="col-lg-8" id="ris"></div>
+                    <div class="col-lg-2"></div>
             </div>
         </div>
         <footer>

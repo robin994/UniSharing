@@ -67,7 +67,8 @@ class User extends Account{
 			
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
-
+		$idUser = $this->connect->insert_id();
+		
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
 
@@ -87,6 +88,9 @@ class User extends Account{
 			$objJSON["results"] = array();
 		
 			
+			// inserisco le features dell'utente
+			$post["user"]["idUser"] = $idUser;
+			$this->setUserHasFeatures($post);
 			
 			// creo l'avatar dell'utente
 			if($post["image"]["caricata"] == "true"){
@@ -118,21 +122,19 @@ class User extends Account{
 				imagecopyresampled($dst_r3,$img_r,0,0,$post["image"]['cx'],$post["image"]['cy'],40,40, $post["image"]['cw'], $post["image"]['ch']);
 				imagejpeg($dst_r3,"../img/avatar/".$user["email"]."/icon40x40.jpg",$jpeg_quality);
 			
-				/*		
-				var_dump(error_get_last());
-			
-				$objJSON =  array();	
-				if(error_get_last()){
-					$objJSON["success"] = false;
-					$objJSON["messageError"] = "Error di inserimento dell'immagine";
-					return json_encode($objJSON);
-				}
-				*/
 			}
 			
 		
 		}
 			
+		
+		
+		
+		
+		
+		//////////////////////////////////////////////////
+		/////////// INVIO L'EMAIL DI BENVENUTO ///////////
+		//////////////////////////////////////////////////
 			
 		$from = "info@unisharing.it";
 		$to = $user["email"];
@@ -140,11 +142,12 @@ class User extends Account{
 		$message = "Benvenuto in unisharing,<br>Di seguito le tue credenziali per l'accesso<br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br>";
 			
 		//creo il messaggio di benvenuto all'utente iscritto
-		var_dump($this->notify->send($from, $to, $object, $message));	
+		$this->notify->send($from, $to, $object, $message);	
 			
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
+		
 	} 
 	/////////// FINE METODO CHE EFFETTUA L'ISCRIZIONE /////////
 	
@@ -160,6 +163,63 @@ class User extends Account{
 	}
 	
 	/////////// FINE METODO LOGIN /////////
+
+
+	/////////////////////////////////////////////////////////
+	///////////// INSERIMENTO DEI FEATURES PER L'USER ///////
+	/////////////////////////////////////////////////////////
+
+	private function setUserHasFeatures($post){
+		
+		$objJSON["success"] = true;
+		$objJSON["results"] = array();
+		
+		
+		if(count($post["user"]["features"]) > 0){
+			
+			//re-inizializzo il json da restituire come risultato del metodo
+			$objJSON = array();
+			
+			//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+			$this->connect->connetti();	
+			
+			//formulo la query di inserimento delle features
+			$values = "";
+			for($i = 0; $i < count($post["user"]["features"]);$i++){
+				$values .= "(";
+				$values .= "'".$post["user"]["features"][$i]."','".$post["user"]["idUser"]."'";
+				$values .= "),";
+			}
+			
+			$values = substr($values, 0, strlen($values)-1);
+			$query = "INSERT INTO _userhasfeatures (idFeature, idUser) VALUES ".$values;
+			var_dump($query);
+			
+			
+			// eseguo la query nel motore mysql
+			$this->connect->myQuery($query);
+			
+			//Righe che gestiscono casi di errore di chiamata al database
+			if($this->connect->errno()){
+	
+				//la chiamata non ha avuto successo
+				$objJSON["success"] = false;
+				$objJSON["messageError"] = "Errore:";
+				$objJSON["error"] = $this->connect->error();
+	
+			}else{
+	
+				//la chiamata ha avuto successo
+				$objJSON["success"] = true;
+				$objJSON["results"] = array();
+			}
+			
+			//Disconnetto dal database e restituisco il risultato
+			$this->connect->disconnetti();
+		}
+				
+		return $objJSON;
+	}
 
 }
 ?>

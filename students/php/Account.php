@@ -63,7 +63,7 @@ class Account{
 
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
-		return json_encode($objJSON);
+		return $objJSON;
 		
 	}
 	
@@ -145,12 +145,11 @@ class Account{
 		
 		//verifico se l'utente esiste già
 		$objJSON = $this->userExist($post);
-		
-		var_dump($objJSON["results"]);
-		
 		if($objJSON["success"]){
 			if(count($objJSON["results"]) > 0){
-				return $objJSON;
+				$objJSON_NEW["success"] = false;
+				$objJSON_NEW["messageError"] = "Utente già presente nel database";
+				return $objJSON_NEW;
 			}
 		}
 		

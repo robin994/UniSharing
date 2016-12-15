@@ -9,11 +9,16 @@
         <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
         <link href="../css/students_style.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
-    		<script src="../../js/bootstrap.min.js"></script>
+    	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script src="../../js/jquery.Jcrop.min.js"></script>
-				<script>
+        
+        
+        <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
+     	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
+		
+		<script>
 				
 				var imageLoaded = {};
 				var aspectRatio = 500/500;
@@ -111,7 +116,14 @@
 						var universita = $("#universita").val();
 						var facolta = $("#facolta").val();
 						var description = $("#description").val();
+						var tipo_studente = $("#tipo_studente").val();
 						
+						var features = [];
+						
+						$(".features").each(function(){
+							if($(this).is(":checked"))
+								features.push($(this).val());
+						});
 						
 						/*
 						// DATI DA INSERIRE PER IL TESTING
@@ -174,22 +186,21 @@
 						}	
 						
 						if(boo_err){
-							alert("ERROREEEE");
 							alert(message_err);
 							return;
 						}
 						
 						
+						
 						var callBackSignin = function(data){
-							console.log(data);
+							
 							if(!data.success){
 								alert("Errore! " + data.messageError);
 								return;
 							}
 							
 							
-							
-							alert("Utente iscritto correttamente!");
+							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente</div></center>');
 							
 						}
 						
@@ -204,17 +215,26 @@
 								"email":email,
 								"address": address,
 								"cellulare":cellulare,
-								"description": description
+								"description": description,
+								"tipo_studente": tipo_studente,
+								"features": features
 							},
 							
 							"account":{
 								"username":email,
 								"password":password
 							},
+
 							
 							"image": imageLoaded
-						}
+							}
 						
+						
+						
+						
+						
+						console.log("AAAA");
+						console.log(param);
 						
 						$.unisharing("User", "signin", "private", param, false, callBackSignin);
 
@@ -256,7 +276,7 @@
 	<div class="container">
 		<div class="row-fluid">
         	<div class="col-lg-2"></div>
-			<div class="col-lg-8">
+			<div class="col-lg-8" id="result_message">
 				<h1>Registrazione</h1>
 					<div class="row-fluid">
 						<div class="form-group col-lg-6">
@@ -277,6 +297,18 @@
 							<Label>Email</Label>
 							<div class="input-group" style="width:100%;">
 								<input type="text" id="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" required>
+							</div>
+						</div>
+					</div>
+                    <div class="row-fluid">
+						<div class="form-group col-lg-12">
+							<Label>Tipo di studente</Label>
+							<div class="input-group" style="width:100%;">
+								<select id="tipo_studente" class="form-control" required>
+                                	<option value="corsista-fuorisede">Corsista fuori sede</option>
+                                    <option value="corsista-pendolare">Corsista pendolare</option>
+                                    <<option value="studente-lavoratore">Studente lavoratore</option>
+                                </select>
 							</div>
 						</div>
 					</div>
@@ -335,6 +367,12 @@
 							</div>
 						</div>
 					</div>
+                    <div class="row-fluid">
+                    	<div class="col-md-12">
+								<label>Descrizione</label>
+								<textarea id="description" class="form-control" style="resize:vertical;height:250px;"></textarea>
+						</div>
+                    </div>
 					<div class="row-fluid">
 						<div class="col-md-12">
 								<label>Università</label>
@@ -346,9 +384,197 @@
 								<select id="facolta" name="selectbasic" class="form-control">
 
 								</select>
-								<br>
-								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Iscriviti</button>
+								
 						</div>
+                        <div class="col-md-12">&nbsp;</div> 
+                        <div class="col-md-12">
+                        	
+                            
+                            
+                            
+                            
+                            
+                            <!-- FEATURES -->
+                            
+                            
+                            <div id="advancedsearch" class="filter-panel collapse in" aria-expanded="true">
+                    <div class="panel with-nav-tabs panel-default">
+                    	<div class="panel-heading">
+                    		<ul class="nav nav-tabs">
+                     			<li class="active"><a href="#personality" data-toggle="tab">Personalità</a></li>
+                                <li><a href="#knowledge" data-toggle="tab">Conoscenze</a></li>
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                        	<div class="tab-content">
+                        		<div class="tab-pane fade in active" id="personality">
+                               	<div class="col-lg-6">
+                                    	<div class="checkbox">
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="1" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Simpatico
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="2" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Cordiale
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="4" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diligente
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</div>
+                                	<div class="col-lg-6">
+                                    	<div class="checkbox">
+                                        	<div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="3" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Socievole
+                                                </label>
+                                            </div>
+
+                                        	<div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="5" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Timido
+                                                </label>
+                                            </div>
+                                        	<div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="6" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Estroverso
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</div>
+                                </div>
+                            	<div class="tab-pane fade" id="knowledge">
+                               	<div class="col-lg-6">
+                                    	<div class="checkbox">
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="7"  class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Informatica
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="8"  class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Matematica
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label> 
+                                                    <input type="checkbox" value="9" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Fisica
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="10" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Scienze
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="11" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Biologia
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="12" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Chimica
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="13" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Architettura
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="14" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diritto ed Economia
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</div>
+                                	<div class="col-lg-6">
+                                    	<div class="checkbox">
+                                        	<div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="15" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Geografia
+                                                </label>
+                                            </div>
+                                        	<div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="16" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Storia e Filosofia
+                                                </label>
+                                            </div>
+                                        	<div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="17" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Lettere
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="18" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Latino e Greco
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="19" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Inglese
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="20" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Francesce
+                                                </label>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2px">
+                                                <label>
+                                                    <input type="checkbox" value="21" class="features">
+                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Spagnolo
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</div>
+                                </div>
+                    
+                           	</div>
+                    	</div>
+                	</div>
+                    </div>
+                            
+                            
+                            
+                            
+                            
+                            <!-- fine FEATURES -->
+                            
+                            
+                        </div>
+                        
+                        
+                        <div class="col-md-12">
+                        	<br>
+								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Iscriviti</button>
+                           	<br>
+                        </div>
 					</div>
 				</div>
 			</div>
