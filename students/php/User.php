@@ -140,7 +140,7 @@ class User extends Account{
 		$message = "Benvenuto in unisharing,<br>Di seguito le tue credenziali per l'accesso<br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br>";
 			
 		//creo il messaggio di benvenuto all'utente iscritto
-		$this->notify->send($from, $to, $object, $message);	
+		var_dump($this->notify->send($from, $to, $object, $message));	
 			
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
