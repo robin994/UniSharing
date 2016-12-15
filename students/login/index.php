@@ -13,6 +13,9 @@
 				<script>
 			$(function() {
 
+
+				alert($.cookie('user'));
+				
 				$("#btn-login").on("click", function() {
 
 					console.log("HO CLICCATO SUL TASTO DELLA LOGIN");
@@ -37,6 +40,7 @@
 						"password": password
 					}
 
+					//data è il json restituito dal metodo chiamato nella funzione unisharing
 					function callBackLogin(data){
 
 
@@ -46,6 +50,15 @@
 							alert("Errore! " + data.errorMessage);
 							return;
 						}
+						
+						if(data.results.length <= 0){
+							alert("Utente non riconosciuto!");
+						}else{
+							
+							// creo il cookie
+							$.cookie('user', {"username":data.results[0].username, "name":data.results[0].name, "surname":data.results[0].surname, "pathImage":data.results[0].pathImage});
+						}
+						
 
 					}
 

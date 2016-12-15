@@ -68,7 +68,6 @@
 						$("#ris").html("");
 						$("#ris").html(tmp);
 					}
-
 					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parola_chiave":parola_chiave}, false, callBackUsers);
 				});
 			});
