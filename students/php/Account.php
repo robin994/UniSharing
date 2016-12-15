@@ -145,11 +145,17 @@ class Account{
 		
 		//verifico se l'utente esiste già
 		$objJSON = $this->userExist($post);
+		
+		var_dump($objJSON["results"]);
+		
 		if($objJSON["success"]){
 			if(count($objJSON["results"]) > 0){
 				return $objJSON;
 			}
 		}
+		
+		
+		
 		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
