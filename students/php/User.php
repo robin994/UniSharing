@@ -1,14 +1,9 @@
 <?
-
 include "Account.php";
-
 class User extends Account{
-
 	//private $connect;
 	private $notify;
-
 	public function init(){
-
 		//istanzio l'oggetto ConnectionDB
 		//$this->connect = new ConnectionDB();
 
@@ -19,8 +14,6 @@ class User extends Account{
 		$this->notify = new Notification();
 
 	}
-
-
 	///////////////////////////////////////////////////////////
 	/////////// METODO CHE EFFETTUA L'ISCRIZIONE //////////////
 	///////////////////////////////////////////////////////////
@@ -62,26 +55,21 @@ class User extends Account{
 										'".$user["description"]."',
 										'".$user["address"]."',
 										'img/avatar/".$user["email"]."/'
-										)";	
+										)";
 
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
-
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
-
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
 			$objJSON["error"] = $this->connect->error();
-
 			//Disconnetto dal database
 			$this->connect->disconnetti();
 			return json_encode($objJSON);
-
 		}else{
-
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
 			$objJSON["results"] = array();
@@ -140,7 +128,7 @@ class User extends Account{
 		$message = "Benvenuto in unisharing,<br>Di seguito le tue credenziali per l'accesso<br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br>";
 
 		//creo il messaggio di benvenuto all'utente iscritto
-		$this->notify->send($from, $to, $object, $message);
+		var_dump($this->notify->send($from, $to, $object, $message));
 
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
@@ -155,10 +143,8 @@ class User extends Account{
 
 	/*public function login($post){
 
-
 	}
 	*/
 	/////////// FINE METODO LOGIN /////////
-
 }
 ?>
