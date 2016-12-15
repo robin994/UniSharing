@@ -1,17 +1,51 @@
 <?
 
-class User{
+include "Account.php";
 
-	private $connect;
+class User extends Account{
+
+	//private $connect;
 
 	public function init(){
 
 		//istanzio l'oggetto ConnectionDB
-		$this->connect = new ConnectionDB();
-
+		//$this->connect = new ConnectionDB();
+		
+		// inizializzo la classe Account che estende
+		$this->initialize();
+		 
 	}
 
 
+	///////////////////////////////////////////////////////////
+	/////////// METODO CHE EFFETTUA L'ISCRIZIONE //////////////
+	///////////////////////////////////////////////////////////
+	
+	public function signin($post){
+		
+		$objJSON = $this->saveAccount($post["account"]);
+		
+		/*
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+		
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+			
+		$objJSON["success"] = true;
+		
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+		*/
+	} 
+	/////////// FINE METODO CHE EFFETTUA L'ISCRIZIONE /////////
+	
+	
+	///////////////////////////////////////////////////////////
+	/////////// METODO CHE EFFETTUA LA LOGIN //////////////////
+	///////////////////////////////////////////////////////////
+	
 	public function login($post){
 
 		//inizializzo il json da restituire come risultato del metodo
@@ -76,10 +110,11 @@ class User{
 		}
 
 
-		//Disconnetto dal database
+		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
 	}
+	/////////// FINE METODO LOGIN /////////
 
 }
 ?>

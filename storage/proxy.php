@@ -3,6 +3,7 @@
 date_default_timezone_set('Europe/Berlin');
 
 include "ConnectionDB.php";
+include "../istitutes/php/Istitutes.php";
 include "../students/php/User.php";
 include "../research/php/Research.php";
 
