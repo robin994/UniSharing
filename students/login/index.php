@@ -98,7 +98,13 @@
           <input id="username" type="email" name="email" placeholder="Username" required="" class="form-control input-lg">
 
           <input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
+<<<<<<< HEAD
+=======
+
+<div id="btn-login">prova</div>
+>>>>>>> origin/master
           <button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Log in</button>
+
           <div><br>
             <center><a href="#">Crea account</a> o <a href="#">ripristina password</a></center>
           </div>
