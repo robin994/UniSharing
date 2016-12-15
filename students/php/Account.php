@@ -23,7 +23,6 @@ class Account{
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 
-
 		//Costruisco la select prelevando tutte l'username e la password
 		$user = $post["user"]["username"];
 		$pass = $post["user"]["password"];
@@ -40,8 +39,12 @@ class Account{
 			return json_encode($objJSON);
 		}
 
+		
+		//cripto la password inserita da confrontare nel db
+		$password_criptata = md5(SALT.$pass);
+
 		// creo la query in sql
-		$query = "SELECT _account.username, _user.* FROM _account, _user WHERE _account.username = _user.email AND (username = '$user' AND password ='$pass')";
+		$query = "SELECT _account.username, _user.* FROM _account, _user WHERE _account.username = _user.email AND (username = '".$user."' AND password ='".$password_criptata."')";
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -73,7 +76,6 @@ class Account{
 				$objJSON["results"][$cont]["name"] = $rows["name"];
 				$objJSON["results"][$cont]["surname"] = $rows["surname"];
 				$objJSON["results"][$cont]["pathImage"] = $rows["pathImage"];
-
 				$cont++;
 			}
 		}
