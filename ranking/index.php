@@ -17,20 +17,14 @@
 
 
 		<script>
-
-
 		// ONLOAD JQUERY
 		$(function(){
-
-
 				function callBackRanking(data) {
 						console.log(data);
-
 						if(!data.success){
 							alert("Errore! " + data.errorMessage);
 							return;
 						}
-
 						var tmp = "";
 						for(var i = 0; i < data.results.length;i++){
 							console.log(data.results[i]);
@@ -39,7 +33,6 @@
 	            tmp +=  '<td>'+data.results[i].name+' '+data.results[i].surname+'</td>';
 	            tmp +=  '<td>'+ data.results[i].score+ ' </td>';
 							tmp +=	'<td>';
-
 							/*tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
@@ -48,7 +41,6 @@
 							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 							tmp += '</div>';
 */
-
 							console.log(data.results[i].percent);
 							if(data.results[i].percent > 0 && data.results[i].percent <= 20){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
@@ -59,9 +51,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-
 	/*
-
 							if(data.results[i].percent >20 && data.results[i].score <= 40){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -71,7 +61,6 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-
 							if(data.results[i].percent >40 && data.results[i].score <= 60){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -81,7 +70,6 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-
 							if(data.results[i].percent >60 && data.results[i].score <= 80){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -91,7 +79,6 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-
 							if(data.results[i].percent >80 && data.results[i].score <= 100){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -104,15 +91,11 @@
 */
 							tmp += '</td>';
 						  tmp += '</tr>';
-
 				}
-
 				$("#idRanking").append(tmp);
 		}
 		$.unisharing("Ranking" , "getRanking" , "private" , {}, false, callBackRanking);
-
 });
-
 		</script>
 
     </head>
