@@ -160,8 +160,60 @@ class User extends Account{
 		return $this->access($post);
 		
 	}
-	
 	/////////// FINE METODO LOGIN /////////
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	/////////// METODO CHE EFFETTUA L'AGGIORNAMENTO DELLO SCORE //////////////////
+	/////////////////////////////////////////////////////////////////////////////
+	
+	public function setScore($post){
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+			
+	
+		if(count($post["feedbacks"]) > 0){
+			
+			//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+			$this->connect->connetti();
+			
+			$query = "";
+			for($j = 0; $j < count($post["feedbacks"]);$j++){
+				$query .= "UPDATE _user SET score = score + ".$post["feedbacks"][$j]["score"].", numberOfFeedback = numberOfFeedback + 1 WHERE email = '".$post["feedbacks"][$j]["user"]."';";
+			}
+	
+	
+			//la passo la motore MySql
+			$result = $this->connect->myMultiQuery($query);
+	
+			//Righe che gestiscono casi di errore di chiamata al database
+			if($this->connect->errno()){
+	
+				//la chiamata non ha avuto successo
+				$objJSON["success"] = false;
+				$objJSON["messageError"] = "Errore:";
+				$objJSON["error"] = $this->connect->error();
+	
+				//Disconnetto dal database
+				$this->connect->disconnetti();
+				return json_encode($objJSON);
+	
+			}else{
+	
+				//la chiamata ha avuto successo
+				$objJSON["success"] = true;
+				$objJSON["results"] = array();
+	
+			}
+	
+			//Disconnetto dal database e restituisco il risultato
+			$this->connect->disconnetti();
+		}
+		
+		return json_encode($objJSON);
+	}
+	/////////// FINE METODO LOGIN /////////
+
 
 
 	/////////////////////////////////////////////////////////
