@@ -303,6 +303,8 @@ class User extends Account{
 			return $objJSON;
 
 		}else{
+
+			$this->connect->disconnetti();
 			return var_dump($objJSON);
 		}
 	}
