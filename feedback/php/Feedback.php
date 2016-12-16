@@ -172,6 +172,18 @@ class Feedback{
 				$user = new User();
 				$user->init();
 				$user->setScore($post);
+				
+				
+				// invio a tutti gli utenti a cui ho inserito un feedback la notifica
+				$notify = new Notification();
+				$from = "l.vitale@live.it";
+				$object = "L'utente ".$_COOKIE["name"]." ".$_COOKIE["surname"]." ha inserito un feedback per te";	
+				$message = "<html><body style='font-family:courier;font-size:16px;'>L'utente ".$_COOKIE["name"]." ".$_COOKIE["surname"]." ha inserito un feedback per te<br></body></html>";
+				
+				for($j = 0;$j < count($post["feedbacks"]);$j++){
+					$to = $post["feedbacks"][$j]["user"];
+					$notify->send($from, $to, $object, $message);
+				}
 	
 			}
 	

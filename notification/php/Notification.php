@@ -7,7 +7,11 @@ class Notification{
 	
 	private $send;
 	
-	function __construct(){
+	function __construct(){ 
+	}
+	
+	public function send($from, $to, $object, $message){
+		
 		
 		//istanziamo la classe
 		$this->send = new PHPmailer();
@@ -18,18 +22,16 @@ class Notification{
 		$this->send->SMTPAuth = true;                               // Enable SMTP authentication
 		$this->send->Username = 'info@quidfacis.it';                 // SMTP username
 		$this->send->Password = 'neonato2000'; 
-		$this->send->SMTPDebug = 4;
+		//$this->send->SMTPDebug = 4;
 		                          // SMTP password
 		//$this->send->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-		$this->send->Port = 587;  
-	}
-	
-	public function send($from, $to, $object, $message){
+		$this->send->Port = 587; 
 		
 		//definiamo le intestazioni e il corpo del messaggio
 		$this->send->From = $from;
 		$this->send->FromName = "Unisharing.it";
 		$this->send->AddAddress($to);
+		//$this->send->AddBCC($to, "Utente");
 		$this->send->Subject=$object;
 		$this->send->Body=$message;	
 		
