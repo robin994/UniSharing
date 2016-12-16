@@ -355,16 +355,10 @@ class User extends Account implements IUser{
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
-		var_dump($result);
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
 
 			//la chiamata non ha avuto successo
-			$rowValori = mysqli_fetch_array($result);
-			$objJSON["idUser"] = $rowValori["id"];
-			$objJSON["name"] = $rowValori["name"];
-
-
 			var_dump($objJSON);
 
 			//Disconnetto dal database
@@ -373,6 +367,10 @@ class User extends Account implements IUser{
 
 		}else{
 
+			$rowValori = mysqli_fetch_array($result);
+			$objJSON["idUser"] = $rowValori["idUser"];
+			$objJSON["name"] = $rowValori["name"];
+			//Disconnetto dal database
 			$this->connect->disconnetti();
 			return var_dump($objJSON);
 		}
