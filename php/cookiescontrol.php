@@ -1,10 +1,12 @@
 <?
 
-	$cookie = $_COOKIE['user'];
-	var_dump($cookie);
+	$cookie = json_decode($_COOKIE['user']);
+	
+	//accedo al nome del cookie
+	var_dump($cookie->{"name"});
 		
 	if(isset($cookie)) {
-		exit;
+		header("location: http://www.gazzetta.it");
 	}
 	
 ?>

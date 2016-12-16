@@ -16,7 +16,7 @@
 				
 				if($.cookie("user")){
 					var cookie = JSON.parse($.cookie('user'));
-					console.log(cookie);
+					console.log(cookie.name);
 				}
 				
 				
