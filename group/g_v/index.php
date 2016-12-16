@@ -8,14 +8,46 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../../css/group_style.css" rel="stylesheet" media="screen">
-        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-    	<script src="js/bootstrap.min.js"></script>
+        <script src="../../js/jquery.1.12.js"></script>
+    	<script src="../../js/bootstrap.min.js"></script>
+        <script src="../../js/functions.js"></script>
         
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
     	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
         
         <script>
 			$(function(){
+				
+				var param = {
+					"idGroup" = "2"
+				}
+				
+				//Funzione che organizza la forma in modo dinamica in relazione al gruppo che si desidera visualizzare
+				function callBackViewDetailsGroup(data){
+					console.log(data);
+					
+					if(!data.success){
+							alert("Errore! " + data.errorMessage);
+							return;
+					}
+					
+					var tmp= "";
+					
+					for (var i=0; i<data.results.lenght; i++){
+						console.log (data.results[i]);
+						
+						tmp= '<h1>' +data.results[i].nameGroup+ '</h1>';
+                    	tmp= '<h4>' +data.results[i].nameUser+ data.results[i].surname'</h4>';
+                    	tmp= '<br><br><br><br>';
+                        tmp= '<h2> Descrizione </h2>';
+						tmp= '<p>'data.results[i].description+'</p>';
+                        tmp= '<br><br><br><br>';
+                        tmp= '<p>'data.results[i].creationDate+'</p>';
+                    	tmp= '<p>Facoltà: informatica</p>';
+                        tmp= '<p>Esame: ingegneria del software</p>';
+					}	
+				}
+				
 				$(".btn-primary").on("click", function(e){
 					$.confirm({
 						title: 'Attenzione!',
@@ -29,9 +61,6 @@
 								
 							},
 							cancel: function () {
-								
-								
-								
 							}
 						}
 					});
@@ -71,17 +100,9 @@
         </header>    
         <div class="container">   
        		<div class="row">
-        		<div class="col-lg-2"></div>
                 <div class="col-lg-4">
-                	<h1> Nome del gruppo </h1>
-                    <h4> Creato da Antonio Fasulo </h4>
-                    <br><br><br><br>
-                    <h2> Descrizione </h2>
-                    <p>Mostra descrizione</p>
-                    <br><br><br><br>
-                    <p>Data: 18/12/2017</p>
-                    <p>Facoltà: informatica</p>
-                    <p>Esame: ingegneria del software</p>
+                	<div class="col-lg-2"></div>
+                		<div class= #ris></div>
                 </div>
                 <div class="col-lg-4">
                 	<h2>Utenti partecipanti</h2>
