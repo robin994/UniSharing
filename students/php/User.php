@@ -4,31 +4,31 @@ include "Account.php";
 
 
 interface IUser{
-	
+
 	// metodo che permette di registrare un nuovo utente
 	public function signin($post);
-	
+
 	// metodo che effettua il login
 	public function login($post);
-	
+
 	// metodo che cambia lo score
 	public function setScore($post);
-	
+
 	// metodo che preleva lo score
-	public function getScore();
-	
+	public function getScore($post);
+
 	// metodo che fornisce le info dell'utente
-	public function getProfile();
-	
+	public function getProfile($idUser);
+
 }
 
 class User extends Account implements IUser{
 
 	//private $connect;
 	private $notify;
-	
+
 	// costruttore della classe
-	protected function __construct(){}
+	public function __construct(){}
 
 	public function init(){
 
@@ -251,14 +251,14 @@ class User extends Account implements IUser{
 		$this->connect->connetti();
 
 		$query = "SELECT score FROM _user WHERE email = '".$post["user"]."'";
-		
+
 		//la passo la motore MySql
 		$result = $this->connect->myMultiQuery($query);
 
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
 
-			//la chiamata non ha avuto successo	
+			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = "Errore:";
 			$objJSON["error"] = $this->connect->error();
@@ -272,7 +272,7 @@ class User extends Account implements IUser{
 				//la chiamata ha avuto successo
 				$objJSON["success"] = true;
 				$objJSON["results"] = array();
-				
+
 				$row = mysqli_fetch_array($result);
 				$objJSON["score"] = $row["score"];
 
@@ -341,7 +341,7 @@ class User extends Account implements IUser{
 		return $objJSON;
 	}
 
-	public function getProfil($idUser) {
+	public function getProfile($idUser) {
 
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();

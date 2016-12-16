@@ -36,7 +36,7 @@
 
 					}
 
-					$.unisharing("User", "getProfilo", "public", {"idUser":  '13'}, false, callBackLogin);
+					$.unisharing("User", "getProfile", "public", {"idUser":  '13'}, false, callBackLogin);
 				});
 			</script>
 	</head>
