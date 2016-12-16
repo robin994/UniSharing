@@ -272,5 +272,40 @@ class User extends Account{
 		return $objJSON;
 	}
 
+	public function getProfilo($idUser) {
+
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+		var_dump($idUser);
+
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();
+
+		$query = "SELECT * FROM _user where _user.idUser = ".$idUser[idUser];
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		var_dump($result);
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$rowValori = mysqli_fetch_array($result)
+			$objJSON["idUser"] = $rowValori["id"];
+			$objJSON["name"] = $rowValori["name"];
+
+
+			var_dump($objJSON);
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return $objJSON;
+
+		}else{
+			return var_dump($objJSON);
+		}
+	}
+
 }
 ?>
