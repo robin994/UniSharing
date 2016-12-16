@@ -26,8 +26,11 @@
 					
 						mask_feedback = html;
 					
-						var idGruppo = "1";
-						var userLoggato = "tester1@unisharing.it"; //tester1
+						//var idGruppo = "1";
+						//var userLoggato = "tester1@unisharing.it"; //tester1
+			
+						var idGruppo = "<?php echo $_GET["g"]; ?>";
+						var userLoggato = "<?php echo $_GET["u"]; ?>";
 			
 						function callBackCheckFeedback(data){
 				
@@ -124,7 +127,7 @@
 										}
 										
 										
-										$("#Mask_feedback").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:34px;"/><br><br><span style="font-size:18px;">Feedback inseriti correttamente/span></div></center>');
+										$("#Mask_feedback").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:34px;"/><br><br><span style="font-size:18px;">Feedback inseriti correttamente</span></div></center>');
 										
 										
 									}
