@@ -54,8 +54,8 @@
                     </div>
                     <div class="collapse navbar-collapse" id="navHeaderCollapse">
                         <ul class= "nav navbar-nav navbar-right">
-                            <li class="active"><a href="index.html">Home</a></li>
-                            <li><a href="">Profilo</a></li>
+                            <li><a href="index.html">Home</a></li>
+                            <li class="active"><a href="">Profilo</a></li>
                             <li><a href="">Lista nera</a></li>
                             <li class="dropdown">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown">Gruppi <b class="caret"></b></a>
