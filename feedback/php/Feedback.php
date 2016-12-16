@@ -8,6 +8,9 @@ interface IFeedback{
 	
 	// inserisce dei feedback per gli utenti appartenenti ad un gruppo
 	public function insertFeedback($param);
+	
+	// restituisce i feedback ricevuti dall'utente
+	public function getFeedbacksByUser($param);
 		
 }
 
@@ -208,6 +211,91 @@ class Feedback implements IFeedback{
 		}
 		
 		return json_encode($objJSON);
+	}
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	////////// METODO CHE RESTITUISCE I FEEDBACK DELL'UTENTE ////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public function getFeedbacksByUser($post){
+
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();
+
+		//formulo la query
+		// seleziono tutti i feedback che l'utente ha ricevuto e i dati dell'autore e il nome del gruppo
+		$query = "SELECT	_feedback.*,
+							_group.name as nome_gruppo,
+							AUTHOR.name as name,
+							AUTHOR.surname as surname,
+							AUTHOR.pathImage as pathImage,
+							AUTHOR.email as email
+							
+							FROM _group, _feedback
+							
+							LEFT JOIN (
+								SELECT 
+									_user.name as name,
+									_user.surname as surname,
+									_user.pathImage as pathImage,
+									_user.email as email
+									FROM _user
+							
+							) as AUTHOR ON AUTHOR.email = _feedback.author
+							
+							WHERE _feedback.account = '".$post["user"]."' AND _feedback.groups = _group.idGroup";
+
+
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] =  $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+			//la chiamata ha avuto successo
+			$objJSON["success"] = true;
+			$objJSON["results"] = array();
+			
+			$cont = 0;
+			
+			//itero i risultati ottenuti dal metodo
+			while($rows = mysqli_fetch_array($result)){
+				$objJSON["results"][$cont]["author_username"] = $rows["email"];
+				$objJSON["results"][$cont]["author_name"] = $rows["name"];
+				$objJSON["results"][$cont]["author_surname"] = $rows["surname"];
+				$objJSON["results"][$cont]["path_author_avatar"] = $rows["pathImage"];
+				$objJSON["results"][$cont]["nome_gruppo"] = $rows["nome_gruppo"];
+				$objJSON["results"][$cont]["nome_gruppo"] = $rows["nome_gruppo"];
+				$objJSON["results"][$cont]["simpatia"] = $rows["simpatia"];
+				$objJSON["results"][$cont]["puntualita"] = $rows["puntualita"];
+				$objJSON["results"][$cont]["correttezza"] = $rows["correttezza"];
+				$objJSON["results"][$cont]["capacita"] = $rows["capacita"];
+				$objJSON["results"][$cont]["comment"] = $rows["comment"];
+				$cont++;
+			}
+
+		}
+
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+
 	}
 	
 	
