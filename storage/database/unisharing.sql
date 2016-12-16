@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Creato il: Dic 16, 2016 alle 11:01
+-- Creato il: Dic 16, 2016 alle 17:56
 -- Versione del server: 5.6.28
 -- Versione PHP: 5.6.25
 
@@ -39,8 +39,7 @@ INSERT INTO `_account` (`username`, `password`) VALUES
 ('info@lorenzovitale.it', '4461d28de0cfade61711ed6401c18cef'),
 ('tester1@unisharing.it', 'enter1'),
 ('tester2@unisharing.it', 'enter2'),
-('tester3@unisharing.it', 'tester3'),
-('tester4@unisharing.it', 'ab038d92c85c101f4abfbbb060cf04eb');
+('tester3@unisharing.it', 'tester3');
 
 -- --------------------------------------------------------
 
@@ -49,10 +48,18 @@ INSERT INTO `_account` (`username`, `password`) VALUES
 --
 
 CREATE TABLE `_accountpartecipategroup` (
+  `id` int(11) NOT NULL,
   `account` varchar(50) DEFAULT NULL,
   `groupId` int(11) DEFAULT NULL,
   `admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `_accountpartecipategroup`
+--
+
+INSERT INTO `_accountpartecipategroup` (`id`, `account`, `groupId`, `admin`) VALUES
+(6, 'info@lorenzovitale.it', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -153,8 +160,8 @@ INSERT INTO `_features` (`idFeature`, `label`) VALUES
 
 CREATE TABLE `_feedback` (
   `idFeedback` int(11) NOT NULL,
-  `idUser` int(11) DEFAULT NULL,
-  `author` int(11) DEFAULT NULL,
+  `account` varchar(50) DEFAULT NULL,
+  `author` varchar(50) DEFAULT NULL,
   `groups` int(11) DEFAULT NULL,
   `simpatia` int(1) NOT NULL DEFAULT '1',
   `puntualita` int(1) NOT NULL DEFAULT '1',
@@ -167,8 +174,8 @@ CREATE TABLE `_feedback` (
 -- Dump dei dati per la tabella `_feedback`
 --
 
-INSERT INTO `_feedback` (`idFeedback`, `idUser`, `author`, `groups`, `simpatia`, `puntualita`, `correttezza`, `capacita`, `comment`) VALUES
-(1, 14, 13, 1, 1, 1, 1, 1, 'Mi è simpatico');
+INSERT INTO `_feedback` (`idFeedback`, `account`, `author`, `groups`, `simpatia`, `puntualita`, `correttezza`, `capacita`, `comment`) VALUES
+(38, 'info@lorenzovitale.it', 'tester1@unisharing.it', 1, 3, 2, 5, 2, 'ddfsfsdfs');
 
 -- --------------------------------------------------------
 
@@ -252,11 +259,10 @@ CREATE TABLE `_user` (
 --
 
 INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathImage`, `telephone`, `description`, `address`, `score`, `active`, `numberOfFeedback`, `numberOfDesertedGroup`, `typeStudent`) VALUES
-(13, 'Antonio', 'Fasulo', 'tester1@unisharing.it', '2016-12-23', 'img/avatar/tester1@unisharing.it/icon.png', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 25, 1, 1, 0, 'corsista-pendolare'),
-(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 50, 1, 1, 0, 'corsista-pendolare'),
-(15, 'Vito', 'Del Vecchio', 'tester3@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '2354435', '345345', 'via repubblica 2, Roma', 75, 1, 1, 0, NULL),
-(58, 'Lorenzo', 'Vitale', 'tester4@unisharing.it', '0000-00-00', 'img/avatar/tester4@unisharing.it/', '3323457983', '', 'via della repubblica', 0, 1, 0, 0, NULL),
-(68, 'sdv', '34345', 'info@lorenzovitale.it', '0000-00-00', 'img/avatar/info@lorenzovitale.it/', '345345345', '345345', '345345', 0, 1, 0, 0, NULL);
+(13, 'Antonio', 'Fasulo', 'tester1@unisharing.it', '2016-12-23', 'img/avatar/tester1@unisharing.it/icon.png', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 0, 1, 0, 0, 'corsista-pendolare'),
+(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 0, 1, 0, 0, 'corsista-pendolare'),
+(15, 'Vito', 'Del Vecchio', 'tester3@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '2354435', '345345', 'via repubblica 2, Roma', 0, 1, 0, 0, NULL),
+(58, 'Lorenzo', 'Vitale', 'info@lorenzovitale.it', '0000-00-00', 'img/avatar/tester4@unisharing.it/', '3323457983', '', 'via della repubblica', 12, 1, 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -276,9 +282,7 @@ CREATE TABLE `_userhasfeatures` (
 INSERT INTO `_userhasfeatures` (`idFeature`, `idUser`) VALUES
 (1, 13),
 (1, 14),
-(1, 15),
-(1, 68),
-(5, 68);
+(1, 15);
 
 --
 -- Indici per le tabelle scaricate
@@ -294,6 +298,7 @@ ALTER TABLE `_account`
 -- Indici per le tabelle `_accountpartecipategroup`
 --
 ALTER TABLE `_accountpartecipategroup`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `userId` (`account`),
   ADD KEY `groupId` (`groupId`);
 
@@ -330,7 +335,7 @@ ALTER TABLE `_features`
 --
 ALTER TABLE `_feedback`
   ADD PRIMARY KEY (`idFeedback`),
-  ADD KEY `idUser` (`idUser`),
+  ADD KEY `idUser` (`account`),
   ADD KEY `author` (`author`),
   ADD KEY `groups` (`groups`);
 
@@ -375,6 +380,11 @@ ALTER TABLE `_userhasfeatures`
 --
 
 --
+-- AUTO_INCREMENT per la tabella `_accountpartecipategroup`
+--
+ALTER TABLE `_accountpartecipategroup`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT per la tabella `_blacklist`
 --
 ALTER TABLE `_blacklist`
@@ -398,7 +408,7 @@ ALTER TABLE `_features`
 -- AUTO_INCREMENT per la tabella `_feedback`
 --
 ALTER TABLE `_feedback`
-  MODIFY `idFeedback` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idFeedback` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT per la tabella `_group`
 --
@@ -453,9 +463,9 @@ ALTER TABLE `_faculty`
 -- Limiti per la tabella `_feedback`
 --
 ALTER TABLE `_feedback`
-  ADD CONSTRAINT `_feedback_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `_feedback_ibfk_2` FOREIGN KEY (`author`) REFERENCES `_user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `_feedback_ibfk_3` FOREIGN KEY (`groups`) REFERENCES `_group` (`idGroup`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `_feedback_ibfk_3` FOREIGN KEY (`groups`) REFERENCES `_group` (`idGroup`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `_feedback_ibfk_4` FOREIGN KEY (`account`) REFERENCES `_account` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `_feedback_ibfk_5` FOREIGN KEY (`author`) REFERENCES `_account` (`username`);
 
 --
 -- Limiti per la tabella `_group`
