@@ -19,21 +19,18 @@
 		// ONLOAD JQUERY
 		$(function(){
 
-			var idGruppo = "13";
-			var user = "tester1@unisharing.it";
+			var idGruppo = "1";
+			var user = "13"; //tester1
 
 			function callBackCheckFeedback(data){
-
+	
+				console.log("Recevo dati dei feedback");
+				console.log(data);
+			
 				if(!data.success){
 					alert("Errore! " + data.errorMessage);
 					return;
 				}
-
-
-					data.results[i].user
-					data.results[i].gruppo
-
-
 
 			}
 
@@ -111,74 +108,8 @@
        		<div class= "row">
 						<div class= "col-lg-2">
 						</div>
-						<div class= "col-lg-8">
-							<h4>Dai un voto a Nome Cognome per quanto riguarda la sua simpatia </h4>
-								<div class="radio">
-									  <label><input type="radio" name="optradio_1">Pessimo</label>
-								</div>
-								<div class="radio">
-	  								<label><input type="radio" name="optradio_1">Insufficiente</label>
-								</div>
-								<div class="radio">
-										<label><input type="radio" name="optradio_1" checked="true">Sufficiente</label>
-								</div>
-								<div class="radio">
-										<label><input type="radio" name="optradio_1">Buono</label>
-								</div>
-								<div class="radio disabled">
-	  								<label><input type="radio" name="optradio_1">Ottimo</label>
-								</div>
-								<h4>Dai un voto a Nome Cognome per quanto riguarda la sua puntualità </h4>
-									<div class="radio">
-										  <label><input type="radio" name="optradio_2">Pessimo</label>
-									</div>
-									<div class="radio">
-		  								<label><input type="radio" name="optradio_2">Insufficiente</label>
-									</div>
-									<div class="radio">
-											<label><input type="radio" name="optradio_2" checked="true">Sufficiente</label>
-									</div>
-									<div class="radio">
-											<label><input type="radio" name="optradio_2">Buono</label>
-									</div>
-									<div class="radio">
-		  								<label><input type="radio" name="optradio_2" >Ottimo</label>
-									</div>
-									<h4>Dai un voto a Nome Cognome per quanto riguarda la sua correttezza </h4>
-										<div class="radio">
-											  <label><input type="radio" name="optradio_3">Pessimo</label>
-										</div>
-										<div class="radio">
-			  								<label><input type="radio" name="optradio_3">Insufficiente</label>
-										</div>
-										<div class="radio">
-												<label><input type="radio" name="optradio_3" checked="true">Sufficiente</label>
-										</div>
-										<div class="radio">
-												<label><input type="radio" name="optradio_3">Buono</label>
-										</div>
-										<div class="radio">
-			  								<label><input type="radio" name="optradio_3" >Ottimo</label>
-										</div>
-										<h4>Dai un voto a Nome Cognome per quanto riguarda le sue capacità</h4>
-											<div class="radio">
-												  <label><input type="radio" name="optradio_4">Pessimo</label>
-											</div>
-											<div class="radio">
-				  								<label><input type="radio" name="optradio_4">Insufficiente</label>
-											</div>
-											<div class="radio">
-													<label><input type="radio" name="optradio_4" checked="true">Sufficiente</label>
-											</div>
-											<div class="radio">
-													<label><input type="radio" name="optradio_4">Buono</label>
-											</div>
-											<div class="radio">
-				  								<label><input type="radio" name="optradio_4">Ottimo</label>
-											</div>
-											<div>
-										<center>	<a class="bottoneInvio"><button type="button" class="btn btn-primary btn-lg">Salva Feedback</button></a> </center>
-											</div>
+						<div class= "col-lg-8" id="Mask_feedback">
+							
 						</div>
 						<div class= "col-lg-2">
 						</div>
