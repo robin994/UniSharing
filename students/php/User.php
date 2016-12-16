@@ -19,7 +19,7 @@ interface IUser{
 
 	// metodo che fornisce le info dell'utente
 	public function getProfile($idUser);
-	
+
 	// metodo per la modifica dei dati utente
 	public function modifyProfile($param);
 
@@ -123,14 +123,14 @@ class User extends Account implements IUser{
 
 			//se non esiste la cartella avatar la creo
 			if(!is_dir("../img/avatar")){
-				mkdir("../img/avatar");			
+				mkdir("../img/avatar");
 			}
 
 			//se non esiste la cartella dell'utente la creo
 			if(!is_dir("../img/avatar/".$user["email"])){
 				mkdir("../img/avatar/".$user["email"]);
 			}
-				
+
 
 			// creo l'avatar dell'utente
 			if($post["image"]["caricata"] == "true"){
@@ -151,13 +151,13 @@ class User extends Account implements IUser{
 				imagecopyresampled($dst_r3,$img_r,0,0,$post["image"]['cx'],$post["image"]['cy'],40,40, $post["image"]['cw'], $post["image"]['ch']);
 				imagejpeg($dst_r3,"../img/avatar/".$user["email"]."/icon40x40.jpg",$jpeg_quality);
 
-			}else{ 
-		
+			}else{
+
 				// non è stata caricata nessuna immagine inserisco l'avatar di default
 				copy("../img/profile250x250.jpg", "../img/avatar/".$user["email"]."/icon250x250.jpg");
 				copy("../img/profile80x80.jpg", "../img/avatar/".$user["email"]."/icon80x80.jpg");
 				copy("../img/profile40x40.jpg", "../img/avatar/".$user["email"]."/icon40x40.jpg");
-				
+
 			}
 
 
@@ -165,21 +165,21 @@ class User extends Account implements IUser{
 			//////////////////////////////////////////////////
 			/////////// INVIO L'EMAIL DI BENVENUTO ///////////
 			//////////////////////////////////////////////////
-	
-	
+
+
 			$from = "l.vitale@live.it";
 			$to = $user["email"];
 			$object = "Benvenuto in unisharing!";
 			$message = "<html><body style='font-family:courier;font-size:16px;'>Benvenuto in unisharing,<br>Di seguito le credenziali per l'accesso<br><br>:::::::::::::::::::::::::::::<br>user: ".$to."<br>pass: ".$account["password"]."<br>:::::::::::::::::::::::::::::<br></body></html>";
-	
+
 			//creo il messaggio di benvenuto all'utente iscritto
 			$this->notify->send($from, $to, $object, $message);
-	
+
 			//Disconnetto dal database e restituisco il risultato
 			$this->connect->disconnetti();
-			
+
 		}
-	
+
 		return json_encode($objJSON);
 
 	}
@@ -325,7 +325,7 @@ class User extends Account implements IUser{
 
 			$values = substr($values, 0, strlen($values)-1);
 			$query = "INSERT INTO _userhasfeatures (idFeature, idUser) VALUES ".$values;
-			
+
 
 
 			// eseguo la query nel motore mysql
@@ -353,31 +353,28 @@ class User extends Account implements IUser{
 		return $objJSON;
 	}
 
-<<<<<<< HEAD
+
 
 	////////////////////////////////////////////////////////////////////
 	/////////// METODO RICEVE I DATI DEL PROFILO DELL'UTENTE ///////////
 	////////////////////////////////////////////////////////////////////
 
-=======
->>>>>>> origin/master
+
 	public function getProfile($post) {
 
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
-<<<<<<< HEAD
-=======
+
 		//var_dump($post);
->>>>>>> origin/master
+
 
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
-<<<<<<< HEAD
-		$query = "SELECT 	_user.*,
+		/*$query2 = "SELECT 	_user.*,
 							FEATURES.features as features
 							FROM 	_user
-							
+
 								LEFT JOIN (
 									SELECT
 										GROUP_CONCAT(_userhasfeatures.idFeature SEPARATOR ',') as features,
@@ -385,28 +382,32 @@ class User extends Account implements IUser{
 									FROM 	_userhasfeatures
 									WHERE	idUser= '".$post["user"]."'
 									GROUP BY idUser
-								 
-								) as FEATURES ON FEATURES.idUser = _user.idUser 
-							 
-							WHERE _user.email = '".$post["user"]."'";
 
-=======
+								) as FEATURES ON FEATURES.idUser = _user.idUser
+
+							WHERE _user.email = '".$post["user"]."'";
+*/
+		// Query per ottenere i feedback
+		$query2 = "SELECT * FROM _feedback as fb WHERE fb.account = (SELECT email FROM _user WHERE _user.idUser = ".$post["idUser"].")";
+
+		// Query per ottenere i dati relativi all'utente
 		$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
->>>>>>> origin/master
+
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
+		$result2 = $this->connect->myQuery($query2);
 
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
 
 			//la chiamata non ha avuto successo
-<<<<<<< HEAD
+
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = $this->connect->error();
-=======
+
 			//var_dump($objJSON);
->>>>>>> origin/master
+
 
 			//Disconnetto dal database
 			$this->connect->disconnetti();
@@ -418,29 +419,40 @@ class User extends Account implements IUser{
 			$objJSON["success"] = true;
 			$objJSON["results"] = array();
 
-			$rowValori = mysqli_fetch_array($result);
-<<<<<<< HEAD
+			$cont = 0;
+			while($rowValori = mysqli_fetch_array($result2)){
+				$objJSON["results"][$cont]["author"] = $rowValori["author"];
+				$objJSON["results"][$cont]["comment"] = $rowValori["comment"];
+				$objJSON["results"][$cont]["f1"] = $rowValori["simpatia"];
+				$objJSON["results"][$cont]["f2"] = $rowValori["correttezza"];
+				$objJSON["results"][$cont]["f3"] = $rowValori["puntualita"];
+				$objJSON["results"][$cont]["f4"] = $rowValori["capacita"];
+
+				$cont++;
+			}
+			/*
 			$objJSON["results"][0]["idUser"] = $rowValori["idUser"];
 			$objJSON["results"][0]["name"] = $rowValori["name"];
-			
-			
+
+
 			$objJSON["results"][0]["features"] = array();
 			if($rowValori["feature"]){
 				$features = split(",", $rowValori["feature"]);
 				$objJSON["results"][0]["features"] = $features;
 			}
-			
-			
+
+
 			// ottengo i feedback dell'utente
 			$feed = new Feedback();
 			$feed->init();
 			$objJSON_FEED = json_decode($feed->getFeedbacksByUser($post));
 			$objJSON["results"][0]["feedbacks"] = $objJSON_FEED->{"results"};
-			
-			
+
+			*/
 			//Disconnetto dal database
 			$this->connect->disconnetti();
-=======
+			$rowValori = mysqli_fetch_array($result);
+
 			$objJSON["email"] = $rowValori["email"];
 			$objJSON["name"] = $rowValori["name"];
 			$objJSON["surname"] = $rowValori["surname"];
@@ -455,11 +467,11 @@ class User extends Account implements IUser{
 			//Disconnetto dal database
 			$this->connect->disconnetti();
 			//var_dump($objJSON);
->>>>>>> origin/master
+
 			return json_encode($objJSON);
 		}
 	}
-	
+
 
 	////////////////////////////////////////////////////////////////////
 	/////////// METODO CHE MODIFICA IL PROFILO DELL'UTENTE /////////////
@@ -543,7 +555,7 @@ class User extends Account implements IUser{
 
 			// creo l'avatar dell'utente
 			if($post["image"]["caricata"] == "true"){
-				
+
 				$pathImage = base64_decode($post["image"]["image"]);
 				$jpeg_quality = 90;
 				$img_r = imagecreatefromstring($pathImage);
@@ -560,22 +572,22 @@ class User extends Account implements IUser{
 				imagejpeg($dst_r3,"../img/avatar/".$user["email"]."/icon40x40.jpg",$jpeg_quality);
 
 
-			}else{ 
-		
+			}else{
+
 				// non è stata caricata nessuna immagine inserisco l'avatar di default
 				copy("../img/profile250x250.jpg", "../img/avatar/".$user["email"]."/icon250x250.jpg");
 				copy("../img/profile80x80.jpg", "../img/avatar/".$user["email"]."/icon80x80.jpg");
 				copy("../img/profile40x40.jpg", "../img/avatar/".$user["email"]."/icon40x40.jpg");
-				
+
 			}
-		
+
 		}
-		
+
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
 	}
-	
+
 	/////////// FINE METODO CHE EFFETTUA LA MODIFICA DEL PROFILO /////////
 
 }

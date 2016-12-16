@@ -10,9 +10,7 @@
     		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
-				<style>
-					@import(/css/description.css);
-				</style>
+				<link href="./css/description.css" rel="stylesheet" media="screen">
 				<script>
 			$(function() {
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
@@ -30,12 +28,44 @@
 						$("#email").html(data.email);
 						$("#birthday").html(data.birthOfDay);
 						$("#imagePath").html("<img src=\"../../"+data.pathImage+"\">");
-						console.log(data.imagePath);
+						console.log(data.pathImage);
 
-
+						var tmp = "";
+						//console.log(data.results.length);
+						/*
+						 *<div class="rating">
+                            <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"></span>
+                        </div>
+						 */
+						 // STAMPA FEEDBACK
+						for (var i = 0;i < data.results.length; i++) {
+							var ratingAverage = (parseFloat(data.results[i]["f1"])
+																	+ parseFloat(data.results[i]["f2"])
+																	+ parseFloat(data.results[i]["f3"])
+																	+ parseFloat(data.results[i]["f4"]))  / 4;
+							tmp += '<div class="panel panel-default">';
+							tmp += '	<div class="panel-heading">'+data.results[i]["author"];
+							tmp += '	<span class="view-stars pull-right">';
+							for (var j = 0 ; j < ratingAverage -1 ; j++) {
+								tmp += 		'<span class="glyphicon glyphicon-star"></span>';
+							}
+							if (ratingAverage > parseInt(ratingAverage)) {
+									tmp += '<span class="glyphicon glyphicon-star half"></span>';  //mezza stella se superiore alla media
+							} else {
+								tmp += '<span class="glyphicon glyphicon-star"></span>';
+							}
+							tmp += '</span>';
+							tmp += '</div>';
+							tmp += '		<div class="panel-body">';
+							tmp += 			data.results[i]["comment"];
+							tmp += '	</div>';
+							tmp += '</div>';
+						}
+						console.log(tmp);
+						$("#feedbacks").html(tmp);
 					}
 
-					$.unisharing("User", "getProfile", "public", {"idUser":  '13'}, false, callBackDescription);
+					$.unisharing("User", "getProfile", "public", {"idUser":  '58'}, false, callBackDescription);
 				});
 			</script>
 	</head>
@@ -78,11 +108,11 @@
 					<center><label id="nomeCompleto">Nome Cognome</label></center>
 					<center><label id="universita">Università</label></center>
 					<center><label id="facolta">Facoltà</label></center>
-					<div class="row" id="colonna_centrale">
-						<div class="col-lg-12">
-							<label>Email</label>
-							<p id="email">email</p>
-						</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<label>Email</label>
+						<p id="email">email</p>
+					</div>
 						<div class="col-lg-12">
 							<label>Indirizzo</label>
 							<p id="address">Indirizzo</p>
@@ -97,20 +127,19 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6" style='text-align:justify'>
+				<div class="col-lg-6" style='text-align:justify' id="colonna_centrale">
 					<div class="row">
 						<center><label>Descrizione</label></center>
 						<p id="description"> <!--DESCRIZIONE UTENTE -->
 						</p>
 					</div>
-					<div class="row" id="feedbacks"> <!-- FEEDBACK utenti -->
+					<div class="row"> <!-- FEEDBACK utenti -->
 						<br>
 						<label>Feedbacks</label>
-						<div class="panel panel-default">
-						  <div class="panel-heading">Nome Cognome</div>
-						  <div class="panel-body">
-						    Sei uno stronzo
-						  </div>
+						<div id="feedbacks">
+							<!--
+							Spazio dedicato ai feedbacks
+							-->
 						</div>
 					</div>
 				</div>

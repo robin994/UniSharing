@@ -1,3 +1,14 @@
 #colonna_centrale {
-  margin:50%;
+  margin-left:2vw;
+  margin-right:2vw;
+}
+
+.half:after {
+    content:'';
+    position:absolute;
+    z-index:1;
+    background:#f0f0f0;
+    width: 50%;
+    height: 100%;
+    left: 47%;
 }
