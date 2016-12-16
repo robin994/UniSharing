@@ -1,11 +1,9 @@
 <?
 
 	$cookie = $_COOKIE['user'];
-	
-	header("location: http://www.gazzettadellosport.it");
-	
+	var_dump($cookie);
+		
 	if(isset($cookie)) {
-		header("location: http://www.gazzettadellosport.it");
 		exit;
 	}
 	

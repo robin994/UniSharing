@@ -4,12 +4,12 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<title>UniSharing</title>
-        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../css/login.css" rel="stylesheet" media="screen">
-				<script src="../../js/jquery.1.12.js"></script>
-    		<script src="../../js/bootstrap.min.js"></script>
-        <script src="../../js/functions.js"></script>
-        <script src="../../js/jquery.cookie.js"></script>
+        <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="students/css/login.css" rel="stylesheet" media="screen">
+				<script src="js/jquery.1.12.js"></script>
+    		<script src="js/bootstrap.min.js"></script>
+        <script src="js/functions.js"></script>
+        <script src="js/jquery.cookie.js"></script>
 				<script>
 			$(function() {
 				
