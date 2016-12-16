@@ -1,6 +1,16 @@
 <?
 
-class Research{
+// interfaccia della classe
+interface IResearch{
+	
+	//metodo che effettua la ricerca degli utenti
+	public function researchUsers($param);
+	
+}
+
+
+// definizione della classe
+class Research implements IResearch{
 
 	private $connect;
 

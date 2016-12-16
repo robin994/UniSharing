@@ -2,10 +2,33 @@
 
 include "Account.php";
 
-class User extends Account{
+
+interface IUser{
+	
+	// metodo che permette di registrare un nuovo utente
+	public function signin($post);
+	
+	// metodo che effettua il login
+	public function login($post);
+	
+	// metodo che cambia lo score
+	public function setScore($post);
+	
+	// metodo che preleva lo score
+	public function getScore();
+	
+	// metodo che fornisce le info dell'utente
+	public function getProfile();
+	
+}
+
+class User extends Account implements IUser{
 
 	//private $connect;
 	private $notify;
+	
+	// costruttore della classe
+	protected function __construct(){}
 
 	public function init(){
 
@@ -212,8 +235,54 @@ class User extends Account{
 
 		return json_encode($objJSON);
 	}
-	/////////// FINE METODO LOGIN /////////
+	/////////// FINE METODO SET SCORE /////////
 
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	/////////// METODO CHE PRELEVA LO SCORE DELL'UTENTE /////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+
+	public function getScore($post){
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();
+
+		$query = "SELECT score FROM _user WHERE email = '".$post["user"]."'";
+		
+		//la passo la motore MySql
+		$result = $this->connect->myMultiQuery($query);
+
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo	
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+				//la chiamata ha avuto successo
+				$objJSON["success"] = true;
+				$objJSON["results"] = array();
+				
+				$row = mysqli_fetch_array($result);
+				$objJSON["score"] = $row["score"];
+
+			}
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+	}
+	/////////// FINE METODO LOGIN /////////
 
 
 	/////////////////////////////////////////////////////////
@@ -272,7 +341,7 @@ class User extends Account{
 		return $objJSON;
 	}
 
-	public function getProfilo($idUser) {
+	public function getProfil($idUser) {
 
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -291,7 +360,7 @@ class User extends Account{
 		if($this->connect->errno()){
 
 			//la chiamata non ha avuto successo
-			$rowValori = mysqli_fetch_array($result)
+			$rowValori = mysqli_fetch_array($result);
 			$objJSON["idUser"] = $rowValori["id"];
 			$objJSON["name"] = $rowValori["name"];
 
