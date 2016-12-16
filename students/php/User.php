@@ -353,19 +353,27 @@ class User extends Account implements IUser{
 		return $objJSON;
 	}
 
+<<<<<<< HEAD
 
 	////////////////////////////////////////////////////////////////////
 	/////////// METODO RICEVE I DATI DEL PROFILO DELL'UTENTE ///////////
 	////////////////////////////////////////////////////////////////////
 
+=======
+>>>>>>> origin/master
 	public function getProfile($post) {
 
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
+<<<<<<< HEAD
+=======
+		//var_dump($post);
+>>>>>>> origin/master
 
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
+<<<<<<< HEAD
 		$query = "SELECT 	_user.*,
 							FEATURES.features as features
 							FROM 	_user
@@ -382,6 +390,9 @@ class User extends Account implements IUser{
 							 
 							WHERE _user.email = '".$post["user"]."'";
 
+=======
+		$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
+>>>>>>> origin/master
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -390,8 +401,12 @@ class User extends Account implements IUser{
 		if($this->connect->errno()){
 
 			//la chiamata non ha avuto successo
+<<<<<<< HEAD
 			$objJSON["success"] = false;
 			$objJSON["messageError"] = $this->connect->error();
+=======
+			//var_dump($objJSON);
+>>>>>>> origin/master
 
 			//Disconnetto dal database
 			$this->connect->disconnetti();
@@ -404,6 +419,7 @@ class User extends Account implements IUser{
 			$objJSON["results"] = array();
 
 			$rowValori = mysqli_fetch_array($result);
+<<<<<<< HEAD
 			$objJSON["results"][0]["idUser"] = $rowValori["idUser"];
 			$objJSON["results"][0]["name"] = $rowValori["name"];
 			
@@ -424,6 +440,22 @@ class User extends Account implements IUser{
 			
 			//Disconnetto dal database
 			$this->connect->disconnetti();
+=======
+			$objJSON["email"] = $rowValori["email"];
+			$objJSON["name"] = $rowValori["name"];
+			$objJSON["surname"] = $rowValori["surname"];
+			$objJSON["telephone"] = $rowValori["telephone"];
+			$objJSON["address"] = $rowValori["address"];
+			$objJSON["birthOfDay"] = $rowValori["birthOfDay"];
+			$objJSON["pathImage"] = $rowValori["pathImage"];
+			$objJSON["description"] = $rowValori["description"];
+			$objJSON["score"] = $rowValori["score"];
+			$objJSON["numberOfFeedback"] = $rowValori["numberOfFeedback"];
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			//var_dump($objJSON);
+>>>>>>> origin/master
 			return json_encode($objJSON);
 		}
 	}
