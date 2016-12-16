@@ -10,36 +10,12 @@
     		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
+				<style>
+					@import(/css/description.css);
+				</style>
 				<script>
 			$(function() {
-
-
 				alert($.cookie('user'));
-
-				$("#btn-login").on("click", function() {
-
-					console.log("HO CLICCATO SUL TASTO DELLA LOGIN");
-
-
-					var boo;
-					var username = $("#username").val();
-					var password = $("#password").val();
-
-					if(!username){
-						alert("Non hai inserito l'username");
-						return;
-					}
-
-					if(!password){
-						alert("Non hai inserito la password");
-						return;
-					}
-
-					var param = {
-						"username": username,
-						"password": password
-					}
-
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
 					function callBackLogin(data){
 
@@ -55,23 +31,18 @@
 							alert("Utente non riconosciuto!");
 						}else{
 
-							// creo il cookie
-							$.cookie('user', {"idUser":results[0].idUser, "username":data.results[0].username, "name":data.results[0].name, "surname":data.results[0].surname, "pathImage":data.results[0].pathImage});
-						}
+					}
 
 
 					}
 
-					$.unisharing("User", "login", "private", {"user":  param}, false, callBackLogin);
-
-
-					});
+					$.unisharing("User", "getProfilo", "public", {"idUser":  '13'}, false, callBackLogin);
 				});
 			</script>
 	</head>
+
 	<body>
         <header>
-
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
@@ -100,32 +71,56 @@
                 </div>
             </nav>
         </header>
-        <div id="conteiner" class="container">
-					<div class="col-md-4"></div>
-					<div class="row" id="pwd-container">
-
-					<div class="col-md-4">
-      <section class="login-form">
-        <div class="divlogin">
-          <center><img src="../../img/logo.png" class="img-responsive" alt=""></center><br>
-          <input id="username" type="email" name="email" placeholder="Username" required="" class="form-control input-lg">
-
-          <input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
-          <button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Log in</button>
-
-          <div><br>
-            <center><a href="#">Crea account</a> o <a href="#">ripristina password</a></center>
-          </div>
-
-        </div>
-
-      </section>
-		</div>
-	<div class="col-md-4"></div>
-
+				<center><label>Profilo Utente</label></center><br>
+    <div id="conteiner" class="container">
+			<div class="row">
+				<div class="col-lg-3" id="colonna_laterale">
+					<center><img src="http://simpleicon.com/wp-content/uploads/account.png" style="width:50%; height:50%"></center>
+					<center><label>Nome Cognome</label></center>
+					<center><label>Università</label></center>
+					<center><label>Facoltà</label></center>
+					<div class="row" id="colonna_centrale">
+						<div class="col-lg-12">
+							<label>Email</label>
+							<p>email</p>
+						</div>
+						<div class="col-lg-12">
+							<label>Indirizzo</label>
+							<p>Indirizzo</p>
+						</div>
+						<div class="col-lg-12">
+							<label>Telefono</label>
+							<p>Telefono</p>
+						</div>
+						<div class="col-lg-12" >
+							<label>Data di nascita</label>
+							<p>Data di nascita</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6" style='text-align:justify'>
+					<div class="row" id="descrizione">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore magna
+						aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+						ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+						aute irure dolor in reprehenderit in voluptate velit esse cillum
+						dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					</div>
+					<div class="row" id="feedbacks"> <!-- FEEDBACK utenti -->
+						<br>
+						<label>Feedbacks</label>
+						<div class="panel panel-default">
+						  <div class="panel-heading">Nome Cognome</div>
+						  <div class="panel-body">
+						    Sei uno stronzo
+						  </div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
     <footer>
 
     </footer>
