@@ -50,11 +50,12 @@ class Ranking implements IRanking{
 				$objJSON["results"][$cont]["name"] = $rowValori["name"];
 				$objJSON["results"][$cont]["surname"] = $rowValori["surname"];
 				$objJSON["results"][$cont]["pathImage"] = $rowValori["pathImage"];
-        $objJSON["results"][$cont]["address"] = $rowValori["address"];
-        $objJSON["results"][$cont]["score"] = $rowValori["score"];
-        $perc= $rowValori["score"]/($rowValori["numberOfFeedback"]*100);
-        $objJSON["results"][$cont]["percent"] = $perc;
-        $cont++;
+				$objJSON["results"][$cont]["address"] = $rowValori["address"];
+				$objJSON["results"][$cont]["score"] = $rowValori["score"];
+				
+				$perc = 5*($rowValori["score"]/$rowValori["numberOfFeedback"]);
+				$objJSON["results"][$cont]["percent"] = $perc;
+				$cont++;
 			}
 		}
 		//Disconnetto dal database

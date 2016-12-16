@@ -30,18 +30,11 @@
 							console.log(data.results[i]);
 							tmp += '<tr>';
 							tmp +=  '<td>'+(i+1)+'</td>';
-	            tmp +=  '<td>'+data.results[i].name+' '+data.results[i].surname+'</td>';
-	            tmp +=  '<td>'+ data.results[i].score+ ' </td>';
+							tmp +=  '<td>'+data.results[i].name+' '+data.results[i].surname+'</td>';
+							tmp +=  '<td>'+ data.results[i].score+ ' </td>';
 							tmp +=	'<td>';
-							/*tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-							tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-							tmp += '</div>';
-*/
-							console.log(data.results[i].percent);
+	
+						
 							if(data.results[i].percent > 0 && data.results[i].percent <= 20){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -51,8 +44,8 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-	/*
-							if(data.results[i].percent >20 && data.results[i].score <= 40){
+	
+							if(data.results[i].percent >20 && data.results[i].percent <= 40){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -61,7 +54,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-							if(data.results[i].percent >40 && data.results[i].score <= 60){
+							if(data.results[i].percent >40 && data.results[i].percent <= 60){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -70,7 +63,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-							if(data.results[i].percent >60 && data.results[i].score <= 80){
+							if(data.results[i].percent >60 && data.results[i].percent <= 80){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -79,7 +72,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-							if(data.results[i].percent >80 && data.results[i].score <= 100){
+							if(data.results[i].percent >80 && data.results[i].percent <= 100){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -88,7 +81,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 								tmp += '</div>';
 							}
-*/
+
 							tmp += '</td>';
 						  tmp += '</tr>';
 				}
