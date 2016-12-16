@@ -22,9 +22,7 @@ class Group {
 		
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
-		
-		//Costruisco l'operazione prendendo il valore passato come parametro al metodo
-		$account = $post["group"]["account"];
+	
 		
 		// creo la query in sql
 		$query = "";
@@ -72,7 +70,7 @@ class Group {
 	/////////// METODO CHE PERMETTE VISUALIZZAZIONE DEI GRUPPI A CUI SONO AMMINISTRATORE  //////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public function viewAdminGroup($post){
+	public function getAdminGroup($post){
 		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -80,13 +78,12 @@ class Group {
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 		
-		//Costruisco l'operazione prendendo il valore passato come parametro al metodo
-		$account = $post["group"]["account"];
-		
 		// creo la query in sql
-		$query = "SELECT _group.name as name, _group.expirationDate as expirationDate  
+		$query = "SELECT 	_group.name as name, 
+							_group.creationDate as creationDate,
+							_group.expirationDate as expirationDate  
 				  FROM _group
-				  WHERE _group.account = 'tester1@unisharing.it'";
+				  WHERE 	_group.account = '".$post["account"]."'";
 				  
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -114,6 +111,7 @@ class Group {
 			//itero i risultati ottenuti dal metodo
 			while($rows = mysqli_fetch_array($result)){
 				$objJSON["results"][$cont]["name"] = $rows["name"];
+				$objJSON["results"][$cont]["creationDate"] = $rows["creationDate"];
 				$objJSON["results"][$cont]["expirationDate"] = $rows["expirationDate"];
 				$cont++;
 			}
@@ -126,11 +124,11 @@ class Group {
 	/////////// FINE METODO CHE EFFETTUA L'ABBANDONO DEL GRUPPO /////////
 
 
-	///////////////////////////////////////////////////////////
-	/////////// METODO CHE PERMETTE L'ABBANDONO  //////////////
-	///////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	/////////// METODO CHE PRELEVA I GRUPPI IN CUI L'UTENTE PATECIPA  //////////////
+	////////////////////////////////////////////////////////////////////////////////
 	
-	public function getGroup($post){
+	public function getPartecipateGroup($post){
 		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -139,15 +137,31 @@ class Group {
 		$this->connect->connetti();
 		
 		//Costruisco l'operazione prendendo il valore passato come parametro al metodo
-		$account = $post["group"]["account"];
-		
-		// creo la query in sql
-		$query = "SELECT 	u.name as name,
-							u.surname as surname,
-							_group.name as namegroup,  
-							_group.expirationDate as expirationDate 
-				  FROM _accountpartecipateuser as p JOIN _group as g on p.groupId = g.idGroup, _user as u";
-				  
+		$query = "SELECT 	USER.name as name,
+							USER.surname as surname,
+							USER.email as email,
+							g.idGroup as idGroup,
+							g.name as namegroup,  
+							g.expirationDate as expirationDate 
+					FROM 	_accountpartecipategroup as apg,
+							_group as g 
+							
+							LEFT JOIN(
+							 SELECT 
+							 	_user.idUser as userId,
+								_user.email as email,
+								_user.name as name,
+								_user.surname as surname
+								FROM _user
+							) as USER ON USER.email = g.account
+							
+							
+					WHERE 	apg.account = '".$post["account"]."' AND
+							g.account != '".$post["account"]."' AND
+							apg.groupId = g.idGroup
+			";
+			
+		  
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 		
@@ -156,8 +170,7 @@ class Group {
 
 			//la chiamata non ha avuto successo
 			$objJSON["success"] = false;
-			$objJSON["messageError"] = "Errore:";
-			$objJSON["error"] = $this->connect->error();
+			$objJSON["messageError"] = $this->connect->error();
 
 			//Disconnetto dal database
 			$this->connect->disconnetti();
@@ -176,7 +189,9 @@ class Group {
 				$objJSON["results"][$cont]["name"] = $rows["name"];
 				$objJSON["results"][$cont]["surname"] = $rows["surname"];
 				$objJSON["results"][$cont]["namegroup"] = $rows["namegroup"];
-				$objJSON["results"][$cont]["expirationdate"] = $rows["expirationDate"];
+				$objJSON["results"][$cont]["email"] = $rows["email"];
+				$objJSON["results"][$cont]["expirationDate"] = $rows["expirationDate"];
+				$objJSON["results"][$cont]["idGroup"] = $rows["idGroup"];
 				$cont++;
 			}
 		}
@@ -185,7 +200,7 @@ class Group {
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
 	} 
-	/////////// FINE METODO CHE EFFETTUA L'ABBANDONO DEL GRUPPO /////////
+	/////////// FINE METODO CHE PRELEVA I GRUPPI NEI QUALI PARTECIPO /////////
 	
 	////////////////////////////////////////////////////////////////////
 	/////////// METODO CHE PERMETTE LA VISUALIZZAZIONE DEI DETTAGLI ////

@@ -33,24 +33,25 @@
 					
 					var tmp= "";
 						
-					for (var i=0; i<data.results.lenght; i++){
+					for (var i=0; i<data.results.length; i++){
 						console.log (data.results[i]);
 							
-							tmp='<tbody>';
-      						tmp=	'<tr>';
+							//tmp='<tbody>';
+      						tmp=	'<tr class= "active">';
        						tmp=		'<td>'+data.results[i].name+'</td>';
-       						tmp=		'<td>'+data.results[i].expirationDate+'</td>';
+       						tmp=		'<td>'+data.results[i].creationDate+'</td>';
+							tmp=		'<td>'+data.results[i].expirationDate+'</td>';
                             tmp=		'<td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
       						tmp=	'</tr>';      
-    			 			tmp='</tbody>';
-						}
+    			 			//tmp='</tbody>';
+					}
 						
 						$("#ris").html("");
 						$("#ris").html(tmp);
 					}
 					
-					$.unisharing("Group", "viewAdminGroup", "private", {"group": param}, false, callBackViewAdminGroup);
-				}
+					$.unisharing("Group", "getAdminGroup", "private", param, false, callBackViewAdminGroup);
+				
 			});
         </script>
         
@@ -92,12 +93,13 @@
     					<thead>
       						<tr>
         						<th>Nome</th>
+                                <th>Data creazione</th>
        					 		<th>Data scadenza</th>
                                 <th>Attività</th>
       						</tr>
-    					</thead>
-    					<tbody id="ris">
-                        </tbody>
+                            <tbody id="ris">
+                            </tbody>
+                        </thead>
  				 	</table>
        			</div>
         		<div class="col-lg-2"></div>

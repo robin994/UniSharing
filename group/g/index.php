@@ -37,7 +37,7 @@
 						console.log(data);
 
 						if(!data.success){
-							alert("Errore! " + data.errorMessage);
+							alert("Errore: " + data.messageError);
 							return;
 						}
 												
@@ -55,7 +55,7 @@
 								tmp +=  '<td>'+data.results[i].namegroup+'</td>';
 								tmp += 	'<td>'+data.results[i].expirationDate+'</td>';
 								tmp += 	'<td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>';
-								tmp += 		'<a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a>';
+								tmp += 		'<a class="btn_leave_g" idGroup="'+data.results[i].idGroup+'"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a>';
 								tmp += 	'</td>';
 								tmp += '</tr>';
 							}
@@ -67,11 +67,17 @@
 
 			
 
-			$.unisharing("Group", "getGroup", "private", {"group": param}, false, callBackViewGroup);
+			$.unisharing("Group", "getPartecipateGroup", "private", param, false, callBackViewGroup);
 			
 			
 			// sdfosdif	
 			$(".btn_leave_g").on("click", function(e){
+				
+					var idGroup = $(this).attr("idGroup");
+					
+					var param = {
+						"account": "tester1@unisharing.it"
+					}
 				
 				   $.confirm({
 						title: 'Attenzione!',
@@ -80,45 +86,11 @@
 							confirm: function () {
 								alert("HAI CLICCATO CONFERMA!");
 								
-								function callBackViewGroup(data){
-
-								console.log(data);
-
-								if(!data.success){
-									alert("Errore! " + data.errorMessage);
-									return;
-								}
-						
-									var tmp= "";		
-									for (var i=0; i<data.results.length; i++){
-										console.log (data.results[i]);
-										
-										tmp += '<tr class="active">';
-										tmp += 	'<td>'+data.results[i].name + data.results[i].surname+'</td>'; 
-										tmp +=  '<td>'+data.results[i].namegroup+'</td>';
-										tmp += 	'<td>'+data.results[i].expirationDate+'</td>';
-										tmp += 	'<td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a>';
-										tmp += 		'<a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a>';
-										tmp += 	'</td>';
-										tmp += '</tr>';
-									}
-								
-								$("#ris").html("");
-								$("#ris").html(tmp);
-								}
-
-			
-
-			$.unisharing("Group", "getGroup", "private", {"group": param}, false, callBackViewGroup);
-							},
-							cancel: function (){	
+								function leaveGroup(data){}
 							}
 						}
-					});
+				   });
 			});
-			
-			
-		});
 		
 		
 		</script>
