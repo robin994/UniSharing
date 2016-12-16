@@ -1,7 +1,7 @@
 <?
 
 // interfaccia della classe
-interface Ranking{
+interface IRanking{
 
 	// metodo che resistuisce la classifica
 	public function getRanking($param);	
@@ -10,7 +10,7 @@ interface Ranking{
 
 
 //definizione della classe
-class Ranking implements Ranking{
+class Ranking implements IRanking{
 	
 	private $connect;
 	
