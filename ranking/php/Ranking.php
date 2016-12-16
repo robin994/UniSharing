@@ -1,13 +1,29 @@
 <?
-class Ranking{
+
+// interfaccia della classe
+interface Ranking{
+
+	// metodo che resistuisce la classifica
+	public function getRanking($param);	
+	
+}
+
+
+//definizione della classe
+class Ranking implements Ranking{
+	
 	private $connect;
+	
 	public function init(){
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
 	}
+	
 	public function getRanking($post){
+		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
+		
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 		//costruisco la query di select

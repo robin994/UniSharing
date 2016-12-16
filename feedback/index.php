@@ -51,7 +51,7 @@
 								// Visualizzo il messaggio di conferma per l'inserimento dei feedback
 								$.confirm({
 								title: 'Complimenti, hai completato un rapporto di studi',
-								content: 'Desideri lasciare un feedback per utenti che hanno partecipato al gruppo?',
+								content: 'Desideri lasciare un feedback per gli utenti che hanno partecipato al gruppo?',
 								buttons: {
 									confirm: function () {
 										

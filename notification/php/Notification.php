@@ -1,17 +1,30 @@
 <?
 
+/*
+* Utilizzo del design pattern PHPMailer
+*/
+
+// interfaccia
+interface INotification{
+	
+	// metodo che invia le email
+	public function send($from, $to, $object, $message);
+	
+}
+
 require_once 'PHPMailerAutoload.php';
 require_once('class.phpmailer.php');
 
-class Notification{
+// Classe
+class Notification implements INotification{
 	
 	private $send;
 	
-	function __construct(){ 
-	}
+	// costruttore della classe
+	public function __construct(){}
 	
+	// metodo che invia le email
 	public function send($from, $to, $object, $message){
-		
 		
 		//istanziamo la classe
 		$this->send = new PHPmailer();

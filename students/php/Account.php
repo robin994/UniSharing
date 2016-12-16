@@ -1,9 +1,14 @@
 <?
 
+
 class Account{
 	
 	protected $connect;
 	
+	// costruttore della classe
+	protected function __construct(){}
+	
+	// metodo di inizializzazione
 	protected function initialize(){
 		
 		//istanzio l'oggetto ConnectionDB
@@ -13,6 +18,11 @@ class Account{
 		define("SALT","unisharing2016");	
 		
 	}
+	
+	
+	///////////////////////////////////////////////////////////
+	/////// METODO CHE VERIFICA L'ESISTENZA DI UN ACCOUNT /////
+	///////////////////////////////////////////////////////////
 	
 	private function accountExist($post){
 		
@@ -68,6 +78,9 @@ class Account{
 	}
 	
 	
+	///////////////////////////////////////////////////////////
+	/////// METODO CHE PERMETTE L'ACCESSO /////////////////////
+	///////////////////////////////////////////////////////////
 	
 	protected function access($post){
 		
@@ -140,6 +153,10 @@ class Account{
 		return json_encode($objJSON);
 		
 	}
+	
+	///////////////////////////////////////////////////////////
+	/////// METODO CHE SALVA L'ACCOUNT ////////////////////////
+	///////////////////////////////////////////////////////////
 	
 	protected function saveAccount($post){
 		

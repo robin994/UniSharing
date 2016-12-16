@@ -2,15 +2,32 @@
 
 include "Account.php";
 
-class User extends Account{
+interface IUser{
+	
+	// metodo che permette l'iscrizione dell'utente
+	public function signin($param);
+	
+	// metodo che effettua la login dell'utente
+	public function login($param);
+	
+	// metodo che modifica lo score dell'utente
+	public function setScore($param);
+	
+	// metodo che restituisce lo score dell'utente
+	public function getScore($param);
+	
+}
+
+
+class User extends Account implements IUser{
 
 	//private $connect;
 	private $notify;
+	
+	// costruttore della classe
+	public function __construct(){}
 
 	public function init(){
-
-		//istanzio l'oggetto ConnectionDB
-		//$this->connect = new ConnectionDB();
 		
 		// inizializzo la classe Account che estende
 		$this->initialize();
@@ -271,6 +288,54 @@ class User extends Account{
 				
 		return $objJSON;
 	}
+	
+	
+	//////////////////////////////////////////////////////
+	///////// METODO CHE RICEVE LO SCORE DELL'UTENTE /////
+	//////////////////////////////////////////////////////
+	
+	public function getScore($param){
+		
 
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+		
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();	
+			
+		//formulo la query di inserimento
+		$query = "SELECT score FROM _user WHERE email = '".$post["user"]."'";	
+			
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+		
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+			//la chiamata ha avuto successo
+			$objJSON["success"] = true;
+			$objJSON["results"] = array();
+			
+			$row = mysqli_fetch_array($result);
+			$objJSON["score"] = $row["score"];
+		
+		}
+		
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+		
+	}
 }
 ?>
