@@ -1,26 +1,40 @@
 <?
 
+// interfaccia della classe
+interface IFeedback{
+	
+	// controlla se sono stati inseriti i feedback per un determinato gruppo
+	public function checkFeedback($param);
+	
+	// inserisce dei feedback per gli utenti appartenenti ad un gruppo
+	public function insertFeedback($param);
+		
+}
 
-class Feedback{
 
-	//private $connect;
+// definizione della classe
+class Feedback implements IFeedback{
+
+	// oggetto di tipo ConnectionDB
 	private $connect;
 
-	public function init(){
+	// costruttore della classe
+	public function __costructor(){}
 
+	// construttore della classe
+	public function init(){
+		
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
 
 	}
 
-
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	////////// METODO CHE CONTROLLA SE ESISTONO FEEDBACK DA INSERIRE PER UTENTI DI UN GRUPPO
-	////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	////////// METODO CHE CONTROLLA SE ESISTONO FEEDBACK DA INSERIRE PER UTENTI DI UN GRUPPO ////
+	////////// RESTITUISCE L'ELENCO DEGLI UTENTI DEL GRUPPO CHE NON HANNO RICEVUTO IL FEEDBACK //
+	////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public function checkFeedback($post){
-
 
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
@@ -172,6 +186,18 @@ class Feedback{
 				$user = new User();
 				$user->init();
 				$user->setScore($post);
+				
+				
+				// invio a tutti gli utenti a cui ho inserito un feedback la notifica
+				$notify = new Notification();
+				$from = "l.vitale@live.it";
+				$object = "L'utente ".$_COOKIE["name"]." ".$_COOKIE["surname"]." ha inserito un feedback per te";	
+				$message = "<html><body style='font-family:courier;font-size:16px;'>L'utente ".$_COOKIE["name"]." ".$_COOKIE["surname"]." ha inserito un feedback per te<br></body></html>";
+				
+				for($j = 0;$j < count($post["feedbacks"]);$j++){
+					$to = $post["feedbacks"][$j]["user"];
+					$notify->send($from, $to, $object, $message);
+				}
 	
 			}
 	
@@ -180,8 +206,8 @@ class Feedback{
 			$this->connect->disconnetti();
 			
 		}
+		
 		return json_encode($objJSON);
-
 	}
 	
 	

@@ -26,8 +26,11 @@
 					
 						mask_feedback = html;
 					
-						var idGruppo = "1";
-						var userLoggato = "tester1@unisharing.it"; //tester1
+						//var idGruppo = "1";
+						//var userLoggato = "tester1@unisharing.it"; //tester1
+			
+						var idGruppo = "<?php echo $_GET["g"]; ?>";
+						var userLoggato = "<?php echo $_GET["u"]; ?>";
 			
 						function callBackCheckFeedback(data){
 				
@@ -44,96 +47,112 @@
 							
 							if(data.results.length > 0){
 								
-								$("#Mask_feedback").append('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><h2>Congratulazioni</h2><h3>Ancora una volta hai portato a termine una nuova esperienza, vuoi raccontarci com\'è andata?</h3></div>');
 								
-								for(var i = 0;i < data.results.length;i++){
+								// Visualizzo il messaggio di conferma per l'inserimento dei feedback
+								$.confirm({
+								title: 'Complimenti, hai completato un rapporto di studi',
+								content: 'Desideri lasciare un feedback per gli utenti che hanno partecipato al gruppo?',
+								buttons: {
+									confirm: function () {
+										
 									
-									var mask_feed = $.parseHTML(html);
-									
-									$(mask_feed).attr("groupId", data.results[i].group);
-									$(mask_feed).attr("account", data.results[i].account);
-									
-									$(mask_feed).find(".optradio_1").attr("name", "_"+i+"optradio_1");
-									$(mask_feed).find(".optradio_2").attr("name", "_"+i+"optradio_2");
-									$(mask_feed).find(".optradio_3").attr("name", "_"+i+"optradio_3");
-									$(mask_feed).find(".optradio_4").attr("name", "_"+i+"optradio_4");
-									
-									$("#Mask_feedback").append("<h3>Come si è comportato "+ data.results[i].name + " " + data.results[i].surname+"?");
-									$("#Mask_feedback").append(mask_feed);
-								}
+									$("#Mask_feedback").append('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><h2>Congratulazioni</h2><h3>Ancora una volta hai portato a termine una nuova esperienza, vuoi raccontarci com\'è andata?</h3></div>');
 								
-								$("#Mask_feedback").append('<center><a class="bottoneInvioFeedback"><button type="button" class="btn btn-primary btn-lg">Salva Feedback</button></a></center><br><br>');
-								
-								
-								
-								////////////////////////////////////////////////////////////////////////
-								/////////////// FUNZIONE DI CLICK CHE AVVIA IL SALVATAGGIO /////////////
-								////////////////////////////////////////////////////////////////////////
-								
-								$(".bottoneInvioFeedback").on("click", function(){
-									
-									
-									var param = {
-										"feedbacks": []	,
-										"group": "",
-										"author": userLoggato
+									for(var i = 0;i < data.results.length;i++){
+										
+										var mask_feed = $.parseHTML(html);
+										
+										$(mask_feed).attr("groupId", data.results[i].group);
+										$(mask_feed).attr("account", data.results[i].account);
+										
+										$(mask_feed).find(".optradio_1").attr("name", "_"+i+"optradio_1");
+										$(mask_feed).find(".optradio_2").attr("name", "_"+i+"optradio_2");
+										$(mask_feed).find(".optradio_3").attr("name", "_"+i+"optradio_3");
+										$(mask_feed).find(".optradio_4").attr("name", "_"+i+"optradio_4");
+										
+										$("#Mask_feedback").append("<h3>Come si è comportato "+ data.results[i].name + " " + data.results[i].surname+"?");
+										$("#Mask_feedback").append(mask_feed);
 									}
 									
-									$(".Feedback").each(function(){
+									$("#Mask_feedback").append('<center><a class="bottoneInvioFeedback"><button type="button" class="btn btn-primary btn-lg">Salva Feedback</button></a></center><br><br>');
+									
+									
+									
+									////////////////////////////////////////////////////////////////////////
+									/////////////// FUNZIONE DI CLICK CHE AVVIA IL SALVATAGGIO /////////////
+									////////////////////////////////////////////////////////////////////////
+									
+									$(".bottoneInvioFeedback").on("click", function(){
 										
-										var user = $(this).attr("account");
-										var gruppo = $(this).attr("groupId");
 										
-										param.group = gruppo;
-										
-										var feed1 = $(this).find(".optradio_1:checked").val();
-										var feed2 = $(this).find(".optradio_2:checked").val();
-										var feed3 = $(this).find(".optradio_3:checked").val();
-										var feed4 = $(this).find(".optradio_4:checked").val();
-										var comment = $(this).find(".comment").val();
-										
-										var score = parseInt(feed1) + parseInt(feed2) + parseInt(feed3) + parseInt(feed4);
-										
-										var tmp_feed = {
-											"feed1": feed1,
-											"feed2": feed2,
-											"feed3": feed3,
-											"feed4": feed4,
-											"user": user,
-											"score": score,
-											"comment": comment
+										var param = {
+											"feedbacks": []	,
+											"group": "",
+											"author": userLoggato
 										}
 										
-										param.feedbacks.push(tmp_feed);
+										$(".Feedback").each(function(){
+											
+											var user = $(this).attr("account");
+											var gruppo = $(this).attr("groupId");
+											
+											param.group = gruppo;
+											
+											var feed1 = $(this).find(".optradio_1:checked").val();
+											var feed2 = $(this).find(".optradio_2:checked").val();
+											var feed3 = $(this).find(".optradio_3:checked").val();
+											var feed4 = $(this).find(".optradio_4:checked").val();
+											var comment = $(this).find(".comment").val();
+											
+											var score = parseInt(feed1) + parseInt(feed2) + parseInt(feed3) + parseInt(feed4);
+											
+											var tmp_feed = {
+												"feed1": feed1,
+												"feed2": feed2,
+												"feed3": feed3,
+												"feed4": feed4,
+												"user": user,
+												"score": score,
+												"comment": comment
+											}
+											
+											param.feedbacks.push(tmp_feed);
+										});
+										
+										
+										console.log("ECCO I FEEDBACK");
+										console.log(param);
+										
+										///////////////////////////////////////////////////////////////////////////////
+										/////////////// METODO DELLA CLASSE FEEDBACK CHE SALVA I FEEDBACK /////////////
+										///////////////////////////////////////////////////////////////////////////////
+										
+										function callBackFeedback(data){	
+											console.log(data);
+	
+											if(!data.success){
+												alert("Errore! " + data.errorMessage);
+												return;
+											}
+											
+											
+											$("#Mask_feedback").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:34px;"/><br><br><span style="font-size:18px;">Feedback inseriti correttamente</span></div></center>');
+											
+											
+										}
+										
+										$.unisharing("Feedback", "insertFeedback", "private", param, false, callBackFeedback);
+										
 									});
-									
-									
-									console.log("ECCO I FEEDBACK");
-									console.log(param);
-									
-									///////////////////////////////////////////////////////////////////////////////
-									/////////////// METODO DELLA CLASSE FEEDBACK CHE SALVA I FEEDBACK /////////////
-									///////////////////////////////////////////////////////////////////////////////
-									
-									function callBackFeedback(data){	
-										console.log(data);
-
-										if(!data.success){
-											alert("Errore! " + data.errorMessage);
-											return;
-										}
-										
-										
-										$("#Mask_feedback").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:34px;"/><br><br><span style="font-size:18px;">Feedback inseriti correttamente/span></div></center>');
-										
-										
-									}
-									
-									$.unisharing("Feedback", "insertFeedback", "private", param, false, callBackFeedback);
-									
-								});
 								
+								},
 								
+							  cancel: function(){
+									 
+							  }
+						  }
+					  });		
+													
 								
 							}else{
 								

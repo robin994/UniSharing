@@ -1,6 +1,37 @@
 <?php
-class ConnectionDB{
 
+interface IConnectionDB{
+	
+	// metodo che connette al db	
+	public function connetti();
+	
+	//metodo che disconnette dal db
+	public function disconnetti();
+	
+	// metodo che implementa query multiple
+	public function myMultiQuery($query);
+
+	//metodo che implementa una query singola
+	public function myQuery($query);
+
+	// metodo che resituisce un valore boolean true se c'è stato un errore, false altrimenti
+	public function errno();
+
+	// metodo che restituisce l'errore nel dettaglio
+	public function error();
+
+	// metodo che restituisce il valore AUTO_INCREMENT nelle insert
+	public function insert_id();
+	
+	// metodo che itera le righe provenienti dal db
+	public function myFetch($result);
+	
+}
+
+
+class ConnectionDB implements IConnectionDB{
+
+	// dati di accesso al db su MAMP
 	private $db_host = "localhost";
 	private $db_user = "root";
 	private $db_password = "root";
@@ -52,6 +83,10 @@ class ConnectionDB{
 
 		mysqli_close($this->connessione);
 		$this->attiva = false;
+	}
+	
+	public function myFetch($result){
+		return mysqli_fetch_array($result);
 	}
 
 }

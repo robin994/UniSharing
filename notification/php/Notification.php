@@ -1,13 +1,30 @@
 <?
 
+/*
+* Utilizzo del design pattern PHPMailer
+*/
+
+// interfaccia
+interface INotification{
+	
+	// metodo che invia le email
+	public function send($from, $to, $object, $message);
+	
+}
+
 require_once 'PHPMailerAutoload.php';
 require_once('class.phpmailer.php');
 
-class Notification{
+// Classe
+class Notification implements INotification{
 	
 	private $send;
 	
-	function __construct(){
+	// costruttore della classe
+	public function __construct(){}
+	
+	// metodo che invia le email
+	public function send($from, $to, $object, $message){
 		
 		//istanziamo la classe
 		$this->send = new PHPmailer();
@@ -18,18 +35,16 @@ class Notification{
 		$this->send->SMTPAuth = true;                               // Enable SMTP authentication
 		$this->send->Username = 'info@quidfacis.it';                 // SMTP username
 		$this->send->Password = 'neonato2000'; 
-		$this->send->SMTPDebug = 4;
+		//$this->send->SMTPDebug = 4;
 		                          // SMTP password
 		//$this->send->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-		$this->send->Port = 587;  
-	}
-	
-	public function send($from, $to, $object, $message){
+		$this->send->Port = 587; 
 		
 		//definiamo le intestazioni e il corpo del messaggio
 		$this->send->From = $from;
 		$this->send->FromName = "Unisharing.it";
 		$this->send->AddAddress($to);
+		//$this->send->AddBCC($to, "Utente");
 		$this->send->Subject=$object;
 		$this->send->Body=$message;	
 		
