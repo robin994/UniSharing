@@ -341,16 +341,16 @@ class User extends Account implements IUser{
 		return $objJSON;
 	}
 
-	public function getProfile($idUser) {
+	public function getProfile($post) {
 
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
-		var_dump($idUser);
+		//var_dump($post);
 
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
-		$query = "SELECT * FROM _user where _user.idUser = ".$idUser[idUser];
+		$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -359,7 +359,7 @@ class User extends Account implements IUser{
 		if($this->connect->errno()){
 
 			//la chiamata non ha avuto successo
-			var_dump($objJSON);
+			//var_dump($objJSON);
 
 			//Disconnetto dal database
 			$this->connect->disconnetti();
@@ -368,11 +368,21 @@ class User extends Account implements IUser{
 		}else{
 
 			$rowValori = mysqli_fetch_array($result);
-			$objJSON["idUser"] = $rowValori["idUser"];
+			$objJSON["email"] = $rowValori["email"];
 			$objJSON["name"] = $rowValori["name"];
+			$objJSON["surname"] = $rowValori["surname"];
+			$objJSON["telephone"] = $rowValori["telephone"];
+			$objJSON["address"] = $rowValori["address"];
+			$objJSON["birthOfDay"] = $rowValori["birthOfDay"];
+			$objJSON["pathImage"] = $rowValori["pathImage"];
+			$objJSON["description"] = $rowValori["description"];
+			$objJSON["score"] = $rowValori["score"];
+			$objJSON["numberOfFeedback"] = $rowValori["numberOfFeedback"];
+
 			//Disconnetto dal database
 			$this->connect->disconnetti();
-			return var_dump($objJSON);
+			//var_dump($objJSON);
+			return json_encode($objJSON);
 		}
 	}
 

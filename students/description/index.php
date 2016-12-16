@@ -15,28 +15,27 @@
 				</style>
 				<script>
 			$(function() {
-				alert($.cookie('user'));
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
-					function callBackLogin(data){
+					function callBackDescription(data){
 
 
 						console.log(data);
 
-						if(!data.success){
-							alert("Errore! " + data.errorMessage);
-							return;
-						}
+						$("#description").html(data.description);
+						$("#telephone").html(data.telephone);
+						$("#nomeCompleto").html(data.name +  " " +data.surname);
+						$("#address").html(data.address);
+						$("#universita").html(data.universita);
+						$("#facolta").html(data.facolta);
+						$("#email").html(data.email);
+						$("#birthday").html(data.birthOfDay);
+						$("#imagePath").html("<img src=\"../../"+data.pathImage+"\">");
+						console.log(data.imagePath);
 
-						if(data.results.length <= 0){
-							alert("Utente non riconosciuto!");
-						}else{
 
 					}
 
-
-					}
-
-					$.unisharing("User", "getProfile", "public", {"idUser":  '13'}, false, callBackLogin);
+					$.unisharing("User", "getProfile", "public", {"idUser":  '13'}, false, callBackDescription);
 				});
 			</script>
 	</head>
@@ -71,42 +70,38 @@
                 </div>
             </nav>
         </header>
-				<center><label>Profilo Utente</label></center><br>
+				<center><h3>Profilo Utente</h3></center><br>
     <div id="conteiner" class="container">
 			<div class="row">
-				<div class="col-lg-3" id="colonna_laterale">
-					<center><img src="http://simpleicon.com/wp-content/uploads/account.png" style="width:50%; height:50%"></center>
-					<center><label>Nome Cognome</label></center>
-					<center><label>Università</label></center>
-					<center><label>Facoltà</label></center>
+				<div class="col-lg-3" id="colonna_laterale"> <!-- style="width:50%; height:50%;"-->
+					<center id="imagePath"><img src="http://simpleicon.com/wp-content/uploads/account.png" style="width:50%; height:50%"> </center>
+					<center><label id="nomeCompleto">Nome Cognome</label></center>
+					<center><label id="universita">Università</label></center>
+					<center><label id="facolta">Facoltà</label></center>
 					<div class="row" id="colonna_centrale">
 						<div class="col-lg-12">
 							<label>Email</label>
-							<p>email</p>
+							<p id="email">email</p>
 						</div>
 						<div class="col-lg-12">
 							<label>Indirizzo</label>
-							<p>Indirizzo</p>
+							<p id="address">Indirizzo</p>
 						</div>
 						<div class="col-lg-12">
 							<label>Telefono</label>
-							<p>Telefono</p>
+							<p id="telephone">Telefono</p>
 						</div>
 						<div class="col-lg-12" >
 							<label>Data di nascita</label>
-							<p>Data di nascita</p>
+							<p id="birthday">Data di nascita</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6" style='text-align:justify'>
-					<div class="row" id="descrizione">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-						sed do eiusmod tempor incididunt ut labore et dolore magna
-						aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-						ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-						aute irure dolor in reprehenderit in voluptate velit esse cillum
-						dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+					<div class="row">
+						<center><label>Descrizione</label></center>
+						<p id="description"> <!--DESCRIZIONE UTENTE -->
+						</p>
 					</div>
 					<div class="row" id="feedbacks"> <!-- FEEDBACK utenti -->
 						<br>
