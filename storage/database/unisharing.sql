@@ -187,7 +187,7 @@ CREATE TABLE `_group` (
   `idGroup` int(11) NOT NULL,
   `name` varchar(16) DEFAULT NULL,
   `creationDate` date DEFAULT NULL,
-  `expiartionDate` date DEFAULT NULL,
+  `expirationDate` date DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,
   `account` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
