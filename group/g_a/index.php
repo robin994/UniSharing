@@ -8,53 +8,54 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../css/group_style.css" rel="stylesheet" media="screen">
-        
+
         <script src="../../js/jquery.1.12.js"></script>
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
 	</head>
 	<body>
-            
+
         <script>
         	$(function(){
-				
+
 				var param = {
-					"account": "tester1@unisharing.it" 
+					"account": "tester1@unisharing.it"
 				}
-				
+
 				function callBackViewAdminGroup(data){
-					
+
 					console.log(data);
-					
+
 					if(!data.success){
 							alert("Errore! " + data.errorMessage);
 							return;
 					}
-					
+
 					var tmp= "";
-						
+					console.log ('ci sono');
 					for (var i=0; i<data.results.length; i++){
 						console.log (data.results[i]);
-							
+
 							//tmp='<tbody>';
-      						tmp=	'<tr class= "active">';
-       						tmp=		'<td>'+data.results[i].name+'</td>';
-       						tmp=		'<td>'+data.results[i].creationDate+'</td>';
-							tmp=		'<td>'+data.results[i].expirationDate+'</td>';
-                            tmp=		'<td><a href="#"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
-      						tmp=	'</tr>';      
+      						tmp +=	'<tr class= "active">';
+       						tmp +=		'<td>'+data.results[i].name+'</td>';
+       						tmp +=		'<td>'+data.results[i].creationDate+'</td>';
+									tmp +=		'<td>'+data.results[i].expirationDate+'</td>';
+                  tmp +=		'<td><a href="INSERIRE LINK QUI"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
+      						tmp +=	'</tr>';
     			 			//tmp='</tbody>';
 					}
-						
+
 						$("#ris").html("");
+						console.log (tmp);
 						$("#ris").html(tmp);
 					}
-					
+
 					$.unisharing("Group", "getAdminGroup", "private", param, false, callBackViewAdminGroup);
-				
+
 			});
         </script>
-        
+
         <header>
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
@@ -63,10 +64,10 @@
                         <button class="navbar-toggle" data-toggle="collapse" data-target="#navHeaderCollapse" >
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>   
+                            <span class="icon-bar"></span>
                         </button>
                     </div>
-                    <div class="collapse navbar-collapse" id="navHeaderCollapse">                   
+                    <div class="collapse navbar-collapse" id="navHeaderCollapse">
                         <ul class= "nav navbar-nav navbar-right">
                             <li class="active"><a href="index.html">Home</a></li>
                             <li><a href="">Profilo</a></li>
@@ -76,15 +77,15 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="">A cui partcipo</a></li>
                                     <li><a href="">Di cui sono amministratore</a></li>
-                                </ul> 
+                                </ul>
                              </li>
                             <li><a href=""> Segnalazione</a></li>
-                        </ul>                  
+                        </ul>
                     </div>
                 </div>
-            </nav> 
-        </header>    
-        <div class="container">   
+            </nav>
+        </header>
+        <div class="container">
        		<div class="row">
         		<div class="col-lg-2"></div>
         		<div class="col-lg-8">
@@ -104,9 +105,9 @@
        			</div>
         		<div class="col-lg-2"></div>
       		</div>
-            
-      </div>      
-      
+
+      </div>
+
         <footer>
         </footer>
 

@@ -4,17 +4,42 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
- 				<script src="../../js/jquery.1.12.js"></script>
+ 				<script src="../js/jquery.1.12.js"></script>
 				<link href="../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="../css/style.css" rel="stylesheet" media="screen">
-  		<script src="../../js/functions.js"></script>
+  			<script src="../js/functions.js"></script>
 				<link href="css/ranking.css" rel="stylesheet" media="screen">
 
 
     	<script src="../js/bootstrap.min.js"></script>
 
-
+			<style>
+			.star {
+		        font-size: x-large;
+		        width: 25px;
+		        display: inline-block;
+		        color: gray;
+		    }
+		    .star:last-child {
+		        margin-right: 0;
+		    }
+		    .star:before {
+		        content: '\2605';
+		    }
+		    .star.on {
+		        color: gold;
+		    }
+		    .star.half:after {
+		            content: '\2605';
+		            color: gold;
+		            margin-left: -20px;
+		            width: 10px;
+		            position: absolute;
+		            overflow: hidden;
+		        }
+			}
+			</style>
 
 		<script>
 		// ONLOAD JQUERY
@@ -33,8 +58,28 @@
 							tmp +=  '<td>'+data.results[i].name+' '+data.results[i].surname+'</td>';
 							tmp +=  '<td>'+ data.results[i].score+ ' </td>';
 							tmp +=	'<td>';
-	
-						
+							tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5" style="float: right;">';
+
+							// CREAZIONE STELLE PER IL RANKING
+
+							var k=0;
+							while (k < data.results[i].percent/20-1) {
+								console.log(k);
+								console.log(data.results[i].percent/20);
+								tmp += '<span class="star on"></span>';
+								k++;
+							}
+							if (data.results[i].percent/20 > Math.trunc(data.results[i].percent/20)) {
+								tmp += '<span class="star half"></span>';
+							} else {
+								tmp += '<span class="star on"></span>';
+							}
+							k++;
+							for (var j = 0; j<5-k;j++) {
+									tmp += '<span class="star"></span>';
+							}
+
+							/* OTTIMIZZATO BY ROB
 							if(data.results[i].percent > 0 && data.results[i].percent <= 20){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -44,7 +89,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
 								tmp += '</div>';
 							}
-	
+
 							if(data.results[i].percent >20 && data.results[i].percent <= 40){
 								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
@@ -81,7 +126,7 @@
 								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
 								tmp += '</div>';
 							}
-
+							*/
 							tmp += '</td>';
 						  tmp += '</tr>';
 				}
@@ -132,7 +177,6 @@
 	<table class="table table-striped">
 	        <thead>
 					<h1> Ranking </h1>
-
 	        </thead>
 					<h7> Clicca i nomi per visualizzare i profili sulla destra </h7><br><br>
 					<tbody id="idRanking">
