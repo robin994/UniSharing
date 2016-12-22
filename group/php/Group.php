@@ -273,13 +273,18 @@ class Group {
 		$query = "INSERT INTO _group (	name,
 										description,
 										universita,
-										facolta
+										facolta,
+										expirationDate,
+										creationDate,
+										account
 										) VALUES (
 										'".$post["user"]["name"]."',
 										'".$post["user"]["description"]."',
 										'".$post["user"]["universita"]."',
 										'".$post["user"]["facolta"]."',
 										'".$post["user"]["expirationDate"]."',
+										(SELECT curdate()),
+										'".$post["user"]["account"]."'
 										)";
 
 		var_dump($query);
@@ -307,5 +312,9 @@ class Group {
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
 	}
+}
+
+private function getCurrentDAte() {
+
 }
 ?>

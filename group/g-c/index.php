@@ -81,8 +81,10 @@
 							var name = $("#name").val();
 							var universita = $("#universita").val();
 							var facolta = $("#facolta").val();
+							var exam = $("#exam").val();
 							var description = $("#description").val();
 							var expirationDate = $("#expirationDate").val();
+							var account = null; //INSERIRE COOKIE
 							expirationDate
 
 							$(".features").each(function(){
@@ -155,6 +157,8 @@
 									"facolta":facolta,
 									"description": description,
 									"expirationDate": expirationDate,
+									"account": account,
+									"exam": exam;
 									}
 								}
 
@@ -217,6 +221,10 @@
 						<label>Facoltà</label>
 						<select id="facolta" name="selectbasic" class="form-control">
 						</select>
+					</div>
+					<div class="col-lg-12">
+						<label>Nome esame</label>
+						<input type="text" id="exam" class="form-control" placeholder="Nome esame" aria-describedby="basic-addon1" required>
 					</div>
 					<div class="col-lg-12">
 						<label>Descrizione</label>
