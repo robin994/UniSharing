@@ -158,7 +158,7 @@
 									"description": description,
 									"expirationDate": expirationDate,
 									"account": account,
-									"exam": exam;
+									"exam": exam,
 									}
 								}
 

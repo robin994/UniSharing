@@ -314,7 +314,4 @@ class Group {
 	}
 }
 
-private function getCurrentDAte() {
-
-}
 ?>
