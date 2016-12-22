@@ -272,16 +272,14 @@ class Group {
 		// creo la query in sql
 		$query = "INSERT INTO _group (	name,
 										description,
-										universita,
-										facolta,
+										exam,
 										expirationDate,
 										creationDate,
 										account
 										) VALUES (
 										'".$post["user"]["name"]."',
 										'".$post["user"]["description"]."',
-										'".$post["user"]["universita"]."',
-										'".$post["user"]["facolta"]."',
+										'".$post["user"]["exam"]."',
 										'".$post["user"]["expirationDate"]."',
 										(SELECT curdate()),
 										'".$post["user"]["account"]."'
@@ -289,7 +287,7 @@ class Group {
 
 		var_dump($query);
 		//la passo la motore MySql
-		//$result = $this->connect->myQuery($query);
+		$result = $this->connect->myQuery($query);
 
 		if($this->connect->errno()){
 

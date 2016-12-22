@@ -7,7 +7,6 @@
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
-      <!--  <link href="../css/students_style.css" rel="stylesheet" media="screen"> -->
         <script src="../../js/jquery.1.12.js"></script>
     		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
@@ -146,7 +145,7 @@
 								}
 
 
-								$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente</div></center>');
+								$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Gruppo creato correttamente</div></center>');
 
 							}
 
@@ -205,10 +204,10 @@
 	<div class="container">
 		<div class="row-fluid">
       <div class="col-lg-2"></div>
-			<div class="col-lg-8" id="result_message">
+			<div class="col-lg-8">
 				<h1>Creazione Gruppo</h1>
 				<div class="row-fluid">
-					<div class="col-lg-12">
+					<div class="col-lg-12" id="result_message">
 						<label>Nome gruppo</label>
 						<input type="text" id="name" class="form-control" placeholder="Nome Gruppo" aria-describedby="basic-addon1" required>
 					</div>
