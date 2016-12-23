@@ -189,7 +189,8 @@ CREATE TABLE `_group` (
   `creationDate` date DEFAULT NULL,
   `expirationDate` date DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,
-  `account` varchar(50) DEFAULT NULL
+  `account` varchar(50) DEFAULT NULL,
+  `idExam` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -197,7 +198,7 @@ CREATE TABLE `_group` (
 --
 
 INSERT INTO `_group` (`idGroup`, `name`, `creationDate`, `expiartionDate`, `description`, `account`) VALUES
-(1, 'I Magnifici 4', '2016-12-13', '2016-12-31', 'Studiare Ingegneria del software', 'tester1@unisharing.it');
+(1, 'I Magnifici 4', '2016-12-13', '2016-12-31', 'Studiare Ingegneria del software', 'tester1@unisharing.it','1');
 
 -- --------------------------------------------------------
 

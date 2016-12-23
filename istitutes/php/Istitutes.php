@@ -15,15 +15,15 @@ class Istitutes{
 	////////////////////////////////////////////////////////////////////
 	/////////// METODO CHE MI RESTITUISCE LE UNI ITALIANE //////////////
 	///////////////////////////////////////////////////////////////////
-	
+
 	public function getUniversities($post){
-		
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
-		
+
 		// creo la query in sql
 		$query = "SELECT * FROM _university";
 
@@ -57,29 +57,29 @@ class Istitutes{
 				$cont++;
 			}
 		}
-		
-	
+
+
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-		
-	} 
+
+	}
 	/////////// FINE METODO CHE EFFETTUA L'ISCRIZIONE /////////
-	
-	
-	
+
+
+
 	////////////////////////////////////////////////////////////////////
 	/////////// METODO CHE MI RESTITUISCE LE FACOLTA' DI UNA UNI ///////
 	///////////////////////////////////////////////////////////////////
-	
+
 	public function getFaculties($post){
-		
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
-		
+
 		// creo la query in sql
 		$query = "SELECT * FROM _faculty WHERE idUniversity = '".$post["university"]."'";
 
@@ -113,20 +113,77 @@ class Istitutes{
 				$cont++;
 			}
 		}
-		
-	
+
+
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-		
-	} 
+
+	}
 	/////////// FINE METODO CHE RESTITUICE LE FACOLTA' /////////
-	
-	
+
+	////////////////////////////////////////////////////////////////////////////////////
+	/////////// METODO CHE MI RESTITUISCE GLI ESAMI DI UNA FACOLTA' SELEZIONATA ////////
+	////////////////////////////////////////////////////////////////////////////////////
+
+	public function getExams($post){
+
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+
+		// creo la query in sql
+		$query = "SELECT * FROM _exam WHERE idFaculty = '".$post["idFaculty"]."'";
+
+
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+			//la chiamata ha avuto successo
+			$objJSON["success"] = true;
+			$objJSON["results"] = array();
+
+			$cont = 0;
+
+			//itero i risultati ottenuti dal metodo
+			while($rows = mysqli_fetch_array($result)){
+				$objJSON["results"][$cont]["idExam"] = $rows["idExam"];
+				$objJSON["results"][$cont]["name"] = $rows["name"];
+				$cont++;
+			}
+
+		}
+
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+
+	}
+	/////////// FINE METODO CHE RESTITUICE GLI ESAMI DELLA FACOLTA' SELEZIONATA /////////
+
+
 	///////////////////////////////////////////////////////////
 	/////////// METODO CHE EFFETTUA LA LOGIN //////////////////
 	///////////////////////////////////////////////////////////
-	
+
 	public function login($post){
 
 		//inizializzo il json da restituire come risultato del metodo

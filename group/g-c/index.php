@@ -2,19 +2,24 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../../css/style.css" rel="stylesheet" media="screen">
-        <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
-        <script src="../../js/jquery.1.12.js"></script>
-    		<script src="../../js/bootstrap.min.js"></script>
-        <script src="../../js/functions.js"></script>
-        <script src="../../js/jquery.cookie.js"></script>
-        <script src="../../js/jquery.Jcrop.min.js"></script>
+
+	  <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../../css/style.css" rel="stylesheet" media="screen">
+    <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
+    <script src="../../js/jquery.1.12.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/functions.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/jquery.Jcrop.min.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
-        <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
+      <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
      	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
 			<script>
 
@@ -49,7 +54,6 @@
 						$("#universita").on("change", function(){
 
 							var uni = $(this).val();
-
 							var callBackFaculties = function(data){
 
 								if(!data.success){
@@ -68,6 +72,32 @@
 
 						});
 
+						/////////////////////////////////////////////////////////////////////////
+						/////////////// DEFINISCO L'AZIONE SULLA SCELTA DELL'ESAME ////////////////
+						////////////////////////////////////////////////////////////////////////
+						$("#facolta").on("change", function(){
+
+							var facolta = $(this).val();
+							var availableTags = [];
+							var callBackExams = function(data){
+
+								if(!data.success){
+									alert("Errore! " + data.errorMessage);
+									return;
+								}
+
+								for (var i=0; i< data.results.length;i++) {
+									availableTags[i] = data.results[i].name;
+								}
+
+								$( "#exam" ).autocomplete({
+      					source: availableTags
+    						});
+								}
+
+							$.unisharing("Istitutes", "getExams", "private", {"idFaculty": facolta}, false, callBackExams);
+
+						});
 
 						////////////////////////////////////////////////////////////////
 						/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
@@ -223,7 +253,7 @@
 					</div>
 					<div class="col-lg-12">
 						<label>Nome esame</label>
-						<input type="text" id="exam" class="form-control" placeholder="Nome esame" aria-describedby="basic-addon1" required>
+						<input id="exam" class="form-control" placeholder="Nome esame" aria-describedby="basic-addon1" required>
 					</div>
 					<div class="col-lg-12">
 						<label>Descrizione</label>
