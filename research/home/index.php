@@ -43,7 +43,7 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" id="addUser" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -52,6 +52,30 @@
 						}
 						$("#ris").html("");
 						$("#ris").html(tmp);
+						
+						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista
+						$("#addUser").on("click", function() {
+							console.log("HO CLICCATO SUL TASTO AGGIUNGI UTENTE");
+							var idealList;
+							//Li aggiungo solo se l'idealist ha meno di 10 utenti
+							if(ideaList < 10) {
+								var cook = {
+									// devo identificare l'utente giusto
+									"idUser":data.results[this].idUser,
+									"username":data.results[this].username, 
+									"name":data.results[this].name, 
+									"surname":data.results[this].surname, 
+									"pathImage":data.results[this].pathImage
+								}							
+								// creo il cookie
+								$.cookie('listaUtenti', JSON.stringify(cook));
+								idealList++;
+							} 
+							//altrimenenti lancio un alert
+							else {
+								alert("Puoi inserire al massimo 10 utenti nella tua lista ideale");
+							}
+						});						
 					}
 
 					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
@@ -283,8 +307,6 @@
                 <div class="col-lg-4">
                 </div>
             </div>
-
-
             <!-- RISULTATI DELLA RICERCA -->
             <div class="row">
             		<div class="col-lg-2"></div>
