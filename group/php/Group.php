@@ -78,7 +78,7 @@ class Group implements IGroup{
 		$this->connect->connetti();
 
 		// creo la query in sql
-		$query = "DELETE FROM _accountpartecipategroup WHERE groupId = '".$post["gruppo"]."' AND account = '".$this->cookie->{"username"}."'";
+		$query = "UPDATE _accountpartecipategroup SET accepted = -1, dateAccepted = '".date("Y:m:d")."' WHERE groupId = '".$post["gruppo"]."' AND account = '".$this->cookie->{"username"}."'";
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -101,14 +101,15 @@ class Group implements IGroup{
 			$objJSON["success"] = true;
 			$objJSON["results"] = array();
 			
-			//////////////////////////////////////////////////
-			/////////// INVIO L'EMAIL DI BENVENUTO ///////////
-			//////////////////////////////////////////////////
+			
+			///////////////////////////////////////////////////////////////////////
+			/////////// INVIO L'EMAIL DI AVVISO DI ABBANDONO DEL GRUPPO ///////////
+			///////////////////////////////////////////////////////////////////////
 			
 			$from = "l.vitale@live.it";
 			$to = $admin;
-			$object = $this->coookie->{"name"}."ha abbandonato il gruppo!";
-			$message = "<html><body style='font-family:courier;font-size:16px;'>L'utente <b>".$this->coookie->{"name"}." ".$this->coookie->{"surname"}."</b> ha abbandonato il gruppo <b>".$gruppo."</b> per la seguente ragione:<br><b>".$post["ratio"]."</b></body></html>";
+			$object = $this->cookie->{"name"}." ha abbandonato il gruppo!";
+			$message = "<html><body style='font-family:courier;font-size:16px;'>L'utente <b>".$this->cookie->{"name"}." ".$this->cookie->{"surname"}."</b> ha abbandonato il gruppo <b>".$gruppo."</b> per la seguente ragione:<br><b>\"".$post["ratio"]."\"</b></body></html>";
 
 			//creo il messaggio di benvenuto all'utente iscritto
 			$this->notify->send($from, $to, $object, $message);
@@ -137,7 +138,8 @@ class Group implements IGroup{
 		// creo la query in sql
 		$query = "SELECT 	_group.name as name,
 							_group.creationDate as creationDate,
-							_group.expirationDate as expirationDate
+							_group.expirationDate as expirationDate,
+							_group.expirationInvite as expirationInvite
 				  FROM _group
 				  WHERE 	_group.account = '".$post["account"]."'";
 
@@ -169,6 +171,7 @@ class Group implements IGroup{
 				$objJSON["results"][$cont]["name"] = $rows["name"];
 				$objJSON["results"][$cont]["creationDate"] = $rows["creationDate"];
 				$objJSON["results"][$cont]["expirationDate"] = $rows["expirationDate"];
+				$objJSON["results"][$cont]["expirationInvite"] = $rows["expirationInvite"];
 				$cont++;
 			}
 		}
@@ -266,19 +269,50 @@ class Group implements IGroup{
 
 	public function getDetailsGroup($post){
 
+		// verifico se esiste un gruppo a cui partecipo oppure sono partecipante
+		$objJSONCheck = $this->existGroup($post);
+		$admin;
+		$result = json_decode($objJSONCheck, false);
+		if(!$result->{"success"}){
+			return $objJSONCheck;
+		}
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 
-		//Costruisco l'operazione prendendo il valore passato come parametro al metodo
-		$account = $post["group"]["account"];
-
 		// creo la query in sql
-		$query = "SELECT _group.name as nameGroup, _user.name as nameUser, _user.surname as surname, _group.description as description, _group.creationDate as creationDate
-				  FROM _group JOIN _user on _group.account = _user.email
-                  WHERE _group.idGroup=2;";
+		$query = "SELECT 	_group.name as nameGroup, 
+							ADMIN.admin_name as admin_name,
+							ADMIN.admin_surname as admin_surname, 
+							_group.description as description, 
+							_group.creationDate as creationDate,
+							EXAM.nameExam as name_exam,
+							EXAM.nameFaculty as name_faculty,
+							EXAM.nameUniversity as name_university
+				  FROM _group 
+				  
+				  	LEFT JOIN (
+						SELECT 	_user.name as admin_name,
+								_user.surname as admin_surname,
+								_user.email as admin_email
+						FROM _user
+					) as ADMIN ON ADMIN.admin_email = _group.account
+					
+					LEFT JOIN (
+						SELECT 	_exam.idExam as idExam,
+								_exam.name as nameExam,
+								_faculty.name as nameFaculty,
+								_university.name as nameUniversity
+						FROM 	_exam, _faculty, _university
+						WHERE 	_exam.idFaculty = _faculty.idFaculty AND
+								_faculty.idUniversity = _university.idUniversity
+						
+					) as EXAM ON EXAM.idExam = _group.exam
+					
+                  WHERE _group.idGroup='".$post["gruppo"]."'";
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -297,19 +331,68 @@ class Group implements IGroup{
 
 		}else{
 
+			
+			// prelevo i partecipanti del gruppo
+			$objJSONPartecipate = array();
+			
+			// creo la query in sql
+			$query = "SELECT 
+							_user.name as name,
+							_user.surname as surname,
+							_accountpartecipategroup.accepted as accepted,
+							_user.email as email
+					
+						FROM _user, _accountpartecipategroup
+                  	  	WHERE 	_user.email = _accountpartecipategroup.account AND 
+								_accountpartecipategroup.groupId = '".$post["gruppo"]."'";
+			
+			
+			//la passo la motore MySql
+			$result1 = $this->connect->myQuery($query);
+	
+			//Righe che gestiscono casi di errore di chiamata al database
+			if($this->connect->errno()){
+	
+				//la chiamata non ha avuto successo
+				$objJSON["success"] = false;
+				$objJSON["messageError"] = "Errore:";
+				$objJSON["error"] = $this->connect->error();
+	
+				//Disconnetto dal database
+				$this->connect->disconnetti();
+				return json_encode($objJSON);
+	
+			}else{
+				
+				$cont1 = 0;
+				while($rows = mysqli_fetch_array($result1)){
+					$objJSONPartecipate[$cont1]["name"] = $rows["name"];
+					$objJSONPartecipate[$cont1]["surname"] = $rows["surname"];
+					$objJSONPartecipate[$cont1]["email"] = $rows["email"];
+					$objJSONPartecipate[$cont1]["accepted"] = $rows["accepted"];
+					$cont1++;
+				}
+				
+			}
+
+
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
 			$objJSON["results"] = array();
-
+		
 			$cont = 0;
 
 			//itero i risultati ottenuti dal metodo
 			while($rows = mysqli_fetch_array($result)){
 				$objJSON["results"][$cont]["nameGroup"] = $rows["nameGroup"];
-				$objJSON["results"][$cont]["nameUser"] = $rows["nameUser"];
-				$objJSON["results"][$cont]["surname"] = $rows["surname"];
+				$objJSON["results"][$cont]["admin_name"] = $rows["admin_name"];
+				$objJSON["results"][$cont]["admin_surname"] = $rows["admin_surname"];
+				$objJSON["results"][$cont]["name_exam"] = $rows["name_exam"];
+				$objJSON["results"][$cont]["name_faculty"] = $rows["name_faculty"];
+				$objJSON["results"][$cont]["name_university"] = $rows["name_university"];
 				$objJSON["results"][$cont]["description"] = $rows["description"];
 				$objJSON["results"][$cont]["creationDate"] = $rows["creationDate"];
+				$objJSON["results"][$cont]["partecipate"] = $objJSONPartecipate;
 				$cont++;
 			}
 		}
@@ -426,7 +509,8 @@ class Group implements IGroup{
 				$objJSON["success"] = true;
 			}else{
 				$objJSON["success"] = false;
-				$objJSON["messageError"] = "Errore: Gruppo non trovato";
+				$objJSON["messageError"] = "Errore: ";
+				$objJSON["error"] = "Gruppo non trovato";
 			}
 		}
 

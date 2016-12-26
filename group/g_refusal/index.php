@@ -2,7 +2,7 @@
 <html><head>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>UniSharing</title>
+		<title>Unisharing</title>
         
         <script src="../../js/jquery.1.12.js"></script>
         

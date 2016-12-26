@@ -10,49 +10,26 @@
         <link href="../css/group_style.css" rel="stylesheet" media="screen">
 
         <script src="../../js/jquery.1.12.js"></script>
+        <script src="../../js/jquery.cookie.js"></script>
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
+        <script src="../js/main.js"></script>
 	</head>
 	<body>
 
         <script>
         	$(function(){
 
-				var param = {
-					"account": "tester1@unisharing.it"
-				}
-
-				function callBackViewAdminGroup(data){
-
-					console.log(data);
-
-					if(!data.success){
-							alert("Errore! " + data.errorMessage);
-							return;
-					}
-
-					var tmp= "";
-					console.log ('ci sono');
-					for (var i=0; i<data.results.length; i++){
-						console.log (data.results[i]);
-
-							//tmp='<tbody>';
-      						tmp +=	'<tr class= "active">';
-       						tmp +=		'<td>'+data.results[i].name+'</td>';
-       						tmp +=		'<td>'+data.results[i].creationDate+'</td>';
-									tmp +=		'<td>'+data.results[i].expirationDate+'</td>';
-                  tmp +=		'<td><a href="INSERIRE LINK QUI"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
-      						tmp +=	'</tr>';
-    			 			//tmp='</tbody>';
-					}
-
-						$("#ris").html("");
-						console.log (tmp);
-						$("#ris").html(tmp);
-					}
-
-					$.unisharing("Group", "getAdminGroup", "private", param, false, callBackViewAdminGroup);
-
+				// carico Mark_feedback
+				$.get("../../presentation/group_a.html", function(html){
+						
+					mask_group = html;
+					
+					// preleveo i gruppi di cui sono amministratore
+					getGroupByAdmin(mask_group);
+					
+				});
+			
 			});
         </script>
 
@@ -86,6 +63,14 @@
             </nav>
         </header>
         <div class="container">
+        	<div class="row" id="Message"></div>
+       		<div class= "row">
+				<div class= "col-lg-2"></div>
+				<div class= "col-lg-8" id="Mask_group"></div>
+				<div class= "col-lg-2"></div>
+      		</div>
+		</div> 
+        <!--<div class="container">
        		<div class="row">
         		<div class="col-lg-2"></div>
         		<div class="col-lg-8">
@@ -105,9 +90,9 @@
        			</div>
         		<div class="col-lg-2"></div>
       		</div>
-
+		
       </div>
-
+		-->
         <footer>
         </footer>
 

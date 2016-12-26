@@ -4,10 +4,11 @@ var idGroup;
 
 function getGroup(mask_group){
 	
-	var user = JSON.parse($.cookie("user"));
-	
-	var param = {
-		"account": user.username
+	if($.cookie("user")){
+		var user = JSON.parse($.cookie("user"));
+		var param = {
+			"account": user.username
+		}
 	}
 		
 	function callBackViewGroup(data){
@@ -92,7 +93,7 @@ function initButtons(){
 					var tmp = $.parseHTML($(this)[0].content);
 					var idGroup = idGroup;
 					var message = $("#ratio").val();
-					leaveGroup(idGroup);	
+					leaveGroup(idGroup, message);	
 					
 				},
 				cancel: function(){}
@@ -130,7 +131,7 @@ function leaveGroup(idGruppo, message){
 			return;
 		}
 		
-		
+		location.reload();
 	}
 	
 	$.unisharing("Group", "leaveGroup", "private", {"gruppo": idGroup, "ratio": message}, false, callBackLeaveGroup);
@@ -198,4 +199,124 @@ function refusalInvite(idGruppo, message){
 	$.unisharing("Group", "refusalInvite", "private", {"gruppo": 1}, false, callBackRefusalInvite);
 
 }
+
+
+
+
+function getGroupByAdmin(){
+
+	if($.cookie("user")){
+		var user = JSON.parse($.cookie("user"));
+		var param = {
+			"account": user.username
+		}
+	}
+
+	function callBackViewAdminGroup(data){
+
+		if(data.results.length <= 0){
+				
+				var tmp = '<center><br>';
+				tmp += '<div class="alert alert-warning">';
+				tmp += '<i class="glyphicon glyphicon-delete"/> ';
+				tmp += '<span style="font-size:18px;">Non ci sono gruppi di cui sei amministratore</span>';
+				tmp += '</div>';
+				tmp += '</center>';
+				$("#Mask_group").html(tmp);
+				
+			}else{
+				
+				$("#Mask_group").html(mask_group);
+				
+				var tmp= "";
+				for (var i=0; i<data.results.length; i++){
+					console.log (data.results[i]);
+					tmp +=	'<tr class= "active">';
+					tmp +=		'<td>'+data.results[i].name+'</td>';
+					tmp +=		'<td>'+data.results[i].creationDate+'</td>';
+					tmp +=		'<td>'+data.results[i].expirationDate+'</td>';
+					tmp +=		'<td>'+data.results[i].expirationInvite+'</td>';
+					tmp +=		'<td><a href="INSERIRE LINK QUI"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
+					tmp +=	'</tr>';
+				}
+	
+				$("#ris").html(tmp);
+		}
+	}
+
+	
+	 $.unisharing("Group", "getAdminGroup", "private", param, false, callBackViewAdminGroup);	
+	
+	
+}
+
+
+
+function getDetailGroup(idGroup, mask_group){
+	
+
+	var param = {
+		"gruppo":idGroup
+	}
+				
+	   function callBackDetailGroup(data){
+		  
+		  if(!data.success){
+				var tmp = '<center><br>';
+				tmp += '<div class="alert alert-danger">';
+				tmp += '<i class="glyphicon glyphicon-delete"/> ';
+				tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
+				tmp += '</div>';
+				tmp += '</center>';
+				$("#Message").html(tmp);
+				return;
+			}
+		  
+		  if(data.results.length <= 0){
+				
+				var tmp = '<center><br>';
+				tmp += '<div class="alert alert-warning">';
+				tmp += '<i class="glyphicon glyphicon-delete"/> ';
+				tmp += '<span style="font-size:18px;">Nessun gruppo trovato</span>';
+				tmp += '</div>';
+				tmp += '</center>';
+				$("#Mask_view_group").html(tmp);
+				
+			}else{
+				
+				$("#Mask_view_group").html(mask_group);
+				
+				$("#nome_gruppo").html(data.results[0].nameGroup);
+				$("#nome_gruppo").html(data.results[0].nameGroup);
+				$("#uni_gruppo").html(data.results[0].name_university);
+				$("#facolta_gruppo").html(data.results[0].name_faculty);
+				$("#esame_gruppo").html(data.results[0].name_exam);
+				$("#admin_gruppo").html(data.results[0].admin_name + " "+ data.results[0].admin_surname);
+				$("#description_gruppo").html(data.results[0].description);
+				
+				
+				var tmp = "";
+				for(var i = 0;i < data.results[0].partecipate.length;i++){
+					tmp += "<tr>";
+					tmp += "<td>"+data.results[0].partecipate[i].name+"</td>";
+             		tmp += "<td>"+data.results[0].partecipate[i].surname+"</td>";
+					
+					if(Number(data.results[0].partecipate[i].accepted) > 0)
+             			tmp += "<td><span class='label label-success'>Accettato</span></td>";
+						else
+						tmp += "<td><span class='label label-danger'>Attesa</span></td>";
+						
+        			tmp += "</tr>";
+				}	
+				
+				$("#ris_partecipate").html(tmp);
+				
+			}
+	  }
+	  
+	   $.unisharing("Group", "getDetailsGroup", "private", param, false, callBackDetailGroup);
+	  
+}
+
+
 
