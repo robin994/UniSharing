@@ -3,138 +3,28 @@
 	<head>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>UniSharing</title>
- 				<script src="../js/jquery.1.12.js"></script>
-				<link href="../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="../css/style.css" rel="stylesheet" media="screen">
-  			<script src="../js/functions.js"></script>
-				<link href="css/ranking.css" rel="stylesheet" media="screen">
-
-
-    	<script src="../js/bootstrap.min.js"></script>
-
-			<style>
-			.star {
-		        font-size: x-large;
-		        width: 25px;
-		        display: inline-block;
-		        color: gray;
-		    }
-		    .star:last-child {
-		        margin-right: 0;
-		    }
-		    .star:before {
-		        content: '\2605';
-		    }
-		    .star.on {
-		        color: gold;
-		    }
-		    .star.half:after {
-		            content: '\2605';
-		            color: gold;
-		            margin-left: -20px;
-		            width: 10px;
-		            position: absolute;
-		            overflow: hidden;
-		        }
-			}
-			</style>
+		<title>Unisharing</title>
+ 		<script src="../js/jquery.1.12.js"></script>
+		<link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+       	<link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
+       	<link href="../css/font-awesome.min.css" rel="stylesheet" media="screen">
+       	<link href="../css/style.css" rel="stylesheet" media="screen">
+  		<script src="../js/functions.js"></script>
+		<link href="css/ranking.css" rel="stylesheet" media="screen">
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+			
 
 		<script>
 		// ONLOAD JQUERY
 		$(function(){
-				function callBackRanking(data) {
-						console.log(data);
-						if(!data.success){
-							alert("Errore! " + data.errorMessage);
-							return;
-						}
-						var tmp = "";
-						for(var i = 0; i < data.results.length;i++){
-							console.log(data.results[i]);
-							tmp += '<tr>';
-							tmp +=  '<td>'+(i+1)+'</td>';
-							tmp +=  '<td>'+data.results[i].name+' '+data.results[i].surname+'</td>';
-							tmp +=  '<td>'+ data.results[i].score+ ' </td>';
-							tmp +=	'<td>';
-							tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5" style="float: right;">';
-
-							// CREAZIONE STELLE PER IL RANKING
-
-							var k=0;
-							while (k < data.results[i].percent/20-1) {
-								console.log(k);
-								console.log(data.results[i].percent/20);
-								tmp += '<span class="star on"></span>';
-								k++;
-							}
-							if (data.results[i].percent/20 > Math.trunc(data.results[i].percent/20)) {
-								tmp += '<span class="star half"></span>';
-							} else {
-								tmp += '<span class="star on"></span>';
-							}
-							k++;
-							for (var j = 0; j<5-k;j++) {
-									tmp += '<span class="star"></span>';
-							}
-
-							/* OTTIMIZZATO BY ROB
-							if(data.results[i].percent > 0 && data.results[i].percent <= 20){
-								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '</div>';
-							}
-
-							if(data.results[i].percent >20 && data.results[i].percent <= 40){
-								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '</div>';
-							}
-							if(data.results[i].percent >40 && data.results[i].percent <= 60){
-								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '</div>';
-							}
-							if(data.results[i].percent >60 && data.results[i].percent <= 80){
-								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star-empty"></span>';
-								tmp += '</div>';
-							}
-							if(data.results[i].percent >80 && data.results[i].percent <= 100){
-								tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '<span class="glyphicon .glyphicon-star-empty glyphicon-star"></span>';
-								tmp += '</div>';
-							}
-							*/
-							tmp += '</td>';
-						  tmp += '</tr>';
-				}
-				$("#idRanking").append(tmp);
-		}
-		$.unisharing("Ranking" , "getRanking" , "private" , {}, false, callBackRanking);
-});
-		</script>
+			
+			// funzione che riceve la classifica generale
+			getRanking();
+			
+		});
+		
+        </script>
 
     </head>
 	<body>
@@ -174,22 +64,25 @@
 						<div class="col-lg-2"></div>
 						<div class="col-lg-8">
 					<div class="bootstrap-demo">
+                    <h1> Ranking </h1>
+                    <h7> Clicca i nomi per visualizzare i profili sulla destra </h7>
 	<table class="table table-striped">
 	        <thead>
-					<h1> Ranking </h1>
-	        </thead>
-					<h7> Clicca i nomi per visualizzare i profili sulla destra </h7><br><br>
-					<tbody id="idRanking">
-
-	        </tbody>
+            <tr>
+                <th>#</th>
+                <th>Utente</th>
+                <th>Punteggio</th>
+                <th></th>
+            </tr>
+            </thead>
+			<tbody id="idRanking"></tbody>
 	    </table>
 			</div>
 		</div>
 		<div class="col-lg-2"></div>
       </div>
 
-        <footer>
-        </footer>
+	<footer></footer>
 
 	</body>
 </html>

@@ -26,17 +26,30 @@
 		
         <script>
 		
-		var mask_group;
+		var mask_refusal;
 		
 		$(function(){
 			
+			
 			// carico Mark_feedback
-			$.get("../../presentation/group_p.html", function(html){
+			$.get("../../presentation/group_refusal.html", function(html){
 					
-				mask_group = html;
+				mask_refusal = html;
 				
-				// prelevo tutti i gruppi in cui partecipo
-				getGroup(mask_group);
+				// verifico se l'invito è valido
+				var result = isInviteValid();
+				
+				if(result.length > 0){
+					$("#Mask_refusal_group").html(mask_refusal);	
+					$("#avatar").html("<img src='../../"+result[0].pathImage_admin+"/icon80x80.jpg' />");
+					$("#utente").html(result[0].name_admin+" "+result[0].surname_admin);
+					$("#nome_gruppo").html(result[0].namegroup);
+					$("#btn-rifiuta").attr("idGroup", result[0].idGroup);
+					
+					//inizializzo i tasti
+					initButtons();
+				
+				}
 				
 			});
 			
@@ -48,7 +61,7 @@
           
     </head>
 	<body>
-        
+        <!--
         <header>
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
@@ -84,11 +97,18 @@
               <li class="breadcrumb-item active">Gruppi partecipanti</li>
 			</ol>
         </div>  
+         -->
         <div class="container">
-        	<div class="row" id="Message"></div>
+        	<div class="row">
+            	<div class="col-lg-2"></div>
+                <div class="col-lg-8" id="Message"></div>
+                <div class="col-lg-2"></div>
+           	</div>
        		<div class= "row">
 				<div class= "col-lg-2"></div>
-				<div class= "col-lg-8" id="Mask_group"></div>
+				<div class= "col-lg-8" id="Mask_refusal_group">
+                	
+                </div>
 				<div class= "col-lg-2"></div>
       		</div>
 		</div> 

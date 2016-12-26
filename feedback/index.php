@@ -17,6 +17,7 @@
 		<link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
 		<link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<script src="../js/bootstrap.min.js"></script>
+        <script src="../../js/jquery.cookie.js"></script>
 		<link href="../../css/style.css" rel="stylesheet" media="screen">
 		<link rel="stylesheet"	type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
 	  	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
@@ -30,20 +31,20 @@
 		$(function(){
 			
 			
-			
-			
 			// carico Mark_feedback
 			$.get("htmls/index.html", function(html){
 					
 				mask_feedback = html;
-				//var idGruppo = "1";
-				//var userLoggato = "tester1@unisharing.it"; //tester1
 			
 				var idGruppo = "<?php echo $_GET["g"]; ?>";
-				var userLoggato = "<?php echo $_GET["u"]; ?>";
+				var userLoggato = JSON.parse($.cookie("user"));
+			
+			
+				//var idGruppo = "1";
+				//var userLoggato = "info@lorenzovitale.it"; //tester1
 			
 				// verifico se esistono dei feedback da inserire 
-				checkFeedback(idGruppo, userLoggato);
+				checkFeedback(idGruppo, userLoggato.username);
 			
 			});
 		

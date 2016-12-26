@@ -6,14 +6,46 @@
 
 function checkFeedback(idGruppo, userLoggato){
 	
+	
+	// controllo lato client che venga fornito l'id del gruppo
+	if(idGruppo == ""){
+		var tmp = '<center><br>';
+			tmp += '<div class="alert alert-danger">';
+			tmp += '<i class="glyphicon glyphicon-delete"/> ';
+			tmp += '<span style="font-size:18px;">Errore: Gruppo non trovato</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Mask_feedback").html(tmp);
+		  	return;
+	}
+	
+	// controllo lato client che i dati siano stati passati
+	if(userLoggato == ""){
+		var tmp = '<center><br>';
+			tmp += '<div class="alert alert-danger">';
+			tmp += '<i class="glyphicon glyphicon-delete"/> ';
+			tmp += '<span style="font-size:18px;">Utente non riconosciuto</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Mask_feedback").html(tmp);
+		  	return;
+	}
+	
+	
 	// funzione di callback
 	function callBackCheckFeedback(data){
 		
-		console.log("Recevo dati dei feedback");
+		console.log("Ricevo dati dei feedback");
 		console.log(data);
 					
 		if(!data.success){
-			alert("Errore! " + data.errorMessage);
+			var tmp = '<center><br>';
+			tmp += '<div class="alert alert-danger">';
+			tmp += '<i class="glyphicon glyphicon-delete"/> ';
+			tmp += '<span style="font-size:18px;">'+data.messageError+'</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Mask_feedback").html(tmp);
 			return;
 		}
 						
@@ -35,7 +67,7 @@ function checkFeedback(idGruppo, userLoggato){
 						var tmp = '<div class="alert alert-success">';
 							//tmp += '<i class="glyphicon glyphicon-ok" style="font-size:22px;"/>';
 							//tmp += '<h2>Congratulazioni</h2>';
-							tmp += 'Ancora una volta hai portato a termine una nuova esperienza, vuoi raccontarci com\'è andata?';
+							tmp += 'Hai portato a termine una esperienza di studio di gruppo, vuoi raccontarci com\'è andata?';
 							tmp += '</div>';
 						
 						$("#Mask_feedback").append(tmp);
@@ -113,16 +145,17 @@ function checkFeedback(idGruppo, userLoggato){
 		});		
 												
 							
-	}else{
-							
-		var tmp = '<center><br>';
-			tmp += '<div class="alert alert-success">';
-			tmp += '<i class="glyphicon glyphicon-ok"/> ';
-			tmp += '<span style="font-size:18px;">Ha già inseriti i feedback per questo gruppo</span>';
-			tmp += '</div>';
-			tmp += '</center>';
+		}else{
 			
-			$("#Mask_feedback").html(tmp);
+			// I feedback per questo gruppo sono stati già inseriti				
+			var tmp = '<center><br>';
+				tmp += '<div class="alert alert-success">';
+				tmp += '<i class="glyphicon glyphicon-ok"/> ';
+				tmp += '<span style="font-size:18px;">Ha già inserito i feedback per questo gruppo</span>';
+				tmp += '</div>';
+				tmp += '</center>';
+				
+				$("#Mask_feedback").html(tmp);
 							
 			}
 		}

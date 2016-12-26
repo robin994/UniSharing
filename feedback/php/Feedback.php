@@ -39,6 +39,17 @@ class Feedback implements IFeedback{
 	
 	public function checkFeedback($post){
 
+
+		// verifico che il gruppo esista
+		$group = new Group();
+		$group->init();
+		$objJSONCheck = $group->existGroup($post);
+		
+		$result = json_decode($objJSONCheck, false);
+		if(!$result->{"success"}){
+			return $objJSONCheck;
+		}
+
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
