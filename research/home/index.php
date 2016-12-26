@@ -56,7 +56,8 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" id="addUser" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<input type="hidden" class="nome_user" value="'+data.results[i]["name"]+'" />';
+							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -67,7 +68,27 @@
 						$("#ris").html(tmp);
 						
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista
-						$("#addUser").on("click", function() {
+						$(".addUser").on("click", function() {
+							
+							if($.cookie("listaUtenti")){
+								
+								var cookie_lista = JSON.parse($.cookie("listaUtenti"));	
+									
+							}else{
+								var cookie_lista = [];	
+							}
+							
+							// rimpieri
+							// prendo il cookie e gli faccio il parse di json
+							lista_array.push({
+								nome: Lorenzo,
+								congome: Vitale,
+								
+							});
+							
+							var username = $(this).attr("user");
+							
+							var nome_user = $(this).parent().find(".nome_user").val();
 							
 							console.log("HO CLICCATO SUL TASTO AGGIUNGI UTENTE");
 							
