@@ -81,7 +81,7 @@
 										"surname": cognome,
 										"pathImage": pathImmagine										
 									});
-									$.cookie('listaUtenti', JSON.stringify(cookie_lista));
+									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
 								} else {
 									var tmp = '<center><br>';
 										tmp += '<div class="alert alert-warning">';
@@ -93,16 +93,17 @@
 									return;
 								}									
 							}else{
-								//var cookie_lista = [];
+								var cookie_lista = [];
 								var name = $(this).attr("name");
 								var surname = $(this).attr("surname");
 								var pathImage = $(this).attr("pathImage");
-								var cookie_lista = {
+								var cookie = {
 									"name": name,
 									"surname": surname, 
 									"pathImage": pathImage
 								}
-								$.cookie('listaUtenti', JSON.stringify(cookie_lista));	
+								cookie_lista.push(cookie);
+								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });	
 							}
 						})				
 					}

@@ -6,6 +6,7 @@
 		<title>UniSharing</title>
         <link href="css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="students/css/login.css" rel="stylesheet" media="screen">
+        <link href="css/footer.css" rel="stylesheet" media="screen">
 		<script src="js/jquery.1.12.js"></script>
     	<script src="js/bootstrap.min.js"></script>
         <script src="js/functions.js"></script>
@@ -85,7 +86,7 @@
       				<section class="login-form">
         				<div class="divlogin">
                         	<center><img src="../../img/logo.png" class="img-responsive" alt=""></center><br>
-                          	<input id="username" type="email" name="email" placeholder="Username" required="" class="form-control input-lg">
+                          	<input id="username" type="email" name="email" placeholder="Username" required class="form-control input-lg">
                           	<input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
                           	<button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Log in</button>
 							<div>

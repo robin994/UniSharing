@@ -1,4 +1,3 @@
-<link href="css/navbar.css" rel="stylesheet" media="screen">
 <?
 	$cookie = json_decode($_COOKIE['user']);
 ?>
@@ -6,7 +5,7 @@
 	<nav class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="index.php" class="navbar-brand">UniSharing</a>
+				<a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/index.php" class="navbar-brand" style="margin-top: -12px;"><img src="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/img/logo.png" width="150"></a>
 				<button class="navbar-toggle" data-toggle="collapse" data-target="#navHeaderCollapse" >
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -15,18 +14,18 @@
 			</div>
 			<div class="collapse navbar-collapse" id="navHeaderCollapse">
 				<ul class= "nav navbar-nav navbar-right">
-					<li><a href="students/blacklist/index.php">Lista nera</a></li>
-					<li><a href="students/ideallist/index.php">Lista compagni di studi</a></li>
+					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/blacklist/index.php">Lista nera</a></li>
+					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/ideallist/index.php">Lista compagni di studi</a></li>
 					<li class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Gruppi <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="group\g_a\index.php">Gruppi che amministro</a></li>
+							<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/group/g_a/index.php">Gruppi che amministro</a></li>
                             <li class="divider"></li>
-							<li><a href="group\g\index.php">Gruppi a cui partecipo</a></li>
+							<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/group/g/index.php">Gruppi a cui partecipo</a></li>
 						</ul>
 					</li>
-                    <li><a href="ranking\index.php">Classifica</a></li>
-					<li><a href="contact\index.php">Contatti</a></li>
+                    <li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/ranking/index.php">Classifica</a></li>
+					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/contact/index.php">Contatti</a></li>
                     <li class="dropdown">
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         	<span class="glyphicon glyphicon-user"></span>
@@ -45,7 +44,7 @@
                                     	<div class="col-lg-4">
                                         	<p class="text-center">
                                             	<span>
-                                                	<img class="icon-size" src="<? echo($cookie->{"pathImage"}) ?>/icon80x80.jpg" ></img>
+                                                	<img class="icon-size" src="<? echo($_SERVER["DOCUMENT_ROOT"]."/".$cookie->{"pathImage"}) ?>/icon80x80.jpg" ></img>
                                                  </span>
                                         	</p>
                                     	</div>
@@ -67,14 +66,14 @@
                                             	?>
                                             </p>
                                         	<p class="text-left">
-                                            	<a href="students\description\index.php" class="btn btn-primary btn-block btn-sm">Profilo</a>
+                                            	<a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/description/index.php" class="btn btn-primary btn-block btn-sm">Profilo</a>
                                         	</p>
                                     	</div>
                                 	</div>
                             	</div>
                         	</li>
                         	<li class="divider navbar-login-session-bg"></li>
-                         	<li><a href="students\modprofile\index.php">Impostazioni account<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+                         	<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/modprofile/index.php">Impostazioni account<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
 							<li class="divider"></li>
                             <li><a href="">Esci<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
                     	</ul>
