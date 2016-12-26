@@ -7,11 +7,13 @@
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../css/research.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script>
 			$(function() {
+				
+				var idealList;
+				
 				$("#btn-start-research").on("click", function() {
 					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
 					var arr_features = [];
@@ -43,7 +45,7 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" id="addUser" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" onclick='setCookie("data.results[i]["name"], data.results[i]["surname"], data.results[i]["pathImage"], data.results[i]["id"], data.results[i]["username"] ")' user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -54,18 +56,16 @@
 						$("#ris").html(tmp);
 						
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista
-						$("#addUser").on("click", function() {
-							console.log("HO CLICCATO SUL TASTO AGGIUNGI UTENTE");
-							var idealList;
+						setCookie(name, surname, pathImage, idUser, username) {
+							console.log("HO CLICCATO SUL TASTO AGGIUNGI UTENTE");							
 							//Li aggiungo solo se l'idealist ha meno di 10 utenti
 							if(ideaList < 10) {
 								var cook = {
-									// devo identificare l'utente giusto
-									"idUser":data.results[this].idUser,
-									"username":data.results[this].username, 
-									"name":data.results[this].name, 
-									"surname":data.results[this].surname, 
-									"pathImage":data.results[this].pathImage
+									"idUser":idUser,
+									"username":username, 
+									"name":name, 
+									"surname":surname, 
+									"pathImage":pathImage
 								}							
 								// creo il cookie
 								$.cookie('listaUtenti', JSON.stringify(cook));
