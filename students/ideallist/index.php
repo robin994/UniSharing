@@ -7,7 +7,8 @@
         
         
         
-        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+        <script src="../../js/jquery.1.12.js"></script>
+        <script src="../../js/jquery.cookie.js"></script>
         
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -24,46 +25,83 @@
         <script>        
 			$(function(){
 				
-				$(".creationgroup").animate({
-					"borderWidth" : "4px", //bordo a 4 pixel
-					"width" : "+150px" //aumenta la larghezza di 200 pixel
-				});
 				
-				$(".creationgroup").balloon({position: "top right"});
+				var boo = false;
 				
-				$(".creationgroup").on("click", function(e){
-					$.confirm({
-						title: 'Attenzione!',
-						content: 'Sei sicuro di voler creare il gruppo con i dati utenti?',
-						button: {
-							confirm: function(){
-								alert ("Congratulazioni hai crato un nuovo gruppo :) !");
-							},
-							cancel: function(){
+				if($.cookie("listaUtenti")){
+					
+					boo = true;
+					var utenti = JSON.parse($.cookie("listaUtenti"));
+					
+					if(utenti.length <= 0) { 
+						boo = false; 
+					}else{
+					
+					
+					
+						var tmp = "<h2>Lista ideale</h2>";
+							tmp += "<table class=\"table\">";
+							tmp += "<thead>";
+							tmp += "<tr>";
+							tmp += "<th class=\"colownsmall\"></th>";
+							tmp += "<th></th>";
+							tmp += "<th></th>";
+							tmp += "</tr>";
+							tmp += "</thead>";
+							tmp += "<tbody>";
+							
+						for(var i = 0;i < utenti.length;i++){
+							tmp += "<tr>";
+							tmp += "<td><a href=\"#\"><img class=\"imageStyle\" src=\"../../"+utenti[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
+							tmp += "<td><h5><a href=\"#\" class=\"user-link\">"+utenti[i].name+" "+utenti[i].surname+"</a></h5></td>";
+							tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+utenti[i].username+"\">";
+							tmp += " Rimuovi";
+							tmp += "<span class=\"glyphicon glyphicon-minus\"></span></button></td>";
+							tmp += "</tr>";
+						}
+						
+						tmp += "</tbody>";
+						tmp += "</table>";
+						
+						$("#ris").html(tmp);
+						if(utenti.length > 0){
+							$("#ris").append("<center><button type=\"button\" class=\"btn btn-primary\" title=\"crea un nuovo gruppo\">Crea gruppo</button></center>");
+						}
+					}
+				}
+				
+				
+				if(!boo){
+					var tmp = '<center><br>';
+						tmp += '<div class="alert alert-warning">';
+						tmp += '<i class="glyphicon glyphicon-delete"/> ';
+						tmp += '<span style="font-size:18px;">La lista dei compagni di studio ideali è vuota</span>';
+						tmp += '</div>';
+						tmp += '</center>';
+						$("#Message").html(tmp);
+				}
+				
+				$(".removeUser").on("click", function(){
+					
+					var sel_user = $(this).attr("user");
+
+					if($.cookie("listaUtenti")){
+							
+						var utenti = JSON.parse($.cookie("listaUtenti"));
+						for(var i = utenti.length-1;i >= 0;i--){
+							if(utenti[i].username == sel_user){
+								utenti.splice(i,1);
+								break;	
 							}
 						}
-					});
+						
+						$.cookie("listaUtenti", JSON.stringify(utenti), 60);
+						location.reload();
+					}
+					
 				});
 			});
-		</script>
-        
-        
-        <script>        
-			$(function(){
-				$(".btn_leave_g").on("click", function(e){
-					$.confirm({
-						title: 'Attenzione!',
-						content: 'Sei sicuro di eliminare lo studente dalla tua lista ideale',
-						button: {
-							confirm: function(){
-								alert ("Studente eliminato");
-							},
-							cancel: function(){
-							}
-						}
-					});
-				});
-			});
+			
 		</script>
 	</head>
 	<body>
@@ -96,48 +134,16 @@
                 </div>
             </nav> 
         </header>    
-        <div class="container"> 
-        	<div class= "row">
-            	<div class= "col-lg-2"></div>
-                <div class= "col-lg-8">
-                	<h2>Lista ideale</h2>
-          			<table class="table">
-    					<thead>
-      						<tr>
-        						<th class= "colownsmall"></th>
-        						<th></th>
-                                <th></th>
-      						</tr>
-    					</thead>
-    				<tbody>
-      					<tr>
-       						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Antonio Fasulo</td>
-                             <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
-      					</tr>   
-                        <tr>
-       						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Lorenzo Vitale</td>
-                             <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
-      					</tr>
-                        <tr>
-       						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Giuseppe Vitale</td>
-                             <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
-      					</tr>     
-    			 </tbody>
- 				 </table>
-                </div>
-                <div class= "col-lg-2"></div>  
-      	</div> 
-        <br><br><br><br>
         <div class: "container">
         	<div class: "row">
-            	<div class= "col-lg-4"></div>
-                <div class= "col-lg-4">
-                	<center><div class="col-lg-8"><button type="button" class="btn btn-primary creationgroup" title="crea un nuovo gruppo">Crea gruppo</button></div></center>
-                </div>
-                <div class= "col-lg-4"></div>
+            	<div class="col-lg-3"></div>
+                <div class="col-lg-6" id="Message"></div>
+                <div class="col-lg-3"></div>
+            </div>
+            <div class: "row">
+            	<div class= "col-lg-3"></div>
+                <div class= "col-lg-6" id="ris"></div>
+                <div class= "col-lg-3"></div>
             </div>
         </div>
       
