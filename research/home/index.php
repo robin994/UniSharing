@@ -31,6 +31,7 @@
 							tmp += '</div>';
 							tmp += '</center>';
 							$("#Message").html(tmp);
+							$("#ris").html("");
 							return;
 					}
 					function callBackUsers(data){
@@ -41,8 +42,9 @@
 							tmp += '<i class="glyphicon glyphicon-delete"/> ';
 							tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
 							tmp += '</div>';
-							tmp += '</center>';
+							tmp += '</center>';							
 							$("#Message").html(tmp);
+							$("#ris").html("");
 							return;
 						}
 	
@@ -56,8 +58,7 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<input type="hidden" class="nome_user" value="'+data.results[i]["name"]+'" />';
-							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" >Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -67,54 +68,44 @@
 						$("#ris").html("");
 						$("#ris").html(tmp);
 						
-						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista
+						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista dei compagni di studio ideali
 						$(".addUser").on("click", function() {
-							
-							if($.cookie("listaUtenti")){
-								
-								var cookie_lista = JSON.parse($.cookie("listaUtenti"));	
-									
+							if($.cookie("listaUtenti")){								
+								var cookie_lista = JSON.parse($.cookie("listaUtenti"));
+								if(cookie_lista.length < 10) {
+									var nome = $(this).attr("name");
+									var cognome = $(this).attr("surname");
+									var pathImmagine = $(this).attr("pathImage");
+									cookie_lista.push({
+										"name": nome,
+										"surname": cognome,
+										"pathImage": pathImmagine										
+									});
+									$.cookie('listaUtenti', JSON.stringify(cookie_lista));
+								} else {
+									var tmp = '<center><br>';
+										tmp += '<div class="alert alert-warning">';
+										tmp += '<i class="glyphicon glyphicon-delete"/> ';
+										tmp += '<span style="font-size:18px;">Hai inserito più di 10 utenti nella lista dei compagni ideali</span>';
+										tmp += '</div>';
+										tmp += '</center>';
+									$("#Message").html(tmp);
+									return;
+								}									
 							}else{
-								var cookie_lista = [];	
+								//var cookie_lista = [];
+								var name = $(this).attr("name");
+								var surname = $(this).attr("surname");
+								var pathImage = $(this).attr("pathImage");
+								var cookie_lista = {
+									"name": name,
+									"surname": surname, 
+									"pathImage": pathImage
+								}
+								$.cookie('listaUtenti', JSON.stringify(cookie_lista));	
 							}
-							
-							// rimpieri
-							// prendo il cookie e gli faccio il parse di json
-							lista_array.push({
-								nome: Lorenzo,
-								congome: Vitale,
-								
-							});
-							
-							var username = $(this).attr("user");
-							
-							var nome_user = $(this).parent().find(".nome_user").val();
-							
-							console.log("HO CLICCATO SUL TASTO AGGIUNGI UTENTE");
-							
-							var idealList;
-							
-							//Li aggiungo solo se l'idealist ha meno di 10 utenti
-							if(ideaList < 10) {
-								var cook = {
-									// devo identificare l'utente giusto
-									"idUser":data.results[this].idUser,
-									"username":data.results[this].username, 
-									"name":data.results[this].name, 
-									"surname":data.results[this].surname, 
-									"pathImage":data.results[this].pathImage
-								}							
-								// creo il cookie
-								$.cookie('listaUtenti', JSON.stringify(cook));
-								idealList++;
-							} 
-							//altrimenenti lancio un alert
-							else {
-								alert("Puoi inserire al massimo 10 utenti nella tua lista ideale");
-							}
-						});						
+						})				
 					}
-
 					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
 
 				});
