@@ -1,13 +1,13 @@
-
+<?
+	include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
+?>
 <!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        
-        
-        
+         
         <script src="../../js/jquery.1.12.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         
@@ -110,7 +110,7 @@
 	</head>
 	<body>
     
-    <? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
+    	<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
     
         <div class: "container">
         	<div class: "row">

@@ -1,3 +1,6 @@
+<?
+	include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
+?>
 <!doctype html>
 <html>
 	<head>
@@ -6,6 +9,8 @@
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../css/research.css" rel="stylesheet" media="screen">
+        <link href="../../css/footer.css" rel="stylesheet" media="screen">
+        <link href="../../css/navbar.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
@@ -58,7 +63,7 @@
 							tmp += '			<td>';
 							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" >Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -69,19 +74,38 @@
 						$("#ris").html(tmp);
 						
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista dei compagni di studio ideali
-						$(".addUser").on("click", function() {
-							if($.cookie("listaUtenti")){								
+						$(".addUser").on("click", function() {							
+							if($.cookie("listaUtenti")){							
 								var cookie_lista = JSON.parse($.cookie("listaUtenti"));
 								if(cookie_lista.length < 10) {
 									var nome = $(this).attr("name");
 									var cognome = $(this).attr("surname");
 									var pathImmagine = $(this).attr("pathImage");
-									cookie_lista.push({
-										"name": nome,
-										"surname": cognome,
-										"pathImage": pathImmagine										
-									});
+									var usernome = $(this).attr("username");
+									var boopresente = false;
+									for (var i=0; i<cookie_lista.length; i++) {
+										if(usernome == cookie_lista[i]["username"]) {
+											boopresente = true;
+										}
+									}
+									if (boopresente == true) {
+										var tmp = '<center><br>';
+											tmp += '<div class="alert alert-warning">';
+											tmp += '<i class="glyphicon glyphicon-delete"/> ';
+											tmp += '<span style="font-size:18px;">Hai già inserito questo utente nella lista dei compagni ideali</span>';
+											tmp += '</div>';
+											tmp += '</center>';
+										$("#Message").html(tmp);
+										return;
+									} else {
+										cookie_lista.push({
+											"name": nome,
+											"surname": cognome,
+											"pathImage": pathImmagine,
+											"username": usernome										
+										});
 									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
+									}									
 								} else {
 									var tmp = '<center><br>';
 										tmp += '<div class="alert alert-warning">';
@@ -97,10 +121,12 @@
 								var name = $(this).attr("name");
 								var surname = $(this).attr("surname");
 								var pathImage = $(this).attr("pathImage");
+								var username = $(this).attr("username");
 								var cookie = {
 									"name": name,
 									"surname": surname, 
-									"pathImage": pathImage
+									"pathImage": pathImage,
+									"username": username
 								}
 								cookie_lista.push(cookie);
 								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });	
@@ -114,35 +140,7 @@
 		</script>
 	</head>
 	<body>
-        <header>
-            <nav class="navbar navbar-default navbar-static-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <a href="index.html" class="navbar-brand">UniSharing</a>
-                        <button class="navbar-toggle" data-toggle="collapse" data-target="#navHeaderCollapse" >
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div class="collapse navbar-collapse" id="navHeaderCollapse">
-                        <ul class= "nav navbar-nav navbar-right">
-                            <li class="active"><a href="index.html">Home</a></li>
-                            <li><a href="">Profilo</a></li>
-                            <li><a href="">Lista nera</a></li>
-                            <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Gruppi <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="">A cui partcipo</a></li>
-                                    <li><a href="">Di cui sono amministratore</a></li>
-                                </ul>
-                             </li>
-                            <li><a href=""> Segnalazione</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
+		<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
         <div id="container">
         	<div class="row">
             	<div class="col-lg-4"></div>
@@ -348,7 +346,6 @@
                     <div class="col-lg-2"></div>
             </div>
         </div>
-        <footer>
-        </footer>
+		<? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>
 </html>

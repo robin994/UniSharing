@@ -5,7 +5,7 @@
 	<nav class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/index.php" class="navbar-brand" style="margin-top: -12px;"><img src="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/img/logo.png" width="150"></a>
+				<a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/research/home/index.php" class="navbar-brand" style="margin-top: -12px;"><img src="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/img/logo.png" width="150"></a>
 				<button class="navbar-toggle" data-toggle="collapse" data-target="#navHeaderCollapse" >
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>

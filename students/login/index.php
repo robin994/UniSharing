@@ -1,3 +1,6 @@
+<?
+	include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrollogin.php");
+?>
 <!doctype html>
 <html>
 	<head>
@@ -137,9 +140,6 @@
 			</div>
 		</div>
 	</div>
-    <footer>
-
-    </footer>
-
+		<? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>
 </html>
