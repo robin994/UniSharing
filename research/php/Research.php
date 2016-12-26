@@ -48,11 +48,18 @@ class Research implements IResearch{
 		}
 
 		//costruisco la query di select
-		$query = "";
-		
-		$query .= " SELECT * FROM _user WHERE _user.idUser IN (SELECT _userhasfeatures.idUser as user FROM _features, _userhasfeatures WHERE  _features.idFeature = _userhasfeatures.idFeature ".$search_parolachiave;
+		$query = " SELECT * 	
+					FROM _user 
+					WHERE _user.idUser IN (
+							SELECT 	_userhasfeatures.idUser as user 
+							FROM 	_features, 
+									_userhasfeatures 
+							WHERE  _features.idFeature = _userhasfeatures.idFeature ".$search_parolachiave;
+							
+							
+							
 		if(count($features) > 0){
-			$query = "AND (";
+			$query .= "AND (";
 			for($i = 0; $i < count($features);$i++){
 				$query.= " _features.label = '".$features[$i]["features"]."' OR";
 			}
@@ -61,7 +68,6 @@ class Research implements IResearch{
 		}
 		$query .= ")";
 		
-
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 

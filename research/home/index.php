@@ -24,15 +24,28 @@
 					});
 					console.log(arr_features);
 					if(!boo){
-						alert("Non hai selezionato nessuna caratteristica!");
-						return;
+							var tmp = '<center><br>';
+							tmp += '<div class="alert alert-warning">';
+							tmp += '<i class="glyphicon glyphicon-delete"/> ';
+							tmp += '<span style="font-size:18px;">Non hai selezionato nessuna caratteristica</span>';
+							tmp += '</div>';
+							tmp += '</center>';
+							$("#Message").html(tmp);
+							return;
 					}
 					function callBackUsers(data){
-						console.log(data);
+						
 						if(!data.success){
-							alert("Errore! " + data.errorMessage);
+							var tmp = '<center><br>';
+							tmp += '<div class="alert alert-danger">';
+							tmp += '<i class="glyphicon glyphicon-delete"/> ';
+							tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
+							tmp += '</div>';
+							tmp += '</center>';
+							$("#Message").html(tmp);
 							return;
 						}
+	
 						var tmp = "";
 						for(var i = 0; i < data.results.length;i++){
 							console.log(data.results[i]);
@@ -41,7 +54,7 @@
 							tmp += 	'<tbody>';
 							tmp += 		'<tr>';
 							tmp += '			<td>';
-							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
+							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
 							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
 							tmp += '				<button class=" btn btn-success btn-xs" user-subhead" id="addUser" user="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
@@ -55,8 +68,11 @@
 						
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista
 						$("#addUser").on("click", function() {
+							
 							console.log("HO CLICCATO SUL TASTO AGGIUNGI UTENTE");
+							
 							var idealList;
+							
 							//Li aggiungo solo se l'idealist ha meno di 10 utenti
 							if(ideaList < 10) {
 								var cook = {
@@ -116,6 +132,11 @@
         </header>
         <div id="container">
         	<div class="row">
+            	<div class="col-lg-4"></div>
+                <div class="col-lg-4" id="Message"></div>
+                <div class="col-lg-4"></div>
+           	</div>
+            <div class="row">
             	<div class="col-lg-4">
                 </div>
                 <div class="col-lg-4">
@@ -126,7 +147,7 @@
                     	<button class="btn btn-default" id="btn-start-research" type="button">Avvia</button>
                   	</span>
                 	</div>
-                    <h5 style="text-align:right"><a href="#advancedsearch" data-toggle="collapse">advanced search</a></h5>
+                    <h5 style="text-align:right"><a href="#advancedsearch" data-toggle="collapse">ricerca avanzata</a></h5>
                     <div id="advancedsearch" class="collapse filter-panel">
                     <div class="panel with-nav-tabs panel-default">
                     	<div class="panel-heading">
