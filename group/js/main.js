@@ -341,11 +341,14 @@ function getDetailGroup(idGroup, mask_group){
 					tmp += "<td>"+data.results[0].partecipate[i].name+"</td>";
              		tmp += "<td>"+data.results[0].partecipate[i].surname+"</td>";
 					
-					if(Number(data.results[0].partecipate[i].accepted) > 0)
-             			tmp += "<td><span class='label label-success'>Accettato</span></td>";
-						else
-						tmp += "<td><span class='label label-danger'>Attesa</span></td>";
+					switch(Number(data.results[0].partecipate[i].accepted)){
 						
+						case -1: tmp += "<td><span class='label label-danger'>Invito rifiutato</span></td>";break;
+						case 0: tmp += "<td><span class='label label-warning'>In attesa</span></td>";break;
+						case 1: tmp += "<td><span class='label label-success'>Invito accettato</span></td>";break;
+						
+					}
+             			
         			tmp += "</tr>";
 				}	
 				
