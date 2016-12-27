@@ -11,6 +11,8 @@
         <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../../css/group_style.css" rel="stylesheet" media="screen">
+        <link href="../../css/footer.css" rel="stylesheet" media="screen">
+        <link href="../../css/navbar.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>

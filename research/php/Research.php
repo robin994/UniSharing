@@ -13,10 +13,16 @@ interface IResearch{
 class Research implements IResearch{
 
 	private $connect;
+	
+	private $cookie;
 
 	public function init(){
+		
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
+		
+		// prelevo l'eventuale cookie dell'utente connesso
+		$this->cookie = json_decode($_COOKIE["user"], false);
 	}
 	
 	public function researchUsers($post){
@@ -42,19 +48,19 @@ class Research implements IResearch{
 			return json_encode($objJSON);
 		}
 		
-		if($post["parola_chiave"]){
-			$search_parolachiave = "AND _user.name LIKE '%".$post["parola_chiave"]."%'".
-									"OR _user.surname LIKE '%".$post["parola_chiave"]."%'";
+		if($post["parolachiave"]){
+			$search_parolachiave = "AND (_user.name LIKE '%".$post["parolachiave"]."%'".
+									" OR _user.surname LIKE '%".$post["parolachiave"]."%')";
 		}
 
 		//costruisco la query di select
 		$query = " SELECT * 	
 					FROM _user 
-					WHERE _user.idUser IN (
+					WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
 							SELECT 	_userhasfeatures.idUser as user 
 							FROM 	_features, 
 									_userhasfeatures 
-							WHERE  _features.idFeature = _userhasfeatures.idFeature ".$search_parolachiave;
+							WHERE  _features.idFeature = _userhasfeatures.idFeature ";
 							
 							
 							
@@ -67,6 +73,7 @@ class Research implements IResearch{
 			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 		}
 		$query .= ")";
+		
 		
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -96,6 +103,7 @@ class Research implements IResearch{
 				$objJSON["results"][$cont]["id"] = $rowValori["idUser"];
 				$objJSON["results"][$cont]["name"] = $rowValori["name"];
 				$objJSON["results"][$cont]["surname"] = $rowValori["surname"];
+				$objJSON["results"][$cont]["username"] = $rowValori["email"];
 				$objJSON["results"][$cont]["pathImage"] = $rowValori["pathImage"];
 				$objJSON["results"][$cont]["address"] = $rowValori["address"];
 				$cont++;

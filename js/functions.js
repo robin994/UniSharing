@@ -36,5 +36,19 @@ $(function(){
 			}
 		});
 	}
+	
+	$.aggiornaBadge = function(){
+		
+		
+		if($.cookie("listaUtenti")){
+			var listaUtenti = JSON.parse($.cookie("listaUtenti"));
+		
+			if(listaUtenti.length > 0)
+				$("#numIdealList").html(listaUtenti.length);
+			else
+				$("#numIdealList").html("");
+		}
+	}
+	
 
 }); //fine juery.ready

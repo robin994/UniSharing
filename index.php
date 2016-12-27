@@ -63,6 +63,7 @@
 							}							
 							// creo il cookie
 							$.cookie('user', JSON.stringify(cook));
+							document.location.href = "/research/home/";
 						}
 					}
 
@@ -91,7 +92,7 @@
                           	<button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Log in</button>
 							<div>
                         		<br>
-            					<center><a href="#">Crea account</a> o <a href="#">ripristina password</a></center>
+            					<center><a href="<? echo "http://".$_SERVER["HTTP_HOST"]."/students/signin/" ?>">Crea account</a> o <a href="#">ripristina password</a></center>
           					</div>
        					</div>
       				</section>

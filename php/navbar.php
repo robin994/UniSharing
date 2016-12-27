@@ -15,7 +15,7 @@
 			<div class="collapse navbar-collapse" id="navHeaderCollapse">
 				<ul class= "nav navbar-nav navbar-right">
 					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/blacklist/index.php">Lista nera</a></li>
-					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/ideallist/index.php">Lista compagni di studi</a></li>
+					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/ideallist/index.php">Lista compagni di studi <span class="badge" id="numIdealList"></span></a></li>
 					<li class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Gruppi <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -44,7 +44,7 @@
                                     	<div class="col-lg-4">
                                         	<p class="text-center">
                                             	<span>
-                                                	<img class="icon-size" src="<? echo($_SERVER["DOCUMENT_ROOT"]."/".$cookie->{"pathImage"}) ?>/icon80x80.jpg" ></img>
+                                                	<img class="icon-size" src="<? echo "http://".$_SERVER["HTTP_HOST"]."/".$cookie->{"pathImage"}; ?>/icon80x80.jpg" ></img>
                                                  </span>
                                         	</p>
                                     	</div>
@@ -73,9 +73,9 @@
                             	</div>
                         	</li>
                         	<li class="divider navbar-login-session-bg"></li>
-                         	<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/modprofile/index.php">Impostazioni account<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+                         	<!--<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/modprofile/index.php">Impostazioni account<span class="glyphicon glyphicon-cog pull-right"></span></a></li>-->
 							<li class="divider"></li>
-                            <li><a href="">Esci<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
+                            <li><a href="" id="logout">Esci<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
                     	</ul>
                 	</li>
 				</ul>
@@ -83,3 +83,16 @@
 		</div>
 	</nav>
 </header>
+<script>
+
+$(function(){
+	
+	$("#logout").on("click", function(){
+		$.removeCookie("user", {path: "/", domain:"localhost"});
+	});
+	
+	//aggiorna i badge
+	$.aggiornaBadge();
+});
+
+</script>

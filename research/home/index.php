@@ -18,9 +18,16 @@
         <script>
 			$(function() {
 				$("#btn-start-research").on("click", function() {
+					
+					$("#Message").html("");
+					
 					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
+					
 					var arr_features = [];
+					var parolachiave = $("#parolachiave").val();
 					var boo = false;
+					
+					
 					$(".features").each(function(){
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
@@ -52,6 +59,18 @@
 							$("#ris").html("");
 							return;
 						}
+						
+						if(data.results.length <= 0){
+							var tmp = '<center><br>';
+							tmp += '<div class="alert alert-warning">';
+							tmp += '<i class="glyphicon glyphicon-delete"/> ';
+							tmp += '<span style="font-size:18px;">Nessun utente trovato con le caratteristiche indicate</span>';
+							tmp += '</div>';
+							tmp += '</center>';							
+							$("#Message").html(tmp);
+							$("#ris").html("");
+							return;
+						}
 	
 						var tmp = "";
 						for(var i = 0; i < data.results.length;i++){
@@ -74,15 +93,20 @@
 						$("#ris").html(tmp);
 						
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista dei compagni di studio ideali
-						$(".addUser").on("click", function() {							
+						$(".addUser").on("click", function() {	
+							
+							$("#Message").html("");
+							
 							if($.cookie("listaUtenti")){							
 								var cookie_lista = JSON.parse($.cookie("listaUtenti"));
+							
 								if(cookie_lista.length < 10) {
 									var nome = $(this).attr("name");
 									var cognome = $(this).attr("surname");
 									var pathImmagine = $(this).attr("pathImage");
 									var usernome = $(this).attr("username");
 									var boopresente = false;
+									
 									for (var i=0; i<cookie_lista.length; i++) {
 										if(usernome == cookie_lista[i]["username"]) {
 											boopresente = true;
@@ -105,6 +129,7 @@
 											"username": usernome										
 										});
 									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
+									$.aggiornaBadge();
 									}									
 								} else {
 									var tmp = '<center><br>';
@@ -130,10 +155,13 @@
 								}
 								cookie_lista.push(cookie);
 								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });	
+								
+								$.aggiornaBadge();
+							
 							}
 						})				
 					}
-					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features}, false, callBackUsers);
+					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave}, false, callBackUsers);
 
 				});
 			});
@@ -153,7 +181,7 @@
                 <div class="col-lg-4">
                 	<center><img src="../../img/logo.jpg" class="img-responsive" alt="logo"></center>
                     <div class="input-group">
-                  	<input type="text" class="form-control" placeholder="Search">
+                  	<input type="text" class="form-control" placeholder="Search" id="parolachiave">
                   	<span class="input-group-btn">
                     	<button class="btn btn-default" id="btn-start-research" type="button">Avvia</button>
                   	</span>
@@ -221,31 +249,31 @@
                                     	<div class="checkbox">
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Timido" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Informatica
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Matematica" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Matematica
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox"  value="Fisica" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Fisica
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Scienza" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Scienze
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="">
+                                                    <input type="checkbox" value="Biologia" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Biologia
                                                 </label>
                                             </div>

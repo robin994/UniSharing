@@ -25,12 +25,12 @@
     	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
         <script src="/js/jquery.balloon.js"></script>
         
+        <script src="../../js/functions.js"></script>
+        
         <script>        
 			$(function(){
 				
 				var boo = false;
-				
-				console.log(JSON.parse($.cookie("listaUtenti")));
 				
 				if($.cookie("listaUtenti")){
 					
@@ -99,7 +99,7 @@
 							}
 						}
 						
-						$.cookie("listaUtenti", JSON.stringify(utenti), 60);
+						$.cookie("listaUtenti", JSON.stringify(utenti), {path: "/", domain:"localhost", expire: 60});
 						location.reload();
 					}
 					
