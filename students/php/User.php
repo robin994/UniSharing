@@ -22,6 +22,9 @@ interface IUser{
 
 	// metodo per la modifica dei dati utente
 	public function modifyProfile($param);
+	
+	// metodo per aggiunge un utente alla propria blacklist
+	public function addUserToBlackList($param);
 
 }
 
@@ -29,6 +32,9 @@ class User extends Account implements IUser{
 
 	//private $connect;
 	private $notify;
+	
+	// cookie dell'utente
+	private $cookie;
 
 	// costruttore della classe
 	public function __construct(){}
@@ -43,6 +49,9 @@ class User extends Account implements IUser{
 
 		//inizializza l'oggetto Notification
 		$this->notify = new Notification();
+		
+		// prelevo l'eventuale cookie dell'utente connesso
+		$this->cookie = json_decode($_COOKIE["user"], false);
 
 	}
 
@@ -589,6 +598,69 @@ class User extends Account implements IUser{
 	}
 
 	/////////// FINE METODO CHE EFFETTUA LA MODIFICA DEL PROFILO /////////
+
+
+	////////////////////////////////////////////////////////////////////
+	/////////// METODO CHE AGGIUNGE UN UTENTE ALLA PROPRIA BLACKLIST ///
+	////////////////////////////////////////////////////////////////////
+
+
+	public function addUserToBlackList($post) {
+
+	
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();
+
+		// formulo la query
+		$query = "INSERT IGNORE INTO _blacklist (user, blockedUser) VALUES ('".$this->cookie->{"username"}."','".$post["user"]."')";
+		
+		
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore: ";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+			
+			
+			//la chiamata ha avuto successo
+			$objJSON["success"] = true;
+			$objJSON["results"] = array();
+
+			
+			
+			if($post["gruppo"]){
+				
+				// setto il rifiuto di partecipazione al gruppo	
+				$gruppo = new Group();
+				$gruppo->init();
+				$gruppo->refusalInvite($post);
+				
+			}
+
+		}
+		
+		//Disconnetto dal database
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+	}
+
+
 
 }
 

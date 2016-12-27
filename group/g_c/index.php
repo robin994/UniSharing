@@ -3,20 +3,23 @@
 	<head>
 		<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>UniSharing</title>
+		<title>Unisharing</title>
 
+		 <script src="../../js/jquery.1.12.js"></script>
 	  <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="../../css/style.css" rel="stylesheet" media="screen">
+    <link href="../../css/jquery.ui.css" rel="stylesheet" media="screen">
     <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
-    <script src="../../js/jquery.1.12.js"></script>
+    <link href="../../css/font-awesome.min.css" rel="stylesheet" media="screen">
 		<script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/functions.js"></script>
     <script src="../../js/jquery.cookie.js"></script>
     <script src="../../js/jquery.Jcrop.min.js"></script>
+     <script src="../../js/jquery.ui.js"></script>
 
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
 
 
       <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
@@ -25,7 +28,47 @@
 
 					$(function() {
 
+						
+						var listaUtenti = [
+							{
+							"username": "lorenzo.dev@gmail.com",
+							"name": "Antonio",
+							"surname": "Fasulo",
+							"pathImage": "img/avatar/tester1@unisharing.it/"	
+							}
+						]
+						
+						$.cookie("listaUtenti", JSON.stringify(listaUtenti), {path: "/", domain: "localhost", expire: 60});
 
+						var elencoEsami = [];
+
+						///// verifico se la lista dei compagni di studio ideale è non vuota
+						if(!$.cookie("listaUtenti")){
+							var tmp = '<center><br>';
+							tmp += '<div class="alert alert-warning">';
+							tmp += '<i class="glyphicon glyphicon-delete"/> ';
+							tmp += '<span style="font-size:18px;">La lista dei compagni di studio ideali è vuota</span>';
+							tmp += '</div>';
+							tmp += '</center>';
+							$("#Message").html(tmp);
+							return;	
+						}
+
+
+						/// Mostro l'elenco del gruppo ideale
+						var listaUtenti = JSON.parse($.cookie("listaUtenti"));
+						var tmp = "";
+						for(var i = 0;i < listaUtenti.length;i++){
+							tmp += '<div class="col-md-4" style="padding-left:0px !important">'
+							tmp += '<div class="alert alert-info" role="alert" style="padding: 5px;">';
+                            tmp += '<img style="border-radius:30px;" src="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/'+listaUtenti[i].pathImage+'/icon40x40.jpg">';
+                            tmp += ' <strong>'+listaUtenti[i].name+' '+listaUtenti[i].surname+'</strong>';
+                            tmp += '</div>';
+						 	tmp += '</div>';		
+						}
+
+						$("#lista_utenti").html(tmp);
+						
 						/////////////////////////////////////////////////////////////////
 						/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
 						/////////////////////////////////////////////////////////////////
@@ -35,7 +78,7 @@
 							console.log(data);
 
 							if(!data.success){
-								alert("Errore! " + data.errorMessage);
+								alert("Errore! " + data.messageError + " " + data.error);
 								return;
 							}
 
@@ -81,19 +124,23 @@
 							var availableTags = [];
 							var callBackExams = function(data){
 
+								console.log("Esami");
+								console.log(data);
+
 								if(!data.success){
 									alert("Errore! " + data.errorMessage);
 									return;
 								}
 
 								for (var i=0; i< data.results.length;i++) {
-									availableTags[i] = data.results[i].name;
+									elencoEsami[i] = data.results[i].name;
 								}
+								
+								$("#exam").autocomplete({
+						  			source: elencoEsami
+								});
 
-								$( "#exam" ).autocomplete({
-      					source: availableTags
-    						});
-								}
+							}
 
 							$.unisharing("Istitutes", "getExams", "private", {"idFaculty": facolta}, false, callBackExams);
 
@@ -105,36 +152,22 @@
 
 						$("#btn-create-group").on("click", function() {
 
-							console.log("HO CLICCATO SUL TASTO crea gruppo");
 
 							var name = $("#name").val();
 							var universita = $("#universita").val();
 							var facolta = $("#facolta").val();
-							var exam = $("#exam").val();
+							var esame = $("#exam").val();
 							var description = $("#description").val();
 							var expirationDate = $("#expirationDate").val();
-							var account = null; //INSERIRE COOKIE
-							expirationDate
-
-							$(".features").each(function(){
-								if($(this).is(":checked"))
-									features.push($(this).val());
+							var expirationInvite = $("#expirationInvite").val();
+							var utenti = [];
+							
+							
+							var listaUtenti = JSON.parse($.cookie("listaUtenti"));
+							$.each(listaUtenti, function(i, item) {
+								utenti.push(item.username);
 							});
-
-							/*
-							// DATI DA INSERIRE PER IL TESTING
-							name = "Lorenzo";
-							surname = "Vitale"
-							email = "l.vitale@live.it";
-							password = "provapassword";
-							confpassword = "provapassword";
-							address = "via Repubblica, 2 ";
-							universita = "1";
-							bday = "2016-12-16";
-							facolta = "1";
-							description = "Mi piace IS";
-							*/
-
+							
 
 							// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
 							var message_err = "";
@@ -154,50 +187,83 @@
 								message_err += "Non è stata selezionata la facoltà<br>";
 								boo_err = true;
 							}
-
+							
+							if(!esame){
+								message_err += "Non hai inserito l'esame<br>";
+								boo_err = true;
+							}
+							
+							var eDate = expirationDate.split("-");
+							var eDate = new Date(eDate[2], eDate[1] - 1, eDate[0]).getTime();
+								
+							var eInvite = expirationInvite.split("-");
+							var eInvite = new Date(eInvite[2], eInvite[1] - 1, eInvite[0]).getTime();
+							
+							
+							if(isNaN(eDate)){
+								message_err += "La data di scadenza del gruppo non è valida<br>";
+								boo_err = true;
+							}
+							
+							if(isNaN(eInvite)){
+								message_err += "La data di scadenza degli inviti non è valida<br>";
+								boo_err = true;
+							}
+							
+							
+							if(Number(eDate) <= Number(eInvite)){
+								message_err += "La data di scadenza degli inviti non può essere successiva o pari a quella di scadenza del gruppo<br>";
+								boo_err = true;
+							}
+							
 							if(boo_err){
-
-								$.alert({
-									title: 'Attenzione!',
-									content: message_err
-								});
-
+								var tmp = '<center>';
+									tmp += '<div class="alert alert-warning">';
+									tmp += '<i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size:26px;" /><br>'
+									tmp += '<i class="glyphicon glyphicon-delete"/> ';
+									tmp += '<span style="font-size:18px;">'+message_err+'</span>';
+									tmp += '</div>';
+									tmp += '</center>';
+									$("#FormError").html(tmp);
 								return;
 							}
 
-
+							$("#FormError").html("");
 
 							var callBackGroupCreation = function(data){
 
 								if(!data.success){
-									alert("Errore! " + data.messageError);
-									return;
-								}
+								alert("Errore! " + data.messageError + " " + data.error);
+								return;
+							}
 
 
-								$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Gruppo creato correttamente</div></center>');
+								document.location.href = "http://<? echo $_SERVER["HTTP_HOST"]; ?>/group/g_a/";
 
 							}
 
 							var param = {
-								"user": {
-									"name": name,
-									"universita":universita,
-									"facolta":facolta,
-									"description": description,
-									"expirationDate": expirationDate,
-									"account": account,
-									"exam": exam,
-									}
+								"name": name,
+								"universita":universita,
+								"facolta":facolta,
+								"description": description,
+								"expirationDate": expirationDate,
+								"expirationInvite": expirationInvite,
+								"esame": esame,
+								"partecipanti": utenti
 								}
 
 							console.log("AAAA");
 							console.log(param);
-
+							
+							
 							$.unisharing("Group", "createGroup", "public", param, false, callBackGroupCreation);
 
 						});
+					
+						
 					});
+					
 				</script>
 
 	</head>
@@ -232,15 +298,28 @@
             </nav>
         </header>
 	<div class="container">
-		<div class="row-fluid">
-      <div class="col-lg-2"></div>
+		<div class="row">
+        	<div class="col-lg-3"></div>
+            <div class="col-lg-6" id="Message"></div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="row">
+      		<div class="col-lg-2"></div>
 			<div class="col-lg-8">
-				<h1>Creazione Gruppo</h1>
+				<h2>Creazione Gruppo</h2>
+                <div class="row-fluid">
+                	<div class="col-lg-12">
+                    	<label>Il tuo team</label><br>
+                        <span id="lista_utenti">
+                            
+                      	</span>
+                   	</div>
+                </div><br>
 				<div class="row-fluid">
 					<div class="col-lg-12" id="result_message">
 						<label>Nome gruppo</label>
 						<input type="text" id="name" class="form-control" placeholder="Nome Gruppo" aria-describedby="basic-addon1" required>
-					</div>
+					</div><br>
 					<div class="col-md-6">
 						<label>Università</label>
 						<select id="universita" name="selectbasic" class="form-control">
@@ -250,30 +329,46 @@
 						<label>Facoltà</label>
 						<select id="facolta" name="selectbasic" class="form-control">
 						</select>
-					</div>
+					</div><br>
 					<div class="col-lg-12">
 						<label>Nome esame</label>
 						<input id="exam" class="form-control" placeholder="Nome esame" aria-describedby="basic-addon1" required>
-					</div>
+					</div><br>
+                    <div class="col-lg-12">
+                    	<div class='col-lg-6' style="padding-left:0px !important;">
+							<label>Scadenza gruppo</label>
+							<input type="date" class="form-control" id="expirationDate" placeholder="" aria-describedby="basic-addon1" min="<? echo date("Y-m-d");?>">
+						</div>
+                        <div class='col-lg-6' style="padding-right:0px !important;">
+							<label>Scadenza inviti</label>
+							<input type="date" class="form-control" id="expirationInvite" placeholder="" aria-describedby="basic-addon1" min="<? echo date("Y-m-d");?>">
+						</div>
+                    </div><br>
 					<div class="col-lg-12">
 						<label>Descrizione</label>
 						<textarea id="description" class="form-control" style="resize:vertical;height:250px;"></textarea>
-					</div>
-					<div class='col-lg-4'>
-						<label>Scadenza gruppo</label>
-						<input type="date" class="form-control" id="expirationDate" placeholder="" aria-describedby="basic-addon1">
-					</div>
-					<div class='col-lg-4'></div>
-					<div class='col-lg-4'>
-						<button class="btn btn-lg btn-primary btn-block" id="btn-create-group" style="margin-top:5%;">Crea Gruppo</button>
 					</div>
 				</div>
 
 
 			</div>
-      <div class="col-log-2"></div>
+      		<div class="col-log-2"></div>
 		</div>
-	</div>
+        <br>
+        <div class="row">
+        	<div class="col-lg-3"></div>
+            <div class="col-lg-6" id="FormError"></div>
+            <div class="col-lg-3"></div>
+        </div>
+        <br>
+        <div class="row">
+        	<div class="col-lg-4"></div>
+            <div class="col-lg-4">
+           		<button class="btn btn-lg btn-primary btn-block" id="btn-create-group">Crea Gruppo</button><br><br>
+			</div>
+            <div class="col-lg-4"></div>
+        </div>
+
   <footer>
 
   </footer>

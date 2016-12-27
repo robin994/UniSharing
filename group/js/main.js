@@ -62,11 +62,41 @@ function getGroup(mask_group){
 
 function initButtons(){
 	
+	
+	$("#btn-conferma").unbind("click");
+	$("#btn-conferma").bind("click", function(){
+			
+			
+		var scelta = $(".accept:checked").val();
+		
+		// prelevo le informazioni
+		var idGroup = $(this).attr("idGroup");
+		var ratio = $("#ratio").val();
+		var admin = $(this).attr("admin");
+		
+		switch(scelta){
+			case 'accetto': acceptInvite(idGroup);break;
+			case 'rifiuto': refusalInvite(idGroup, ratio);break;	
+			case 'blacklist': addUserToBlackList(idGroup, admin);break;
+		}
+		
+	});
+	
+	$(".accept").unbind("click");
+	$(".accept").bind("click", function(){
+			
+
+		if($(this).val() == "rifiuto"){
+			$("#ratio").css({display: "block"});
+		}else
+			$("#ratio").css({display: "none"});
+			
+	});
+	
 	// Azione sul tasto "abbandona gruppo"
 	$(".btn_leave_g").unbind("click");
 	$(".btn_leave_g").bind("click", function(e){
 	
-		
 		idGroup = $(this).attr("idGroup");
 		
 		var user = JSON.parse($.cookie("user"));
@@ -101,17 +131,6 @@ function initButtons(){
 	   });
 	});
 	
-	
-	$("#btn-rifiuta").unbind("click");
-	$("#btn-rifiuta").bind("click", function(){
-			
-		// function che rifiuta l'invito
-		var idGroup = $(this).attr("idGroup");
-		var ratio = $("#ratio").val();
-		
-		refusalInvite(idGroup, ratio);
-	});
-	
 
 }
 
@@ -140,30 +159,19 @@ function leaveGroup(idGruppo, message){
 
 
 // metodo che vreifica la validità dell'invito
-function isInviteValid(idGruppo, message){
-		
-	var risultati = [];	
-		
+function isInviteValid(idGruppo, mask_refusal){
+	
+	var results = {
+		success: false	
+	}
 	function callBackInviteValid(data){
 		
-		if(!data.success){
-			var tmp = '<center><br>';
-			tmp += '<div class="alert alert-danger">';
-			tmp += '<i class="glyphicon glyphicon-delete"/> ';
-			tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
-			tmp += '</div>';
-			tmp += '</center>';
-			$("#Message").html(tmp);
-			boo = false;
-		}
-		
-		risultati = data.results;
-	
+		results = data;
 	}
 	
-	$.unisharing("Group", "isInviteValid", "private", {"gruppo": 1}, false, callBackInviteValid);
-	
-	return risultati;
+	$.unisharing("Group", "isInviteValid", "private", {"gruppo": idGruppo}, false, callBackInviteValid);
+
+	return results;
 }
 
 
@@ -191,15 +199,47 @@ function refusalInvite(idGruppo, message){
 			tmp += '<span style="font-size:18px;">Hai rifiutato la partecipazione al gruppo correttamente</span>';
 			tmp += '</div>';
 			tmp += '</center>';
-			$("#Mask_refusal_group").html(tmp);
+			$("#Mask_accept_group").html(tmp);
 		}
 		
 	}
 	
-	$.unisharing("Group", "refusalInvite", "private", {"gruppo": 1}, false, callBackRefusalInvite);
+	$.unisharing("Group", "refusalInvite", "private", {"gruppo": idGruppo, "ratio":message}, false, callBackRefusalInvite);
 
 }
 
+
+
+//// Metodo che rifiuta l'invito
+function acceptInvite(idGruppo){
+		
+	var risultati = [];	
+		
+	function callBackAcceptInvite(data){
+		
+		if(!data.success){
+			var tmp = '<center><br>';
+			tmp += '<div class="alert alert-danger">';
+			tmp += '<i class="glyphicon glyphicon-delete"/> ';
+			tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Message").html(tmp);
+		}else{
+			var tmp = '<center><br>';
+			tmp += '<div class="alert alert-success">';
+			tmp += '<i class="glyphicon glyphicon-success"/> ';
+			tmp += '<span style="font-size:18px;">Hai accettato la partecipazione al gruppo correttamente</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Mask_accept_group").html(tmp);
+		}
+		
+	}
+	
+	$.unisharing("Group", "acceptInvite", "private", {"gruppo": idGruppo}, false, callBackAcceptInvite);
+
+}
 
 
 
@@ -236,7 +276,7 @@ function getGroupByAdmin(){
 					tmp +=		'<td>'+data.results[i].creationDate+'</td>';
 					tmp +=		'<td>'+data.results[i].expirationDate+'</td>';
 					tmp +=		'<td>'+data.results[i].expirationInvite+'</td>';
-					tmp +=		'<td><a href="INSERIRE LINK QUI"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
+					tmp +=		'<td><a href="../g_v/?g='+data.results[i].idGroup+'"><i class="glyphicon glyphicon-info-sign size_icon"></i></a></td>';
 					tmp +=	'</tr>';
 				}
 	
@@ -314,9 +354,44 @@ function getDetailGroup(idGroup, mask_group){
 			}
 	  }
 	  
-	   $.unisharing("Group", "getDetailsGroup", "private", param, false, callBackDetailGroup);
+	  $.unisharing("Group", "getDetailsGroup", "private", param, false, callBackDetailGroup);
 	  
 }
+
+
+//// Metodo che aggiunge un utente alla propria blacklist
+function addUserToBlackList(idGruppo, user){
+		
+	var risultati = [];	
+		
+	function callBlackAddBlacklist(data){
+		
+		console.log(data);
+		
+		if(!data.success){
+			var tmp = '<center><br>';
+			tmp += '<div class="alert alert-danger">';
+			tmp += '<i class="glyphicon glyphicon-delete"/> ';
+			tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Message").html(tmp);
+		}else{
+			var tmp = '<center><br>';
+			tmp += '<div class="alert alert-success">';
+			tmp += '<i class="glyphicon glyphicon-success"/> ';
+			tmp += '<span style="font-size:18px;">Hai inserito l\'utente nella tua blacklist correttamente</span>';
+			tmp += '</div>';
+			tmp += '</center>';
+			$("#Mask_accept_group").html(tmp);
+		}
+		
+	}
+	
+	$.unisharing("User", "addUserToBlackList", "private", {"gruppo": idGruppo, "user": user}, false, callBlackAddBlacklist);
+
+}
+
 
 
 

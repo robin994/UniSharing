@@ -32,23 +32,37 @@
 			
 			
 			// carico Mark_feedback
-			$.get("../../presentation/group_refusal.html", function(html){
+			$.get("../../presentation/group_accept.html", function(html){
 					
-				mask_refusal = html;
+				mask_accept = html;
+				
+				var idGruppo = "<? echo $_GET["g"]; ?>";
 				
 				// verifico se l'invito è valido
-				var result = isInviteValid();
+				var data = isInviteValid(idGruppo);
 				
-				if(result.length > 0){
-					$("#Mask_refusal_group").html(mask_refusal);	
-					$("#avatar").html("<img src='../../"+result[0].pathImage_admin+"/icon80x80.jpg' />");
-					$("#utente").html(result[0].name_admin+" "+result[0].surname_admin);
-					$("#nome_gruppo").html(result[0].namegroup);
-					$("#btn-rifiuta").attr("idGroup", result[0].idGroup);
+				if(data.success){
+				
+					$("#Mask_accept_group").html(mask_accept);	
+					$("#avatar").html("<img style='border-radius:40px;' src='../../"+data.results[0].pathImage_admin+"/icon80x80.jpg' />");
+					$("#utente").html(data.results[0].name_admin+" "+data.results[0].surname_admin);
+					$("#nome_gruppo").html(data.results[0].namegroup);
+					$("#btn-conferma").attr("idGroup", data.results[0].idGroup);
+					$("#btn-conferma").attr("admin", data.results[0].username_admin);
 					
 					//inizializzo i tasti
 					initButtons();
-				
+					
+				}else{
+					
+					var tmp = '<center><br>';
+					tmp += '<div class="alert alert-danger">';
+					tmp += '<i class="glyphicon glyphicon-delete"/> ';
+					tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
+					tmp += '</div>';
+					tmp += '</center>';
+					$("#Message").html(tmp);
+					
 				}
 				
 			});
@@ -106,7 +120,7 @@
            	</div>
        		<div class= "row">
 				<div class= "col-lg-2"></div>
-				<div class= "col-lg-8" id="Mask_refusal_group">
+				<div class= "col-lg-8" id="Mask_accept_group">
                 	
                 </div>
 				<div class= "col-lg-2"></div>

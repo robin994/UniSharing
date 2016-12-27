@@ -69,7 +69,7 @@
 						
 						$("#ris").html(tmp);
 						if(utenti.length > 0){
-							$("#ris").append("<center><button type=\"button\" class=\"btn btn-primary\" title=\"crea un nuovo gruppo\">Crea gruppo</button></center>");
+							$("#ris").append("<center><a href='<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/group/g_c/'><button type=\"button\" class=\"btn btn-primary\" title=\"crea un nuovo gruppo\">Crea gruppo</button></center>");
 						}
 					}
 				}

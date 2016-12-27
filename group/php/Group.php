@@ -21,6 +21,9 @@ interface IGroup{
 	
 	// metodo che permette all'utente di rifiutare un invito
 	public function refusalInvite($param);	
+	
+	// metodo che permette all'utente di accettare un invito
+	public function acceptInvite($param);	
 }
 
 
@@ -137,6 +140,7 @@ class Group implements IGroup{
 
 		// creo la query in sql
 		$query = "SELECT 	_group.name as name,
+							_group.idGroup as idGroup,
 							_group.creationDate as creationDate,
 							_group.expirationDate as expirationDate,
 							_group.expirationInvite as expirationInvite
@@ -169,6 +173,7 @@ class Group implements IGroup{
 			//itero i risultati ottenuti dal metodo
 			while($rows = mysqli_fetch_array($result)){
 				$objJSON["results"][$cont]["name"] = $rows["name"];
+				$objJSON["results"][$cont]["idGroup"] = $rows["idGroup"];
 				$objJSON["results"][$cont]["creationDate"] = $rows["creationDate"];
 				$objJSON["results"][$cont]["expirationDate"] = $rows["expirationDate"];
 				$objJSON["results"][$cont]["expirationInvite"] = $rows["expirationInvite"];
@@ -344,7 +349,7 @@ class Group implements IGroup{
 					
 						FROM _user, _accountpartecipategroup
                   	  	WHERE 	_user.email = _accountpartecipategroup.account AND 
-								_accountpartecipategroup.groupId = '".$post["gruppo"]."'";
+								_accountpartecipategroup.groupId = '".$post["gruppo"]."' AND _accountpartecipategroup.account <> '".$this->cookie->{"username"}."'";
 			
 			
 			//la passo la motore MySql
@@ -403,6 +408,54 @@ class Group implements IGroup{
 	}
 
 	public function createGroup($post) {
+		
+		
+		// verifico che i dati siano stati inseriti correttamente
+		$boo = true;
+		if(!isset($post["name"])){ $boo = true; }
+		
+		if(!isset($post["facolta"])){ $boo = true; }
+		
+		if(!isset($post["expirationDate"])){ $boo = true; }
+		
+		if(!isset($post["esame"])){ $boo = true; }
+		
+		$eDate = $post["expirationDate"];
+		$eInvite = $post["expirationInvite"];
+		
+		if(count($post["partecipanti"]) <= 0){ $boo = true; }
+		
+		
+		if(!$boo){
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = "I campi non sono stati inseriti correttamente";
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);	
+		}
+		
+		
+		//verifico che l'esame fornito dall'utente esista già. Diversamente lo creo
+		$istitutes = new Istitutes();
+		$istitutes->init();
+		$objJSONEsame = json_decode($istitutes->getExamByName($post), false);
+		
+		$idEsame;
+		if(count($objJSONEsame->{"results"}) <= 0){
+			$objIdExam = $istitutes->insertExam($post);
+			$r = json_decode($objIdExam, false);
+			
+			if(!$r->{"success"}){
+				return $objIdExam;
+			}
+			$idEsame = 	$r->{"idExam"};	
+		}else{
+			$idEsame = $objJSONEsame->{"results"}[0]->{"idExam"};
+		}
+		
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
@@ -414,15 +467,17 @@ class Group implements IGroup{
 										description,
 										exam,
 										expirationDate,
+										expirationInvite,
 										creationDate,
 										account
 										) VALUES (
-										'".$post["user"]["name"]."',
-										'".$post["user"]["description"]."',
-										'".$post["user"]["exam"]."',
-										'".$post["user"]["expirationDate"]."',
+										'".$post["name"]."',
+										'".$post["description"]."',
+										'".$idEsame."',
+										'".$eDate."',
+										'".$eInvite."',
 										(SELECT curdate()),
-										'".$post["user"]["account"]."'
+										'".$this->cookie->{"username"}."'
 										)";
 
 		//la passo la motore MySql
@@ -441,8 +496,84 @@ class Group implements IGroup{
 
 		}else{
 
+			$idGroup = $this->connect->insert_id();
+			
+			//inserisco gli utenti che partecipano al gruppo
+			$users = "";
+			$values = "";
+			for($i = 0;$i < count($post["partecipanti"]);$i++){
+				$users .= " _blacklist.user = '".$post["partecipanti"][$i]."' OR";
+				$values .= "( '".$post["partecipanti"][$i]."', '".$idGroup."', 0, 0),";
+			}
+			$values .= "('".$this->cookie->{"username"}."','".$idGroup."', 0, 1)";
+			
+			$users = substr($users,0, strlen($users)-2);
+			
+			$query_insert = "INSERT INTO _accountpartecipategroup
+								(
+								account,
+								groupId,
+								accepted,
+								admin
+								)VALUES ".$values;
+
+			//la passo la motore MySql
+			$this->connect->myQuery($query_insert);
+	
+			if($this->connect->errno()){
+	
+				//la chiamata non ha avuto successo
+				$objJSON["success"] = false;
+				$objJSON["messageError"] = "Errore:";
+				$objJSON["error"] = $this->connect->error();
+	
+				//Disconnetto dal database
+				$this->connect->disconnetti();
+				return json_encode($objJSON);
+	
+			}
+
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
+			
+			//////////////////////////////////////////////////
+			/////////// INVIO L'EMAIL DI BENVENUTO ///////////
+			//////////////////////////////////////////////////
+			
+			$from = "l.vitale@live.it";
+			$object = "Qualcuno ti ha invitato!";
+			
+			//creo il messaggio di benvenuto all'utente iscritto
+			$message = "<html><body style='font-family:courier;font-size:16px;'>Sei stato invitato ad un gruppo di studio<br><br>:::::::::::::::::::::::::::::<br><a href='http://".$_SERVER["HTTP_HOST"]."/group/g_accept/?g=".$idGroup."'>Accetta</a><br><a href='http://".$_SERVER["HTTP_HOST"]."/group/g_refusal/?g=".$idGroup."'>Rifiuta</a><br>
+<a href='http://".$_SERVER["HTTP_HOST"]."/students/add_blacklist/'>Aggiungi alla lista nera</a><br>:::::::::::::::::::::::::::::<br></body></html>";
+			
+			
+			// verifico se qualche utente ha l'admin nella propria lista nera
+			$query_blist = "SELECT _blacklist.user as user FROM _blacklist WHERE blockedUser != '".$this->cookie->{"username"}."' AND (".$users.")";
+			var_dump($query_blist);
+			$result_blist = $this->connect->myQuery($query_blist);
+			$cont_blist = 0;
+			$black_list = array();
+			while($rows_blist = mysqli_fetch_array($result_blist)){
+				$black_list[$cont_blist] = $rows_blist["user"];
+				$cont_blist++;
+			}
+			
+			
+			for($i = 0;$i < count($post["partecipanti"]);$i++){
+				$boo = false;
+				for($j = 0;$j < count($black_list);$j++){
+					if($post["partecipanti"][$i] == $black_list[$j]){
+						$boo = true;
+						break;
+					}				
+				}
+				
+				if($boo) continue;
+				
+				$this->notify->send($from, $post["partecipanti"][$i], $object, $message);
+			}
+			
 		}
 
 		//Disconnetto dal database e restituisco il risultato
@@ -535,6 +666,7 @@ class Group implements IGroup{
 							_group.name as namegroup,
 							ADMIN.name as name_admin,
 							ADMIN.surname as surname_admin,
+							ADMIN.email as username_admin,
 							ADMIN.pathImage as pathImage_admin
 							FROM _accountpartecipategroup, _group
 							
@@ -548,11 +680,10 @@ class Group implements IGroup{
 							
 							WHERE 	_group.idGroup = _accountpartecipategroup.groupId AND
 									idGroup = '".$post["gruppo"]."' AND 
-									expirationInvite > '".date("Y:m:d")."' AND 
+									expirationInvite > '".date("Y-m-d")."' AND 
+									_accountpartecipategroup.account = '".$this->cookie->{"username"}."' AND 
 									_accountpartecipategroup.accepted = 0
 							LIMIT 1";
-
-		//var_dump($query);
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -581,6 +712,7 @@ class Group implements IGroup{
 				$objJSON["results"][$cont]["namegroup"] = $row["namegroup"];
 				$objJSON["results"][$cont]["name_admin"] = $row["name_admin"];
 				$objJSON["results"][$cont]["surname_admin"] = $row["surname_admin"];
+				$objJSON["results"][$cont]["username_admin"] = $row["username_admin"];
 				$objJSON["results"][$cont]["pathImage_admin"] = $row["pathImage_admin"];
 				$cont++;
 			}
@@ -589,8 +721,8 @@ class Group implements IGroup{
 				$objJSON["success"] = true;
 			}else{
 				$objJSON["success"] = false;
-				$objJSON["messageError"] = "Errore:";
-				$objJSON["error"] = " Invito scaduto";
+				$objJSON["messageError"] = "Avviso:";
+				$objJSON["error"] = " Invito scaduto o non valido";
 			}
 		}
 
@@ -602,11 +734,75 @@ class Group implements IGroup{
 	
 	public function refusalInvite($post) {
 		
+		
 		// verifico se esiste un gruppo a cui partecipo oppure sono partecipante
 		$objJSONCheck = $this->existGroup($post);
-		$admin;
-		$result = json_decode($objJSONCheck, false);
-		if(!$result->{"success"}){
+		$r = json_decode($objJSONCheck, false);
+		$admin = $r->{"results"}[0]->{"admin"};
+		$gruppo = $r->{"results"}[0]->{"namegroup"};
+		if(!$r->{"success"}){
+			return $objJSONCheck;
+		}
+		
+		
+		
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+
+		// creo la query in sql
+		$query = "UPDATE _accountpartecipategroup SET accepted = '-1', dateAccepted = '".date("Y:m:d")."' WHERE groupId = '".$post["gruppo"]."' AND account = '".$this->cookie->{"username"}."'";
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+			$objJSON = array();
+			$objJSON["success"] = true;
+			
+		
+			///////////////////////////////////////////////////////////////////////
+			/////////// INVIO L'EMAIL DI AVVISO DI RIFIUTO DI PARTECIPAZIONE //////
+			///////////////////////////////////////////////////////////////////////
+			
+			$from = "l.vitale@live.it";
+			$to = $admin;
+			$object = $this->cookie->{"name"}." ha abbandonato il gruppo!";
+			$message = "<html><body style='font-family:courier;font-size:16px;'>L'utente <b>".$this->cookie->{"name"}." ".$this->cookie->{"surname"}."</b> ha rifiutato il tuo invito di partecipazione al gruppo <b>".$gruppo."</b> per la seguente ragione:<br><b>\"".$post["ratio"]."\"</b></body></html>";
+
+			$this->notify->send($from, $to, $object, $message);
+			
+		}
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+	}
+	
+	
+	
+	public function acceptInvite($post) {
+		
+		// verifico se esiste un gruppo a cui partecipo oppure sono partecipante
+		$objJSONCheck = $this->existGroup($post);
+		$r = json_decode($objJSONCheck, false);
+		$admin = $r->{"results"}[0]->{"admin"};
+		$gruppo = $r->{"results"}[0]->{"namegroup"};
+		if(!$r->{"success"}){
 			return $objJSONCheck;
 		}
 		
@@ -638,6 +834,18 @@ class Group implements IGroup{
 
 			$objJSON = array();
 			$objJSON["success"] = true;
+			
+		
+			///////////////////////////////////////////////////////////////////////
+			/////////// INVIO L'EMAIL DI AVVISO DI RIFIUTO DI PARTECIPAZIONE //////
+			///////////////////////////////////////////////////////////////////////
+			
+			$from = "l.vitale@live.it";
+			$to = $admin;
+			$object = $this->cookie->{"name"}." ha accettato il tuo invito!";
+			$message = "<html><body style='font-family:courier;font-size:16px;'>L'utente <b>".$this->cookie->{"name"}." ".$this->cookie->{"surname"}."</b> ha accettato il tuo invito di partecipazione al gruppo <b>".$gruppo."</b></b></body></html>";
+
+			$this->notify->send($from, $to, $object, $message);
 			
 		}
 
