@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
           
-        <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+        <script src="../../js/jquery.1.12.js"></script>
         
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="../../css/footer.css" rel="stylesheet" media="screen">
@@ -22,109 +22,95 @@
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
     	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
         <script src="/js/jquery.balloon.js"></script>
+        <script src="../../js/functions.js"></script>
+        <script src="../js/main.js"></script>
         
         <script>        
 			$(function(){
-				$(".creationgroup").on("click", function(e){
-					$.confirm({
-						title: 'Attenzione!',
-						content: 'Sei sicuro di voler creare il gruppo con i dati utenti?',
-						button: {
-							confirm: function(){
-								alert ("Congratulazioni hai crato un nuovo gruppo :) !");
-							},
-							cancel: function(){
-							}
-						}
-					});
-				});
-			});
-		</script>
-        
-        <script>
-        	$(function() {
-  				$('.creationgroup').balloon(options);
-			}); 
-        </script>
-        
-        <script>
-			$(function(){
-				$(".creationgroup").animate({
-					"borderWidth" : "4px", //bordo a 4 pixel
-					"width" : "+20px" //aumenta la larghezza di 200 pixel
-				});
-			});
+				
+				
+				function callBackUser(data){	
+					console.log(data);
 			
-		</script>
-        
-        <script>        
-			$(function(){
-				$(".btn_leave_g").on("click", function(e){
-					$.confirm({
-						title: 'Attenzione!',
-						content: 'Sei sicuro di eliminare lo studente dalla tua lista ideale',
-						button: {
-							confirm: function(){
-								alert ("Studente eliminato");
-							},
-							cancel: function(){
-							}
+					if(!data.success){
+						var tmp = '<center><br>';
+						tmp += '<div class="alert alert-danger">';
+						tmp += '<i class="glyphicon glyphicon-delete"/> ';
+						tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
+						tmp += '</div>';
+						tmp += '</center>';
+						$("#Message").html(tmp);
+					}
+					
+					
+					
+					if(data.results.length <= 0) { 
+						var tmp = '<center><br>';
+						tmp += '<div class="alert alert-warning">';
+						tmp += '<i class="glyphicon glyphicon-delete"/> ';
+						tmp += '<span style="font-size:18px;">La lista nera è vuota</span>';
+						tmp += '</div>';
+						tmp += '</center>';
+						$("#Message").html(tmp);
+					}else{
+					
+					
+						var tmp = "<h2>Lista nera</h2>";
+							tmp += "<table class=\"table\">";
+							tmp += "<thead>";
+							tmp += "<tr>";
+							tmp += "<th class=\"colownsmall\"></th>";
+							tmp += "<th></th>";
+							tmp += "<th></th>";
+							tmp += "</tr>";
+							tmp += "</thead>";
+							tmp += "<tbody>";
+							
+						for(var i = 0;i < data.results.length;i++){
+							tmp += "<tr>";
+							tmp += "<td><a href=\"#\"><img class=\"imageStyle\" src=\"../../"+data.results[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
+							tmp += "<td><h5><a href=\"#\" class=\"user-link\">"+data.results[i].name+" "+data.results[i].surname+"</a></h5></td>";
+							tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+data.results[i].username+"\">";
+							tmp += " Rimuovi";
+							tmp += "<span class=\"glyphicon glyphicon-minus\"></span></button></td>";
+							tmp += "</tr>";
 						}
-					});
+						
+						tmp += "</tbody>";
+						tmp += "</table>";
+						
+						$("#ris").html(tmp);
+						
+					}											
+				}
+				
+				// invoco il metodo di insertFeedback
+				$.unisharing("User", "getBlackList", "private", {}, false, callBackUser);
+				
+				
+				$(".removeUser").on("click", function(){
+					
+					var sel_user = $(this).attr("user");
+					removeFromBlackList(sel_user);
+					
 				});
 			});
 		</script>
+        
 	</head>
 	<body>
         <? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
-        <div class="container"> 
-        	<div class= "row">
-            	<div class= "col-lg-2"></div>
-                <div class= "col-lg-8">
-                	<h2>Lista nera</h2>
-          			<table class="table">
-    					<thead>
-      						<tr>
-        						<th class= "colownsmall"></th>
-        						<th>Nome</th>
-                                <th>Data scadenza</th>
-                                <th></th>
-      						</tr>
-    					</thead>
-    				<tbody>
-      					<tr>
-       						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Antonio Fasulo</td>
-                             <td> 28/10/2018</td>
-                             <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
-      					</tr>   
-                        <tr>
-       						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Lorenzo Vitale</td>
-                             <td> 29/02/2017</td>
-                             <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
-      					</tr>
-                        <tr>
-       						 <td><a href="#"><img class= "imageStyle" src="http://image.webmasterpoint.org/news/original/mercato-it-le-opportunit-per-programmatori-e-sviluppatori.jpg" style="border-radius:50px"></a></td>
-       						 <td>Giuseppe Altobelli</td>
-                             <td>18/02/2018</td>
-                             <td><a class="btn_leave_g"><i class="glyphicon glyphicon-remove-sign size_iconremove"></i></a></td>
-      					</tr>     
-    			 </tbody>
- 				 </table>
-                </div>
-                <div class= "col-lg-2"></div>  
-      	</div> 
-        <br><br><br><br>
         <div class: "container">
-        	<div class: "row">
-            	<div class= "col-lg-4"></div>
-                <div class= "col-lg-4">
-                	<center><div class="col-lg-8"><button type="button" class="btn btn-primary creationgroup">Crea gruppo</button></div></center>
-                </div>
-                <div class= "col-lg-4"></div>
+        	<div class="row">
+            	<div class= "col-lg-3"></div>
+                <div class= "col-lg-6" id="Message"></div>
+                <div class= "col-lg-3"></div>
             </div>
-        </div>
+        	<div class: "row">
+            	<div class= "col-lg-3"></div>
+                <div class= "col-lg-6" id="ris"></div>
+                <div class= "col-lg-3"></div>
+            </div>
         </div>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>

@@ -25,6 +25,12 @@ interface IUser{
 	
 	// metodo per aggiunge un utente alla propria blacklist
 	public function addUserToBlackList($param);
+	
+	// metodo per restituisce la blacklist di un utente
+	public function getBlackList($param);
+	
+	// metodo che rimuove l'utente dalla blacklist
+	public function removeFromBlackList($param);
 
 }
 
@@ -604,7 +610,6 @@ class User extends Account implements IUser{
 	/////////// METODO CHE AGGIUNGE UN UTENTE ALLA PROPRIA BLACKLIST ///
 	////////////////////////////////////////////////////////////////////
 
-
 	public function addUserToBlackList($post) {
 
 	
@@ -661,6 +666,112 @@ class User extends Account implements IUser{
 	}
 
 
+	//////////////////////////////////////////////////////////////////////////////
+	/////////////////// METODO CHE PRELEVA LA BLACKLIST /////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+
+	public function getBlackList($post){
+		
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();
+
+		$query = "SELECT 	USER.* 
+		
+							FROM _blacklist
+							
+							LEFT JOIN (
+								
+								SELECT 	_user.email as email,
+										_user.name as name,
+										_user.surname as surname,
+										_user.pathImage as pathImage
+								FROM	_user
+							
+							) as USER ON USER.email = _blacklist.blockedUser
+							
+							WHERE _blacklist.user = '".$this->cookie->{"username"}."'";
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+				//la chiamata ha avuto successo
+				$objJSON["success"] = true;
+				$objJSON["results"] = array();
+
+				$cont = 0;
+				while($row = mysqli_fetch_array($result)){
+					$objJSON["results"][$cont]["name"] = $row["name"];
+					$objJSON["results"][$cont]["surname"] = $row["surname"];
+					$objJSON["results"][$cont]["username"] = $row["email"];
+					$objJSON["results"][$cont]["surname"] = $row["surname"];
+					$objJSON["results"][$cont]["pathImage"] = $row["pathImage"];
+					$cont++;
+				}
+
+			}
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+	}
+	/////////// FINE METODO BLACKLIST /////////
+
+
+	public function removeFromBlackList($post){
+		
+		//re-inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
+		$this->connect->connetti();
+
+		$query = "DELETE FROM _blacklist WHERE _blacklist.user = '".$this->cookie->{"username"}."' AND _blacklist.blockedUser = '".$post["user"]."'";
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+
+		}else{
+
+				//la chiamata ha avuto successo
+				$objJSON["success"] = true;
+				$objJSON["results"] = array();
+
+			}
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+		
+	}
 
 }
 
