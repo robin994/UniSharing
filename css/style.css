@@ -19,11 +19,9 @@
 	padding-top: 0.5%;
 }
 
-.panel-footer {
-	bottom: 0;
-}
 
 .required:after {
     content: "*";
     padding-left:1%;
 }
+

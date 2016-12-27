@@ -8,11 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../../css/style.css" rel="stylesheet" media="screen">
-        <link href="../../css/footer.css" rel="stylesheet" media="screen">
+        <link href="../../css/style.css" rel="stylesheet" media="screen">       
         <link href="../../css/navbar.css" rel="stylesheet" media="screen">
         <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
         <link href="../css/students_style.css" rel="stylesheet" media="screen">
+        <link href="../../css/footer.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
