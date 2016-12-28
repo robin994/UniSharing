@@ -21,7 +21,7 @@
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
 					function callBackDescription(data){
 
-
+						console.log("DATI");
 						console.log(data);
 
 						$("#description").html(data.description);
@@ -33,7 +33,8 @@
 						$("#email").html(data.email);
 						$("#birthday").html(data.birthOfDay);
 						$("#imagePath").html("<img src=\"../../"+data.pathImage+"\">");
-						console.log(data.pathImage);
+						$("#typeStudent").html(data.typeStudent);
+						//console.log(data.pathImage);
 
 						var tmp = "";
 						/*
@@ -72,7 +73,7 @@
 							tmp += '	<span class="view-stars pull-right">';
 						}
 
-						console.log(tmp);
+						//console.log(tmp);
 						$("#feedbacks").html(tmp);
 					}
 
@@ -107,6 +108,10 @@
 						<div class="col-lg-12">
 							<label>Indirizzo</label>
 							<p id="address">Indirizzo</p>
+						</div>
+						<div class="col-lg-12">
+							<!-- <label></label> -->
+							<p id="typeStudent">Indirizzo</p>
 						</div>
 						<div class="col-lg-12">
 							<label>Telefono</label>

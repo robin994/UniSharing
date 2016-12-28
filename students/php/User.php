@@ -479,16 +479,18 @@ class User extends Account implements IUser{
 			$objJSON["description"] = $rowValori["description"];
 			$objJSON["score"] = $rowValori["score"];
 			$objJSON["numberOfFeedback"] = $rowValori["numberOfFeedback"];
-
+			$objJSON["typeStudent"] = $rowValori["typeStudent"];
 			$idFaculty =$rowValori["faculty"];
 
 			// Query per ottenere i nomi della facolta' e dell'universita'
 			$query3 = "SELECT _university.name AS \"NF\", _faculty.name AS \"UF\" FROM _university, _faculty WHERE _faculty.idUniversity=_university.idUniversity AND _faculty.idFaculty =".$idFaculty;
 			$result3 = $this->connect->myQuery($query3);
 			$rowValori = mysqli_fetch_array($result3);
-			var_dump($rowValori);
+
 			$objJSON["universita"] = $rowValori["UF"];
 			$objJSON["facolta"] = $rowValori["NF"];
+
+			//var_dump($objJSON);
 
 			//Disconnetto dal database
 			$this->connect->disconnetti();
