@@ -388,22 +388,6 @@ class User extends Account implements IUser{
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
-		/*$query2 = "SELECT 	_user.*,
-							FEATURES.features as features
-							FROM 	_user
-
-								LEFT JOIN (
-									SELECT
-										GROUP_CONCAT(_userhasfeatures.idFeature SEPARATOR ',') as features,
-										_userhasfeatures.idUser as idUser
-									FROM 	_userhasfeatures
-									WHERE	idUser= '".$post["user"]."'
-									GROUP BY idUser
-
-								) as FEATURES ON FEATURES.idUser = _user.idUser
-
-							WHERE _user.email = '".$post["user"]."'";
-*/
 		// Query per ottenere i feedback
 		$query2 = "SELECT * FROM _feedback as fb WHERE fb.account = (SELECT email FROM _user WHERE _user.idUser = ".$post["idUser"].")";
 
