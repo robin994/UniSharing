@@ -73,7 +73,7 @@
                             	</div>
                         	</li>
                         	<li class="divider navbar-login-session-bg"></li>
-                         	<!--<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/modprofile/index.php">Impostazioni account<span class="glyphicon glyphicon-cog pull-right"></span></a></li>-->
+                         	<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/modprofile/index.php">Impostazioni account<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
 							<li class="divider"></li>
                             <li><a href="" id="logout">Esci<span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
                     	</ul>
