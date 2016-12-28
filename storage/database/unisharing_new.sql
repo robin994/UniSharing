@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Creato il: Dic 27, 2016 alle 10:57
+-- Creato il: Dic 28, 2016 alle 17:33
 -- Versione del server: 5.6.28
 -- Versione PHP: 5.6.25
 
@@ -38,6 +38,7 @@ CREATE TABLE `_account` (
 INSERT INTO `_account` (`username`, `password`) VALUES
 ('info@lorenzovitale.it', '4461d28de0cfade61711ed6401c18cef'),
 ('lorenzo.dev@gmail.com', '4461d28de0cfade61711ed6401c18cef'),
+('lorenzo.vitale@cheapnet.it', 'f057b8b0a65a52e9a12fb01bbcf61cb8'),
 ('tester2@unisharing.it', 'enter2'),
 ('tester3@unisharing.it', 'tester3');
 
@@ -285,18 +286,20 @@ CREATE TABLE `_user` (
   `active` tinyint(1) DEFAULT '1',
   `numberOfFeedback` int(11) DEFAULT '0',
   `numberOfDesertedGroup` int(11) DEFAULT '0',
-  `typeStudent` varchar(20) DEFAULT NULL
+  `typeStudent` varchar(20) DEFAULT NULL,
+  `faculty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `_user`
 --
 
-INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathImage`, `telephone`, `description`, `address`, `score`, `active`, `numberOfFeedback`, `numberOfDesertedGroup`, `typeStudent`) VALUES
-(13, 'Antonio', 'Fasulo', 'lorenzo.dev@gmail.com', '2016-12-23', 'img/avatar/tester1@unisharing.it/', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 34, 1, 3, 0, 'corsista-pendolare'),
-(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 0, 1, 0, 0, 'corsista-pendolare'),
-(15, 'Vito', 'Del Vecchio', 'tester3@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/icon.png', '2354435', '345345', 'via repubblica 2, Roma', 0, 1, 0, 0, NULL),
-(58, 'Lorenzo', 'Vitale', 'info@lorenzovitale.it', '0000-00-00', 'img/avatar/tester4@unisharing.it/', '3323457983', '', 'via della repubblica', 27, 1, 2, 0, NULL);
+INSERT INTO `_user` (`idUser`, `name`, `surname`, `email`, `birthOfDay`, `pathImage`, `telephone`, `description`, `address`, `score`, `active`, `numberOfFeedback`, `numberOfDesertedGroup`, `typeStudent`, `faculty`) VALUES
+(13, 'Antonio', 'Fasulo', 'lorenzo.dev@gmail.com', '2016-12-23', 'img/avatar/tester1@unisharing.it/', '3245365', 'Mi piace studiare Ingegneria del software', 'via Umberto I - Salerno', 34, 1, 3, 0, 'corsista-pendolare', 1),
+(14, 'Anna ', 'Tomeo', 'tester2@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/', '3498589374', 'Mi piace studiare analisi matematica', 'via provinciale, 5 Cannalonga Salerno', 0, 1, 0, 0, 'corsista-pendolare', 1),
+(15, 'Vito', 'Del Vecchio', 'tester3@unisharing.it', '2016-12-13', 'img/avatar/tester2@unisharing.it/', '2354435', '345345', 'via repubblica 2, Roma', 0, 1, 0, 0, NULL, 1),
+(58, 'Lorenzo', 'Vitale', 'info@lorenzovitale.it', '0000-00-00', 'img/avatar/tester4@unisharing.it/', '3323457983', '', 'via della repubblica', 27, 1, 2, 0, NULL, 1),
+(59, 'Giuseppe', 'Iacobelli', 'lorenzo.vitale@cheapnet.it', '1995-02-25', 'img/avatar/lorenzo.vitale@cheapnet.it/', '6456456656', 'Pappa e ciccia', 'corsista-pendolare', 0, 1, 0, 0, 'via dei Pini, Roma', 1);
 
 -- --------------------------------------------------------
 
@@ -316,7 +319,14 @@ CREATE TABLE `_userhasfeatures` (
 INSERT INTO `_userhasfeatures` (`idFeature`, `idUser`) VALUES
 (1, 13),
 (1, 14),
-(1, 15);
+(1, 15),
+(2, 13),
+(3, 13),
+(7, 59),
+(8, 59),
+(11, 59),
+(13, 59),
+(17, 59);
 
 --
 -- Indici per le tabelle scaricate
@@ -400,7 +410,8 @@ ALTER TABLE `_university`
 --
 ALTER TABLE `_user`
   ADD PRIMARY KEY (`idUser`),
-  ADD KEY `email` (`email`);
+  ADD KEY `email` (`email`),
+  ADD KEY `faculty` (`faculty`);
 
 --
 -- Indici per le tabelle `_userhasfeatures`
@@ -463,7 +474,7 @@ ALTER TABLE `_university`
 -- AUTO_INCREMENT per la tabella `_user`
 --
 ALTER TABLE `_user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- Limiti per le tabelle scaricate
 --
@@ -520,7 +531,8 @@ ALTER TABLE `_ideallist`
 -- Limiti per la tabella `_user`
 --
 ALTER TABLE `_user`
-  ADD CONSTRAINT `_user_ibfk_1` FOREIGN KEY (`email`) REFERENCES `_account` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `_user_ibfk_1` FOREIGN KEY (`email`) REFERENCES `_account` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `_user_ibfk_2` FOREIGN KEY (`faculty`) REFERENCES `_faculty` (`idFaculty`);
 
 --
 -- Limiti per la tabella `_userhasfeatures`
