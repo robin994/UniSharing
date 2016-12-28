@@ -14,6 +14,7 @@
         <link href="../../css/footer.css" rel="stylesheet" media="screen">
         <link href="../../css/navbar.css" rel="stylesheet" media="screen">
   		<script src="../js/functions.js"></script>
+        <script src="../js/jquery.cookie.js"></script>
 		<link href="css/ranking.css" rel="stylesheet" media="screen">
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="js/main.js"></script>

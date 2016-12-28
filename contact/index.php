@@ -11,8 +11,10 @@
         <link href="../css/style.css" rel="stylesheet" media="screen">
         <link href="../css/footer.css" rel="stylesheet" media="screen">
         <link href="../css/navbar.css" rel="stylesheet" media="screen">
-		<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
+		<script src="../js/jquery.1.12.js"></script>
 		<script src="../js/bootstrap.min.js"></script>
+        <script src="../js/jquery.cookie.js"></script>
+        <script src="../js/functions.js"></script>
 	</head>
 	<body>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>

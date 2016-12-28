@@ -87,12 +87,15 @@
 
 $(function(){
 	
+	
+	
 	$("#logout").on("click", function(){
 		$.removeCookie("user", {path: "/", domain:"localhost"});
 	});
 	
 	//aggiorna i badge
 	$.aggiornaBadge();
+	
 });
 
 </script>

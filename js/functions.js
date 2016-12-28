@@ -40,6 +40,7 @@ $(function(){
 	$.aggiornaBadge = function(){
 		
 		
+		
 		if($.cookie("listaUtenti")){
 			var listaUtenti = JSON.parse($.cookie("listaUtenti"));
 		
