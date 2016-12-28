@@ -36,7 +36,6 @@
 						console.log(data.pathImage);
 
 						var tmp = "";
-						//console.log(data.results.length);
 						/*
 						 *<div class="rating">
                             <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"></span>
@@ -66,11 +65,26 @@
 							tmp += '	</div>';
 							tmp += '</div>';
 						}
+
+						if (data.results.length == 0) {
+							tmp += '  <div class="panel panel-default">';
+							tmp += '	<div class="panel-heading">Ancora nessun feedback disponibile';
+							tmp += '	<span class="view-stars pull-right">';
+						}
+
 						console.log(tmp);
 						$("#feedbacks").html(tmp);
 					}
 
-					$.unisharing("User", "getProfile", "public", {"idUser":  '58'}, false, callBackDescription);
+					var idUser = 0;
+					console.log("ASASASA");
+					if($.cookie("user")){
+						var cookie = JSON.parse($.cookie('user'));
+						console.log(cookie.idUser);
+						var idUser = cookie.idUser;
+					}
+
+					$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackDescription);
 				});
 			</script>
 	</head>
