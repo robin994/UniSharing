@@ -22,13 +22,13 @@ interface IUser{
 
 	// metodo per la modifica dei dati utente
 	public function modifyProfile($param);
-	
+
 	// metodo per aggiunge un utente alla propria blacklist
 	public function addUserToBlackList($param);
-	
+
 	// metodo per restituisce la blacklist di un utente
 	public function getBlackList($param);
-	
+
 	// metodo che rimuove l'utente dalla blacklist
 	public function removeFromBlackList($param);
 
@@ -38,7 +38,7 @@ class User extends Account implements IUser{
 
 	//private $connect;
 	private $notify;
-	
+
 	// cookie dell'utente
 	private $cookie;
 
@@ -55,7 +55,7 @@ class User extends Account implements IUser{
 
 		//inizializza l'oggetto Notification
 		$this->notify = new Notification();
-		
+
 		// prelevo l'eventuale cookie dell'utente connesso
 		$this->cookie = json_decode($_COOKIE["user"], false);
 
@@ -94,7 +94,8 @@ class User extends Account implements IUser{
 										description,
 										address,
 										typeStudent,
-										pathImage
+										pathImage,
+										faculty
 										) VALUES (
 										'".$user["name"]."',
 										'".$user["surname"]."',
@@ -104,7 +105,8 @@ class User extends Account implements IUser{
 										'".$user["description"]."',
 										'".$user["tipo_studente"]."',
 										'".$user["address"]."',
-										'img/avatar/".$user["email"]."/'
+										'img/avatar/".$user["email"]."/',
+										'".$user["facolta"]."'
 										)";
 
 
@@ -409,6 +411,7 @@ class User extends Account implements IUser{
 		$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
 
 
+
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 		$result2 = $this->connect->myQuery($query2);
@@ -464,8 +467,6 @@ class User extends Account implements IUser{
 			$objJSON["results"][0]["feedbacks"] = $objJSON_FEED->{"results"};
 
 			*/
-			//Disconnetto dal database
-			$this->connect->disconnetti();
 			$rowValori = mysqli_fetch_array($result);
 
 			$objJSON["email"] = $rowValori["email"];
@@ -478,6 +479,16 @@ class User extends Account implements IUser{
 			$objJSON["description"] = $rowValori["description"];
 			$objJSON["score"] = $rowValori["score"];
 			$objJSON["numberOfFeedback"] = $rowValori["numberOfFeedback"];
+
+			$idFaculty =$rowValori["faculty"];
+
+			// Query per ottenere i nomi della facolta' e dell'universita'
+			$query3 = "SELECT _university.name AS \"NF\", _faculty.name AS \"UF\" FROM _university, _faculty WHERE _faculty.idUniversity=_university.idUniversity AND _faculty.idFaculty =".$idFaculty;
+			$result3 = $this->connect->myQuery($query3);
+			$rowValori = mysqli_fetch_array($result3);
+			var_dump($rowValori);
+			$objJSON["universita"] = $rowValori["UF"];
+			$objJSON["facolta"] = $rowValori["NF"];
 
 			//Disconnetto dal database
 			$this->connect->disconnetti();
@@ -612,7 +623,7 @@ class User extends Account implements IUser{
 
 	public function addUserToBlackList($post) {
 
-	
+
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
@@ -621,8 +632,8 @@ class User extends Account implements IUser{
 
 		// formulo la query
 		$query = "INSERT IGNORE INTO _blacklist (user, blockedUser) VALUES ('".$this->cookie->{"username"}."','".$post["user"]."')";
-		
-		
+
+
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
@@ -641,25 +652,25 @@ class User extends Account implements IUser{
 
 		}else{
 
-			
-			
+
+
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
 			$objJSON["results"] = array();
 
-			
-			
+
+
 			if($post["gruppo"]){
-				
-				// setto il rifiuto di partecipazione al gruppo	
+
+				// setto il rifiuto di partecipazione al gruppo
 				$gruppo = new Group();
 				$gruppo->init();
 				$gruppo->refusalInvite($post);
-				
+
 			}
 
 		}
-		
+
 		//Disconnetto dal database
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
@@ -671,27 +682,27 @@ class User extends Account implements IUser{
 	/////////////////////////////////////////////////////////////////////////////
 
 	public function getBlackList($post){
-		
+
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
-		$query = "SELECT 	USER.* 
-		
+		$query = "SELECT 	USER.*
+
 							FROM _blacklist
-							
+
 							LEFT JOIN (
-								
+
 								SELECT 	_user.email as email,
 										_user.name as name,
 										_user.surname as surname,
 										_user.pathImage as pathImage
 								FROM	_user
-							
+
 							) as USER ON USER.email = _blacklist.blockedUser
-							
+
 							WHERE _blacklist.user = '".$this->cookie->{"username"}."'";
 
 		//la passo la motore MySql
@@ -735,7 +746,7 @@ class User extends Account implements IUser{
 
 
 	public function removeFromBlackList($post){
-		
+
 		//re-inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
@@ -770,7 +781,7 @@ class User extends Account implements IUser{
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-		
+
 	}
 
 }
