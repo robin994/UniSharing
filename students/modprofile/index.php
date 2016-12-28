@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
         <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../../css/style.css" rel="stylesheet" media="screen">       
+        <link href="../../css/style.css" rel="stylesheet" media="screen">
         <link href="../../css/navbar.css" rel="stylesheet" media="screen">
         <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
         <link href="../css/students_style.css" rel="stylesheet" media="screen">
@@ -18,110 +18,110 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script src="../../js/jquery.Jcrop.min.js"></script>
-        
-        
+
+
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
      	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
-		
+
 		<script>
-				
+
 				var imageLoaded = {};
 				var aspectRatio = 500/500;
 				var dimW = 500;
 				var dimH = 500;
 				var boxWidth=500;
 				var boxHeight=500;
-				
-				
+
+
 				$(function() {
-					
-					
+
+
 					var callBackProfile = function(data){
-						
+
 						console.log(data);
-						
+
 						if(!data.success){
 							alert("Errore! " + data.messageError);
 							return;
 						}
-						
-						
+
+
 					}
-					
+
 					$.unisharing("User", "getProfile", "private", {"user":"info@lorenzovitale.it"}, false, callBackProfile);
 					return;
-					
-					
+
+
 					/*
 					$("#clickHere").on("click", function(){
 						$("#file").trigger("change");
-					});	
+					});
 					*/
-					
+
 					$("#file").on("change", function (e){
-					  
+
 					  if(this.files && this.files[0]) {
 						  	hideCoordinate();
 							handleFiles(this.files);
 							$("#drop-zone").css({"background":"none"});
 						}
-					 });	
-					
-					
-					
+					 });
+
+
+
 
 					/////////////////////////////////////////////////////////////////
 					/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
 					/////////////////////////////////////////////////////////////////
-					
+
 					var callBackUni = function(data){
-						
+
 						console.log(data);
-						
+
 						if(!data.success){
 							alert("Errore! " + data.errorMessage);
 							return;
 						}
-						
+
 						$("#universita").append("<option value=''>Seleziona l'università</option>");
 						for(var i = 0;i < data.results.length;i++)
 							$("#universita").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
-						
+
 					}
-					
+
 					$.unisharing("Istitutes", "getUniversities", "private", {}, false, callBackUni);
 
-					
+
 					/////////////////////////////////////////////////////////////////////////
 					/////////////// DEFINISCO L'AZIONE SULLA SCELTA DELL'UNI ////////////////
 					////////////////////////////////////////////////////////////////////////
 					$("#universita").on("change", function(){
-						
+
 						var uni = $(this).val();
-						
+
 						var callBackFaculties = function(data){
-							
+
 							if(!data.success){
 								alert("Errore! " + data.errorMessage);
 								return;
 							}
-							
+
 							$("#facolta").html("");
 							$("#facolta").append("<option value=''>Seleziona la facoltà</option>");
 							for(var i = 0;i < data.results.length;i++)
 								$("#facolta").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
-								
+
 							}
-						
+
 						$.unisharing("Istitutes", "getFaculties", "private", {"university": uni}, false, callBackFaculties);
-						
+
 					});
-					
-					
+
+
 					////////////////////////////////////////////////////////////////
 					/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
 					////////////////////////////////////////////////////////////////
-					
+
 					$("#btn-iscriviti").on("click", function() {
 
 						console.log("HO CLICCATO SUL TASTO ISCRIVITI");
@@ -138,14 +138,14 @@
 						var facolta = $("#facolta").val();
 						var description = $("#description").val();
 						var tipo_studente = $("#tipo_studente").val();
-						
+
 						var features = [];
-						
+
 						$(".features").each(function(){
 							if($(this).is(":checked"))
 								features.push($(this).val());
 						});
-						
+
 						/*
 						// DATI DA INSERIRE PER IL TESTING
 						name = "Lorenzo";
@@ -159,77 +159,77 @@
 						facolta = "1";
 						description = "Mi piace IS";
 						*/
-						
-						
+
+
 						// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
 						var message_err = "";
 						var boo_err = false;
-						
+
 						if(!name){
 							message_err += "Non è stato inserito il nome<br>";
 							boo_err = true;
 						}
-						
+
 						if(!surname){
 							message_err += "Non è stato inserito il cognome<br>";
 							boo_err = true;
 						}
-						
+
 						if(!email){
 							message_err += "Non è stato inserita l'email<br>";
 							boo_err = true;
 						}
-						
+
 						if(!password){
 							message_err += "Non è stato inserita la password<br>";
 							boo_err = true;
 						}
-						
-						
+
+
 						if(password.length < 8 && password.length > 16){
 							message_err += "La lunghezza della password deve essere almeno di 8 caratteri e al più di 16<br>";
 							boo_err = true;
 						}
-						
+
 						if(password != confpassword){
 							message_err += "Le password inserite non coincidono<br>";
 							boo_err = true;
 						}
-						
+
 						if(!universita){
 							message_err += "Non è stata selezionata l'università<br>";
 							boo_err = true;
-						}	
-						
+						}
+
 						if(!facolta){
 							message_err += "Non è stata selezionata la facoltà<br>";
 							boo_err = true;
-						}	
-						
+						}
+
 						if(boo_err){
-							
+
 							$.alert({
 								title: 'Attenzione!',
 								content: message_err
 							});
-							
+
 							return;
 						}
-						
-						
-						
+
+
+
 						var callBackSignin = function(data){
-							
+
 							if(!data.success){
 								alert("Errore! " + data.messageError);
 								return;
 							}
-							
-							
+
+
 							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente</div></center>');
-							
+
 						}
-						
+
 						var param = {
 							"user": {
 								"name": name,
@@ -244,23 +244,23 @@
 								"tipo_studente": tipo_studente,
 								"features": features
 							},
-							
+
 							"account":{
 								"username":email,
 								"password":password
 							},
 
-							
+
 							"image": imageLoaded
 							}
-						
-						
-						
-						
-						
+
+
+
+
+
 						console.log("AAAA");
 						console.log(param);
-						
+
 						$.unisharing("User", "signin", "private", param, false, callBackSignin);
 
 					});
@@ -274,7 +274,7 @@
 		<div class="row-fluid">
         	<div class="col-lg-2"></div>
 			<div class="col-lg-8" id="result_message">
-				<h1>Registrazione</h1>
+				<h1>Modifica del profilo</h1>
 					<div class="row-fluid">
 						<div class="form-group col-lg-6">
 							<Label>Nome</Label>
@@ -316,8 +316,8 @@
                                 <div id="drop-zone" style="width: 100%;">
                                  <input type="file" name="file" id="file" style="opacity: 1;filter: alpha(opacity=100);" accept="image/jpeg">
                                 <!--<div id="clickHere" class="button_input_form">carica l'immagine
-                                
-                               
+
+
                                 </div>-->
                                 </div>
                                 </div>
@@ -342,7 +342,7 @@
 									<label>Data di nascita</label>
 										<input type="date" class="form-control" id="bday" placeholder="" aria-describedby="basic-addon1">
 									</div>
-								
+
 						</div>
 						<div class="row-fluid">
 							<div class="form-group col-lg-6">
@@ -375,19 +375,19 @@
 								<select id="facolta" name="selectbasic" class="form-control">
 
 								</select>
-								
+
 						</div>
-                        <div class="col-md-12">&nbsp;</div> 
+                        <div class="col-md-12">&nbsp;</div>
                         <div class="col-md-12">
-                        	
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
+
                             <!-- FEATURES -->
-                            
-                            
+
+
                             <div id="advancedsearch" class="filter-panel collapse in" aria-expanded="true">
                     <div class="panel with-nav-tabs panel-default">
                     	<div class="panel-heading">
@@ -461,7 +461,7 @@
                                                 </label>
                                             </div>
                                             <div class="row" style="margin-bottom: 2px">
-                                                <label> 
+                                                <label>
                                                     <input type="checkbox" value="9" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Fisica
                                                 </label>
@@ -545,25 +545,25 @@
                                         </div>
                                 	</div>
                                 </div>
-                    
+
                            	</div>
                     	</div>
                 	</div>
                     </div>
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
                             <!-- fine FEATURES -->
-                            
-                            
+
+
                         </div>
-                        
-                        
+
+
                         <div class="col-md-12">
                         	<br>
-								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">modifica</button>
+								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Conferma modifica</button>
                            	<br>
                         </div>
 					</div>
@@ -598,120 +598,120 @@
 
 
 var dragAndDrop = function(){
-		
+
 		try{
-		
+
 			var dropbox;
-	
+
 			dropbox = document.getElementById("drop-zone");
 			dropbox.addEventListener("dragenter", dragenter, false);
 			dropbox.addEventListener("dragover", dragover, false);
 			dropbox.addEventListener("drop", drop, false);
-			
+
 			function dragenter(e) {
 			  e.stopPropagation();
 			  e.preventDefault();
 			}
-			
+
 			function dragover(e) {
 			  e.stopPropagation();
 			  e.preventDefault();
 			}
-			
+
 			function drop(e) {
 			  e.stopPropagation();
 			  e.preventDefault();
-			
+
 			  var dt = e.dataTransfer;
 			  var files = dt.files;
-			
+
 			  handleFiles(files);
 			}
 		}catch(e){
-			
+
 		}
 	}
-	
+
 	var handleFiles = function(files) {
 		 for (var i = 0; i < files.length; i++) {
 			var file = files[i];
 			var imageType = /image.*/;
-			
-			
+
+
 			var size = Number(file.size);
 			if(size > 2097152 || size > 2097152){
-				alert("L'immagine selezionata ha una dimensione che supera il massimo consentito di 2Mb");	
+				alert("L'immagine selezionata ha una dimensione che supera il massimo consentito di 2Mb");
 				return;
 			}
-			
+
 			if (!file.type.match(imageType)) {
 			  continue;
 			}
-			
-		
+
+
 			var img = document.createElement("img");
 			//img.setAttribute("style", "max-width:200px;");
 			img.setAttribute("id", "_image");
 			img.classList.add("obj");
 			img.file = file;
-			
-			
+
+
 			$("#drop-zone").html(img); // Assuming that "preview" is a the div output where the content will be displayed.
 			$("#drop-zone").animate({"width":boxWidth, "height":boxHeight});
 			$("#drop-zone").append("<div style='width:50px;height:50px;position:absolute;top:0px;right:0px;cursor:pointer;z-index:99999;' class='rimuovi_immagine'><i class=\"fa fa-close\" style=\"font-size:22px;position:absolute;top:10px;right:10px;\"></i></div>");
-			
+
 			var reader = new FileReader();
-			reader.onload = (function(aImg) { 
-				return function(e) { 
+			reader.onload = (function(aImg) {
+				return function(e) {
 					aImg.src = e.target.result;
-					
+
 					$("#ritaglio").html("Ritaglia l'immagine");
 					//$("#_image").Jcrop({aspectRatio: _this.aspectRatio, boxWidth:_this.boxWidth,boxHeight:_this.boxHeight, onSelect: _this.showCordinate});
 					$("#_image").Jcrop(
 						{
 							boxWidth: boxWidth,
-							boxHeight: boxHeight, 
+							boxHeight: boxHeight,
 							onSelect:  showCordinate,
 							onRelease:  hideCoordinate,
 							aspectRatio: aspectRatio,
 							bgColor: ""
 						});
-					
-				}; 
+
+				};
 			})(img);
 			reader.readAsDataURL(file);
 
-			
+
 		  }
 		}
-		
-	
+
+
 	var showCordinate = function(c){
-		
+
 		imageLoaded.ritagliata = true;
 		imageLoaded.cancellata = false;
 		imageLoaded.caricata = true;
-		
+
 		if($(".obj").attr("src"))
 			imageLoaded.image = $(".obj").attr("src").split(",")[1];
-		
+
 		imageLoaded.cx = c.x;
 		imageLoaded.cy = c.y;
 		imageLoaded.c2x = c.x2;
 		imageLoaded.c2y = c.y2;
 		imageLoaded.cw = c.w;
 		imageLoaded.ch = c.h;
-		
+
 		////console.log(_this.imageLoaded);
-		
+
 	   $("#drop-zone").css({border:"1px solid #ccc"});
 			try{
 				//$("#drop-zone").hideBalloon();
 			}catch(error){
-				
+
 			}
-		
-		
+
+
 		$("#cx").val(c.x);
 		$("#cy").val(c.y);
 		$("#c2x").val(c.x2);
@@ -719,22 +719,22 @@ var dragAndDrop = function(){
 		$("#cw").val(c.w);
 		$("#ch").val(c.h);
 	}
-	
+
 	var hideCoordinate = function(){
 		$("#cx").val("");
 		$("#cy").val("");
 		$("#c2x").val("");
 		$("#c2y").val("");
 		$("#cw").val("");
-		$("#ch").val("");	
-		
+		$("#ch").val("");
+
 		imageLoaded.ritagliata = false;
 		imageLoaded.cancellata = false;
 		imageLoaded.caricata = true;
-		
+
 		if($(".obj").attr("src"))
 			imageLoaded.image = $(".obj").attr("src").split(",")[1];
-		
+
 		imageLoaded.cx = 0;
 		imageLoaded.cy = 0;
 		imageLoaded.c2x = 0;
@@ -742,11 +742,10 @@ var dragAndDrop = function(){
 		imageLoaded.cw = 0;
 		imageLoaded.ch = 0;
 		////console.log(_this.imageLoaded);
-		
+
 	}
 
 
 
 
 </script>
-
