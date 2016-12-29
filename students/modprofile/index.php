@@ -36,42 +36,7 @@
 				$(function() {
 
 
-					function callBackProfile(data){
 
-						console.log(data);
-
-						if (!data.success) {
-							alert("Errore! " + data.messageError);
-							return;
-						}
-
-						/* 		var universita = document.getElementById("universita");
-								universita.value = data.idUniversity;
-								var facolta = document.getElementById("facolta");
-								facolta.value = data.idFaculty; */
-
-						$("#description").html(data.description);
-						$("#telephone").attr('value',data.telephone);
-						$("#name").attr('value',data.name);
-						$("#surname").attr('value',data.surname);
-						$("#indirizzo").attr('value',data.address);
-						$("#universita").append("<option value='"+data.idUniversity+"'>"+data.universita+"</option>");
-						$("#facolta").append("<option value='"+data.idFaculty+"'>"+data.facolta+"</option>");
-						$("#email").attr('value',data.email);
-						emailOld = data.email;
-						$("#birthday").attr('value',data.birthOfDay);
-						//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
-						$("#typeStudent").attr('value',data.typeStudent);
-						$('#cellulare').attr('value',data.telephone);
-					}
-
-						if($.cookie("user")){
-							var cookie = JSON.parse($.cookie('user'));
-							console.log(cookie.idUser);
-							var idUser = cookie.idUser;
-						}
-
-						$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackProfile);
 
 
 					$("#clickHere").on("click", function(){
@@ -88,14 +53,25 @@
 					 });
 
 
+					 var callBackFaculties = function(data){
 
+					 	if(!data.success){
+					 		alert("Errore! " + data.errorMessage);
+					 		return;
+					 	}
+
+					 	$("#facolta").html("");
+					 	$("#facolta").append("<option value=''>Seleziona la facoltà</option>");
+					 	for(var i = 0;i < data.results.length;i++)
+					 		$("#facolta").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
+
+					 	}
 
 					/////////////////////////////////////////////////////////////////
 					/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
 					/////////////////////////////////////////////////////////////////
 
 					var callBackUni = function(data){
-						console.log("QUI non funziona");
 						console.log(data);
 
 						if(!data.success){
@@ -118,23 +94,56 @@
 
 						var uni = $(this).val();
 
-						var callBackFaculties = function(data){
-
-							if(!data.success){
-								alert("Errore! " + data.errorMessage);
-								return;
-							}
-
-							$("#facolta").html("");
-							$("#facolta").append("<option value=''>Seleziona la facoltà</option>");
-							for(var i = 0;i < data.results.length;i++)
-								$("#facolta").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
-
-							}
 
 						$.unisharing("Istitutes", "getFaculties", "private", {"university": uni}, false, callBackFaculties);
 
 					});
+
+					//////////////////////////////////////////////////////////////////////
+					/////////// RECUPERO I DATI DEL VECCHIO PROFILO //////////////////////
+					//////////////////////////////////////////////////////////////////////
+
+					function callBackProfile(data){
+
+						console.log(data);
+
+						if (!data.success) {
+							alert("Errore! " + data.messageError);
+							return;
+						}
+
+						/* 		var universita = document.getElementById("universita");
+								universita.value = data.idUniversity;
+								var facolta = document.getElementById("facolta");
+								facolta.value = data.idFaculty; */
+
+						$("#description").html(data.description);
+						$("#telephone").attr('value',data.telephone);
+						$("#name").attr('value',data.name);
+						$("#surname").attr('value',data.surname);
+						$("#indirizzo").attr('value',data.address);
+						document.getElementById("universita").selectedIndex = data.idUniversity;
+
+						$.unisharing("Istitutes", "getFaculties", "private", {"university": data.idUniversity}, false, callBackFaculties);
+
+						document.getElementById("facolta").selectedIndex = data.idFaculty;
+						//$("#universita").append("<option value='"+data.idUniversity+"'>"+data.universita+"</option>");
+						//$("#facolta").append("<option value='"+data.idFaculty+"'>"+data.facolta+"</option>");
+						$("#email").attr('value',data.email);
+						emailOld = data.email;
+						$("#birthday").attr('value',data.birthOfDay);
+						//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
+						$("#typeStudent").attr('value',data.typeStudent);
+						$('#cellulare').attr('value',data.telephone);
+					}
+
+						if($.cookie("user")){
+							var cookie = JSON.parse($.cookie('user'));
+							console.log(cookie.idUser);
+							var idUser = cookie.idUser;
+						}
+
+						$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackProfile);
 
 
 					////////////////////////////////////////////////////////////////
@@ -330,20 +339,21 @@
 							</div>
 						</div>
 					</div>
-                    <div class="row-fluid">
+					<!-- DA FARE
+										<div class="row-fluid">
                     	<div class="form-group col-lg-12">
                         	<div style="float:left;width:100%;" class="imageDropZone">
                                 <div id="ritaglio">Carica l'immagine dell'avatar:</div>
                                 <div id="drop-zone" style="width: 100%;">
                                  <input type="file" name="file" id="file" style="opacity: 1;filter: alpha(opacity=100);" accept="image/jpeg">
-                                <!--<div id="clickHere" class="button_input_form">carica l'immagine
+                                <div id="clickHere" class="button_input_form">carica l'immagine
 
 
-                                </div>-->
+                                </div>
                                 </div>
                                 </div>
                         </div>
-                    </div>
+                    </div> -->
 						<div class="row-fluid">
 								<div class="form-group col-lg-6">
 								<Label>Password</Label>
