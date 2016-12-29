@@ -33,17 +33,17 @@
 
 					$(function() {
 
-						
+
 						/*
 						var listaUtenti = [
 							{
 							"username": "lorenzo.dev@gmail.com",
 							"name": "Antonio",
 							"surname": "Fasulo",
-							"pathImage": "img/avatar/tester1@unisharing.it/"	
+							"pathImage": "img/avatar/tester1@unisharing.it/"
 							}
 						]
-						
+
 						$.cookie("listaUtenti", JSON.stringify(listaUtenti), {path: "/", domain: "localhost", expire: 60});
 						*/
 						var elencoEsami = [];
@@ -57,7 +57,7 @@
 							tmp += '</div>';
 							tmp += '</center>';
 							$("#Message").html(tmp);
-							return;	
+							return;
 						}
 
 
@@ -70,11 +70,11 @@
                             tmp += '<img style="border-radius:30px;" src="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/'+listaUtenti[i].pathImage+'/icon40x40.jpg">';
                             tmp += ' <strong>'+listaUtenti[i].name+' '+listaUtenti[i].surname+'</strong>';
                             tmp += '</div>';
-						 	tmp += '</div>';		
+						 	tmp += '</div>';
 						}
 
 						$("#lista_utenti").html(tmp);
-						
+
 						/////////////////////////////////////////////////////////////////
 						/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
 						/////////////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@
 								for (var i=0; i< data.results.length;i++) {
 									elencoEsami[i] = data.results[i].name;
 								}
-								
+
 								$("#exam").autocomplete({
 						  			source: elencoEsami
 								});
@@ -167,13 +167,13 @@
 							var expirationDate = $("#expirationDate").val();
 							var expirationInvite = $("#expirationInvite").val();
 							var utenti = [];
-							
-							
+
+
 							var listaUtenti = JSON.parse($.cookie("listaUtenti"));
 							$.each(listaUtenti, function(i, item) {
 								utenti.push(item.username);
 							});
-							
+
 
 							// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
 							var message_err = "";
@@ -193,35 +193,38 @@
 								message_err += "Non è stata selezionata la facoltà<br>";
 								boo_err = true;
 							}
-							
+
 							if(!esame){
 								message_err += "Non hai inserito l'esame<br>";
 								boo_err = true;
 							}
-							
-							var eDate = expirationDate.split("-");
-							var eDate = new Date(eDate[2], eDate[1] - 1, eDate[0]).getTime();
-								
-							var eInvite = expirationInvite.split("-");
-							var eInvite = new Date(eInvite[2], eInvite[1] - 1, eInvite[0]).getTime();
-							
-							
+
+							var eDateAr = expirationDate.split("-");
+							var eDate = new Date(eDateAr[2], eDateAr[1] - 1, eDateAr[0]).getTime();
+
+							var eInviteAr = expirationInvite.split("-");
+							var eInvite = new Date(eInviteAr[2], eInviteAr[1] - 1, eInviteAr[0]).getTime();
+
+
 							if(isNaN(eDate)){
 								message_err += "La data di scadenza del gruppo non è valida<br>";
 								boo_err = true;
 							}
-							
+
 							if(isNaN(eInvite)){
 								message_err += "La data di scadenza degli inviti non è valida<br>";
 								boo_err = true;
 							}
-							
-							
-							if(Number(eDate) <= Number(eInvite)){
-								message_err += "La data di scadenza degli inviti non può essere successiva o pari a quella di scadenza del gruppo<br>";
-								boo_err = true;
+
+							if(eDateAr[2] < eInviteAr[2]){
+								if(eDateAr[1] < eInviteAr[1]){
+									if(eDateAr[0] < eInviteAr[0]){
+										message_err += "La data di scadenza degli inviti non può essere successiva o pari a quella di scadenza del gruppo<br>";
+										boo_err = true;
+									}
+								}
 							}
-							
+
 							if(boo_err){
 								var tmp = '<center>';
 									tmp += '<div class="alert alert-warning">';
@@ -261,15 +264,15 @@
 
 							console.log("AAAA");
 							console.log(param);
-							
-							
-							$.unisharing("Group", "createGroup", "public", param, false, callBackGroupCreation);
+
+
+						$.unisharing("Group", "createGroup", "public", param, false, callBackGroupCreation);
 
 						});
-					
-						
+
+
 					});
-					
+
 				</script>
 
 	</head>
@@ -289,7 +292,7 @@
                 	<div class="col-lg-12">
                     	<label>Il tuo team</label><br>
                         <span id="lista_utenti">
-                            
+
                       	</span>
                    	</div>
                 </div><br>

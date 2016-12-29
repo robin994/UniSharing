@@ -388,14 +388,14 @@ class User extends Account implements IUser{
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
+
+
 		// Query per ottenere i feedback
 		$query2 = "SELECT * FROM _feedback as fb WHERE fb.account = (SELECT email FROM _user WHERE _user.idUser = ".$post["idUser"].")";
 
 		// Query per ottenere i dati relativi all'utente
 		$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
-
-
-
+		
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 		$result2 = $this->connect->myQuery($query2);
@@ -412,8 +412,8 @@ class User extends Account implements IUser{
 
 
 			//Disconnetto dal database
-			$this->connect->disconnetti();
-			return $objJSON;
+			//$this->connect->disconnetti();
+		//	return $objJSON; //dici qui?
 
 		}else{
 
@@ -432,7 +432,7 @@ class User extends Account implements IUser{
 
 				$cont++;
 			}
-			/*
+
 			$objJSON["results"][0]["idUser"] = $rowValori["idUser"];
 			$objJSON["results"][0]["name"] = $rowValori["name"];
 
@@ -444,13 +444,14 @@ class User extends Account implements IUser{
 			}
 
 
+
 			// ottengo i feedback dell'utente
 			$feed = new Feedback();
 			$feed->init();
 			$objJSON_FEED = json_decode($feed->getFeedbacksByUser($post));
 			$objJSON["results"][0]["feedbacks"] = $objJSON_FEED->{"results"};
 
-			*/
+
 			$rowValori = mysqli_fetch_array($result);
 
 			$objJSON["email"] = $rowValori["email"];
@@ -476,12 +477,15 @@ class User extends Account implements IUser{
 
 			//var_dump($objJSON);
 
-			//Disconnetto dal database
-			$this->connect->disconnetti();
-			//var_dump($objJSON);
-
-			return json_encode($objJSON);
 		}
+
+		//Disconnetto dal database
+		$this->connect->disconnetti();
+		//var_dump($objJSON);
+
+		return json_encode($objJSON);
+
+
 	}
 
 
@@ -506,7 +510,7 @@ class User extends Account implements IUser{
 		$this->connect->connetti();
 
 		//formulo la query di inserimento
-		$query = "INSERT INTO _user (	name,
+		$query = "UPDATE INTO _user (	name,
 										surname,
 										email,
 										birthOfDay,

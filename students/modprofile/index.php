@@ -36,27 +36,28 @@
 				$(function() {
 
 
-					var callBackProfile = function(data){
+					function callBackProfile(data){
 
 						console.log(data);
 
-						if(!data.success){
+						if (!data.success) {
 							alert("Errore! " + data.messageError);
 							return;
 						}
-
-
 					}
 
-					$.unisharing("User", "getProfile", "private", {"user":"info@lorenzovitale.it"}, false, callBackProfile);
-					return;
+						if($.cookie("user")){
+							var cookie = JSON.parse($.cookie('user'));
+							console.log(cookie.idUser);
+							var idUser = cookie.idUser;
+						}
+
+						$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackProfile);
 
 
-					/*
 					$("#clickHere").on("click", function(){
 						$("#file").trigger("change");
 					});
-					*/
 
 					$("#file").on("change", function (e){
 
@@ -75,11 +76,11 @@
 					/////////////////////////////////////////////////////////////////
 
 					var callBackUni = function(data){
-
+						console.log("QUI non funziona");
 						console.log(data);
 
 						if(!data.success){
-							alert("Errore! " + data.errorMessage);
+							alert("Errore! " + data.messageError + " " + data.error);
 							return;
 						}
 
@@ -90,7 +91,6 @@
 					}
 
 					$.unisharing("Istitutes", "getUniversities", "private", {}, false, callBackUni);
-
 
 					/////////////////////////////////////////////////////////////////////////
 					/////////////// DEFINISCO L'AZIONE SULLA SCELTA DELL'UNI ////////////////
