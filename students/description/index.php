@@ -66,7 +66,8 @@
 							tmp += '	</div>';
 							tmp += '</div>';
 						}
-
+						console.log(data.results.length);
+						console.log(data.results);
 						if (data.results.length == 0) {
 							tmp += '  <div class="panel panel-default">';
 							tmp += '	<div class="panel-heading">Ancora nessun feedback disponibile';
@@ -78,12 +79,16 @@
 					}
 
 					var idUser = 0;
-					console.log("ASASASA");
-					if($.cookie("user")){
-						var cookie = JSON.parse($.cookie('user'));
-						console.log(cookie.idUser);
-						var idUser = cookie.idUser;
-					}
+					var cookie = JSON.parse($.cookie('user'));
+					console.log(cookie.idUser);
+					var idUser = cookie.idUser;
+					var url = new URL(window.location.href );
+					var params = url.searchParams;
+
+					// Access to a variable
+					console.log(params.get("user"));
+					var idUser = params.get("user");
+
 
 					$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackDescription);
 				});

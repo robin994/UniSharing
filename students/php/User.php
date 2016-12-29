@@ -395,7 +395,7 @@ class User extends Account implements IUser{
 
 		// Query per ottenere i dati relativi all'utente
 		$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
-		
+
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 		$result2 = $this->connect->myQuery($query2);
@@ -412,8 +412,8 @@ class User extends Account implements IUser{
 
 
 			//Disconnetto dal database
-			//$this->connect->disconnetti();
-		//	return $objJSON; //dici qui?
+			$this->connect->disconnetti();
+			return $objJSON; //dici qui?
 
 		}else{
 
@@ -422,6 +422,7 @@ class User extends Account implements IUser{
 			$objJSON["results"] = array();
 
 			$cont = 0;
+			// ottengo i feedback dell'utente
 			while($rowValori = mysqli_fetch_array($result2)){
 				$objJSON["results"][$cont]["author"] = $rowValori["author"];
 				$objJSON["results"][$cont]["comment"] = $rowValori["comment"];
@@ -432,10 +433,9 @@ class User extends Account implements IUser{
 
 				$cont++;
 			}
-
+			/* chi decommenta sta roba e committa e' figlio di una ballerina :)
 			$objJSON["results"][0]["idUser"] = $rowValori["idUser"];
 			$objJSON["results"][0]["name"] = $rowValori["name"];
-
 
 			$objJSON["results"][0]["features"] = array();
 			if($rowValori["feature"]){
@@ -443,14 +443,12 @@ class User extends Account implements IUser{
 				$objJSON["results"][0]["features"] = $features;
 			}
 
-
-
 			// ottengo i feedback dell'utente
 			$feed = new Feedback();
 			$feed->init();
 			$objJSON_FEED = json_decode($feed->getFeedbacksByUser($post));
 			$objJSON["results"][0]["feedbacks"] = $objJSON_FEED->{"results"};
-
+			*/
 
 			$rowValori = mysqli_fetch_array($result);
 
