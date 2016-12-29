@@ -2,42 +2,42 @@
 
 
 class Account{
-	
+
 	protected $connect;
-	
+
 	// costruttore della classe
 	protected function __construct(){}
-	
+
 	// metodo di inizializzazione
 	protected function initialize(){
-		
+
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
-		
+
 		//definisco la chiave di cript
-		define("SALT","unisharing2016");	
-		
+		define("SALT","unisharing2016");
+
 	}
-	
-	
+
+
 	///////////////////////////////////////////////////////////
 	/////// METODO CHE VERIFICA L'ESISTENZA DI UN ACCOUNT /////
 	///////////////////////////////////////////////////////////
-	
+
 	private function accountExist($post){
-		
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
-		
+
 		// creo la query in sql
 		$query = "SELECT username FROM _account WHERE username = '".$post["username"]."' LIMIT 1";
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
-			
+
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
 
@@ -55,9 +55,9 @@ class Account{
 			//la chiamata ha avuto successo
 			$objJSON["success"] = true;
 			$objJSON["results"] = array();
-			
+
 			$cont = 0;
-			
+
 			//itero i risultati ottenuti dal metodo
 			while($rows = mysqli_fetch_array($result)){
 				$objJSON["results"][$cont]["idUser"] = $rows["idUser"];
@@ -74,16 +74,16 @@ class Account{
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return $objJSON;
-		
+
 	}
-	
-	
+
+
 	///////////////////////////////////////////////////////////
 	/////// METODO CHE PERMETTE L'ACCESSO /////////////////////
 	///////////////////////////////////////////////////////////
-	
+
 	protected function access($post){
-		
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
@@ -106,7 +106,7 @@ class Account{
 			return json_encode($objJSON);
 		}
 
-		
+
 		//cripto la password inserita da confrontare nel db
 		$password_criptata = md5(SALT.$pass);
 
@@ -147,19 +147,18 @@ class Account{
 			}
 		}
 
-
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-		
+
 	}
-	
+
 	///////////////////////////////////////////////////////////
 	/////// METODO CHE SALVA L'ACCOUNT ////////////////////////
 	///////////////////////////////////////////////////////////
-	
+
 	protected function saveAccount($post){
-		
+
 		//verifico se l'utente esiste già
 		$objJSON = $this->accountExist($post);
 		if($objJSON["success"]){
@@ -169,22 +168,22 @@ class Account{
 				return $objJSON_NEW;
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
-		
+
 		//cripto la password
 		$password_criptata = md5(SALT.$post["password"]);
-		
+
 		//formulo la query di inserimento
 		$query = "INSERT INTO _account (username, password) VALUES ('".$post["username"]."', '".$password_criptata."')";
-		
+
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
@@ -200,17 +199,73 @@ class Account{
 			$this->connect->disconnetti();
 			return json_encode($objJSON);
 		}else{
-			
+
 			$objJSON["success"] = true;
-				
+
 		}
-		
+
 		//Disconnetto dal database e restituisco il risultato
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
-		
+
 	}
-	
+
+	protected function modifyAccount($post){
+
+		//verifico se l'utente esiste già
+		$objJSON = $this->accountExist($post);
+		if(!$objJSON["success"]){
+			if(count($objJSON["results"]) > 0){
+				$objJSON_NEW["success"] = false;
+				$objJSON_NEW["messageError"] = "Account non esistente";
+				return $objJSON_NEW;
+			}
+		}
+
+
+
+
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+
+		//cripto la password
+		$password_criptata = md5(SALT.$post["password"]);
+
+		//formulo la query di inserimento
+		$query = "UPDATE _account SET username='".$post["username"]."',
+				password = '".$password_criptata."',
+				WHERE _account.username = '".$post["usernameOld"]."'";
+				//var_dump($query);
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+		//var_dump($result);
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			//var_dump($objJSON);
+			return json_encode($objJSON);
+		}else{
+
+			$objJSON["success"] = true;
+			//var_dump($objJSON);
+		}
+
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+
+	}
+
 
 }
 

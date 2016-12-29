@@ -464,12 +464,13 @@ class User extends Account implements IUser{
 			$objJSON["numberOfFeedback"] = $rowValori["numberOfFeedback"];
 			$objJSON["typeStudent"] = $rowValori["typeStudent"];
 			$idFaculty =$rowValori["faculty"];
-
+				$objJSON["idFaculty"] = $rowValori["faculty"];
 			// Query per ottenere i nomi della facolta' e dell'universita'
-			$query3 = "SELECT _university.name AS \"NF\", _faculty.name AS \"UF\" FROM _university, _faculty WHERE _faculty.idUniversity=_university.idUniversity AND _faculty.idFaculty =".$idFaculty;
+			$query3 = "SELECT _university.name AS \"UF\", _faculty.name AS \"NF\" , _university.idUniversity as \"idU\" FROM _university, _faculty WHERE _faculty.idUniversity=_university.idUniversity AND _faculty.idFaculty =".$idFaculty;
 			$result3 = $this->connect->myQuery($query3);
 			$rowValori = mysqli_fetch_array($result3);
 
+			$objJSON["idUniversity"] = $rowValori["idU"];
 			$objJSON["universita"] = $rowValori["UF"];
 			$objJSON["facolta"] = $rowValori["NF"];
 
@@ -496,6 +497,9 @@ class User extends Account implements IUser{
 		$account = $post["account"];
 		$user = $post["user"];
 
+		// invoco il metodo esteso da Account per inserire l'account
+		$objJSON = $this->modifyAccount($account);
+
 		//controllo se il metodo di Account ha restituito errore, in questo caso lo restituisco al client ed esco
 		if(!$objJSON["success"]){
 			return json_encode($objJSON);
@@ -508,28 +512,17 @@ class User extends Account implements IUser{
 		$this->connect->connetti();
 
 		//formulo la query di inserimento
-		$query = "UPDATE INTO _user (	name,
-										surname,
-										email,
-										birthOfDay,
-										telephone,
-										description,
-										address,
-										typeStudent,
-										pathImage
-										) VALUES (
-										'".$user["name"]."',
-										'".$user["surname"]."',
-										'".$account["username"]."',
-										'".$user["bday"]."',
-										'".$user["cellulare"]."',
-										'".$user["description"]."',
-										'".$user["tipo_studente"]."',
-										'".$user["address"]."',
-										'img/avatar/".$user["email"]."/'
-										)";
-
-
+		$query = "UPDATE _user SET _user.surname='".$user["surname"]."',
+							_user.name='".$user["name"]."',
+							_user.email='".$user["email"]."',
+							_user.birthOfDay='".$user["bday"]."',
+							_user.telephone='".$user["cellulare"]."',
+							_user.description='".$user["description"]."',
+							_user.address='".$user["address"]."',
+		 					_user.typeStudent='".$user["tipo_studente"]."'
+							WHERE _user.email='".$user["usernameOld"]."'";
+							//_user.pathImage='img/avatar/".$user["pathImage"]."', AGGIUNGE path immagine alla query
+							//var_dump($query);
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 

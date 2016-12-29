@@ -11,8 +11,8 @@
         <link href="../css/login.css" rel="stylesheet" media="screen">
         <link href="../../css/footer.css" rel="stylesheet" media="screen">
         <link href="../../css/navbar.css" rel="stylesheet" media="screen">
-		<script src="../../js/jquery.1.12.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
+				<script src="../../js/jquery.1.12.js"></script>
+    		<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
 				<link href="./css/description.css" rel="stylesheet" media="screen">

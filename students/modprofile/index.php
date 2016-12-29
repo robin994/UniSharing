@@ -31,7 +31,7 @@
 				var dimH = 500;
 				var boxWidth=500;
 				var boxHeight=500;
-
+				var emailOld = "";
 
 				$(function() {
 
@@ -44,6 +44,25 @@
 							alert("Errore! " + data.messageError);
 							return;
 						}
+
+						/* 		var universita = document.getElementById("universita");
+								universita.value = data.idUniversity;
+								var facolta = document.getElementById("facolta");
+								facolta.value = data.idFaculty; */
+
+						$("#description").html(data.description);
+						$("#telephone").attr('value',data.telephone);
+						$("#name").attr('value',data.name);
+						$("#surname").attr('value',data.surname);
+						$("#indirizzo").attr('value',data.address);
+						$("#universita").append("<option value='"+data.idUniversity+"'>"+data.universita+"</option>");
+						$("#facolta").append("<option value='"+data.idFaculty+"'>"+data.facolta+"</option>");
+						$("#email").attr('value',data.email);
+						emailOld = data.email;
+						$("#birthday").attr('value',data.birthOfDay);
+						//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
+						$("#typeStudent").attr('value',data.typeStudent);
+						$('#cellulare').attr('value',data.telephone);
 					}
 
 						if($.cookie("user")){
@@ -122,7 +141,7 @@
 					/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
 					////////////////////////////////////////////////////////////////
 
-					$("#btn-iscriviti").on("click", function() {
+					$("#btn-modifica").on("click", function() {
 
 						console.log("HO CLICCATO SUL TASTO ISCRIVITI");
 
@@ -226,7 +245,7 @@
 							}
 
 
-							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente</div></center>');
+							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente modificato correttamente</div></center>');
 
 						}
 
@@ -242,11 +261,13 @@
 								"cellulare":cellulare,
 								"description": description,
 								"tipo_studente": tipo_studente,
+								"usernameOld":emailOld,
 								"features": features
 							},
 
 							"account":{
 								"username":email,
+								"usernameOld":emailOld,
 								"password":password
 							},
 
@@ -261,7 +282,7 @@
 						console.log("AAAA");
 						console.log(param);
 
-						$.unisharing("User", "signin", "private", param, false, callBackSignin);
+						$.unisharing("User", "modifyProfile", "private", param, false, callBackSignin);
 
 					});
 				});
@@ -563,7 +584,7 @@
 
                         <div class="col-md-12">
                         	<br>
-								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Conferma modifica</button>
+								<button class="btn btn-lg btn-primary btn-block" id="btn-modifica">Conferma modifica</button>
                            	<br>
                         </div>
 					</div>
