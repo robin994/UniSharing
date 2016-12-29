@@ -34,6 +34,7 @@
 					$(function() {
 
 						
+						/*
 						var listaUtenti = [
 							{
 							"username": "lorenzo.dev@gmail.com",
@@ -44,7 +45,7 @@
 						]
 						
 						$.cookie("listaUtenti", JSON.stringify(listaUtenti), {path: "/", domain: "localhost", expire: 60});
-
+						*/
 						var elencoEsami = [];
 
 						///// verifico se la lista dei compagni di studio ideale è non vuota
