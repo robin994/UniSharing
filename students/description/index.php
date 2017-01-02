@@ -32,7 +32,7 @@
 						$("#facolta").html(data.facolta);
 						$("#email").html(data.email);
 						$("#birthday").html(data.birthOfDay);
-						$("#imagePath").html("<img src=\"../../"+data.pathImage+"\">");
+						$("#imagePath").attr('src',"../../"+data.pathImage+"/icon250x250.jpg");
 						$("#typeStudent").html(data.typeStudent);
 						//console.log(data.pathImage);
 
@@ -101,7 +101,7 @@
     <div id="conteiner" class="container">
 			<div class="row">
 				<div class="col-lg-3" id="colonna_laterale"> <!-- style="width:50%; height:50%;"-->
-					<center id="imagePath"><img src="http://simpleicon.com/wp-content/uploads/account.png" style="width:50%; height:50%"> </center>
+					<center ><img id="imagePath" src="http://simpleicon.com/wp-content/uploads/account.png" style="width:50%; height:50%"> </center>
 					<center><label id="nomeCompleto">Nome Cognome</label></center>
 					<center><label id="universita">Università</label></center>
 					<center><label id="facolta">Facoltà</label></center>
