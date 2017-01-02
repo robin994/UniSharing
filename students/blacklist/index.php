@@ -69,7 +69,7 @@
 							
 						for(var i = 0;i < data.results.length;i++){
 							tmp += "<tr>";
-							tmp += "<td><a href=\"#\"><img class=\"imageStyle\" src=\"../../"+data.results[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
+							tmp += "<td><a href=\"../description/index.php?user="+data.results[i].id+"\"><img class=\"imageStyle\" src=\"../../"+data.results[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
 							tmp += "<td><h5><a href=\"#\" class=\"user-link\">"+data.results[i].name+" "+data.results[i].surname+"</a></h5></td>";
 							tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+data.results[i].username+"\">";
 							tmp += " Rimuovi";

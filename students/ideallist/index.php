@@ -56,8 +56,8 @@
 							
 						for(var i = 0;i < utenti.length;i++){
 							tmp += "<tr>";
-							tmp += "<td><a href=\"#\"><img class=\"imageStyle\" src=\"../../"+utenti[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
-							tmp += "<td><h5><a href=\"#\" class=\"user-link\">"+utenti[i].name+" "+utenti[i].surname+"</a></h5></td>";
+							tmp += "<td><a href=\"../description/index.php?user='"+utenti[i].id+"'\"><img class=\"imageStyle\" src=\"../../"+utenti[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
+							tmp += "<td><h5><a href=\"../description/index.php?user='"+utenti[i].id+"'\" class=\"user-link\">"+utenti[i].name+" "+utenti[i].surname+"</a></h5></td>";
 							tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+utenti[i].username+"\">";
 							tmp += " Rimuovi";
 							tmp += "<span class=\"glyphicon glyphicon-minus\"></span></button></td>";

@@ -66,7 +66,7 @@
                                             	?>
                                             </p>
                                         	<p class="text-left">
-                                            	<a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/description/index.php" class="btn btn-primary btn-block btn-sm">Profilo</a>
+                                            	<a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/description/index.php?user=<? echo($cookie->{"idUser"})?>" class="btn btn-primary btn-block btn-sm">Profilo</a>
                                         	</p>
                                     	</div>
                                 	</div>

@@ -93,9 +93,9 @@
 							tmp += 	'<tbody>';
 							tmp += 		'<tr>';
 							tmp += '			<td>';
-							tmp += '				<img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt="">';
-							tmp += '				<h5><a href="" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<a href="../../students/description/index.php?user='+data.results[i]["id"]+'"><img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt=""></a>';
+							tmp += '				<h5><a href="../../students/description/index.php?user='+data.results[i]["id"]+'" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
+							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'" id="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -118,6 +118,7 @@
 									var cognome = $(this).attr("surname");
 									var pathImmagine = $(this).attr("pathImage");
 									var usernome = $(this).attr("username");
+									var iduser = $(this).attr("id");
 									var boopresente = false;
 									
 									for (var i=0; i<cookie_lista.length; i++) {
@@ -139,7 +140,8 @@
 											"name": nome,
 											"surname": cognome,
 											"pathImage": pathImmagine,
-											"username": usernome										
+											"username": usernome,
+											"id": iduser								
 										});
 									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
 									$.aggiornaBadge();
@@ -160,11 +162,13 @@
 								var surname = $(this).attr("surname");
 								var pathImage = $(this).attr("pathImage");
 								var username = $(this).attr("username");
+								var id = $(this).attr("id");
 								var cookie = {
 									"name": name,
 									"surname": surname, 
 									"pathImage": pathImage,
-									"username": username
+									"username": username,
+									"id": id
 								}
 								cookie_lista.push(cookie);
 								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });	
