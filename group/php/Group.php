@@ -4,6 +4,12 @@
 // interfaccia della classe
 interface IGroup{
 	
+	//metodo che preleva i gruppi scaduti con partecipanti
+	public function getExpiratedGroupWithUser();
+	
+	//metodo che permette di controllare se un gruppo è scaduto o meno
+	public function getExpiratedGroup();
+	
 	// metodo che implementa l'abbandono dell'utente dal gruppo
 	public function leaveGroup($param);
 	
@@ -853,6 +859,80 @@ class Group implements IGroup{
 		$this->connect->disconnetti();
 		return json_encode($objJSON);
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	/////////// INIZIO DEL METODO CHE CONTROLLA I GRUPPI CHE SONO SCADUTI //////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	public function getExpiratedGroup(){
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+		
+		$query= "DELETE FROM _group WHERE _group.expirationDate < date('Y-m-d') AND _group.idGroup NOT IN (SELECT groupId FROM _accountpartecipategroup)";
+		
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+		
+	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	/////////// FINE DEL METODO CHE CONTROLLA I GRUPPI CHE SONO SCADUTI //////
+	//////////////////////////////////////////////////////////////////////////
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	/////////// INIZIO DEL METODO CHE CONTROLLA I GRUPPI CHE SONO SCADUTI //////////////
+	/////////////MA POSSIEDONO ANCORA PARTECIPANTI /////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	public function getExpiratedGroupWithUser(){
+		//eseguo la connessione al database definita in ConnectionDB.php
+		$this->connect->connetti();
+		
+		$query= "SELECT _group.name, _group.idGroup, _accountpartecipategroup.account
+				 FROM _group JOIN _accountpartecipategroup on _group.idGroup=_accountpartecipategroup.groupId
+				 WHERE _group.expirationDate < date('Y-m-d')";
+		
+		//inizializzo il json da restituire come risultato del metodo
+		$objJSON = array();
+		
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+		
+		//Righe che gestiscono casi di errore di chiamata al database
+		if($this->connect->errno()){
+			//la chiamata non ha avuto successo
+			$objJSON["success"] = false;
+			$objJSON["messageError"] = "Errore:";
+			$objJSON["error"] = $this->connect->error();
+			//Disconnetto dal database
+			$this->connect->disconnetti();
+			return json_encode($objJSON);
+		}else{
+			//la chiamata ha avuto successo
+			$objJSON["success"] = true;
+			$objJSON["results"] = array();
+		
+			
+			$cont = 0;
+					 
+			//itero i risultati ottenuti dal metodo
+			while($rowValori = mysqli_fetch_array($result)){
+					$objJSON["results"][$cont]["name"] = $rowValori["name"];
+					$objJSON["results"][$cont]["idGroup"] = $rowValori["idGroup"];
+					$objJSON["results"][$cont]["account"] = $rowValori["account"];
+			}
+		}	
+		
+		//Disconnetto dal database e restituisco il risultato
+		$this->connect->disconnetti();
+		return json_encode($objJSON);
+		
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////
+	/////////// FINE DEL METODO CHE CONTROLLA I GRUPPI CHE SONO SCADUTI CON PARTECIPANTI //////
+	///////////////////////////////////////////////////////////////////////////////////////////
 	
 }
 
