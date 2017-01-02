@@ -29,7 +29,7 @@
                     <li class="dropdown">
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         	<span class="glyphicon glyphicon-user"></span>
-                        	<? 
+                        	<?
 								//cosa molto molto scorretta
 								echo($cookie->{"name"});
 								echo(" ");
@@ -44,14 +44,14 @@
                                     	<div class="col-lg-4">
                                         	<p class="text-center">
                                             	<span>
-                                                	<img class="icon-size" src="<? echo "http://".$_SERVER["HTTP_HOST"]."/".$cookie->{"pathImage"}; ?>/icon80x80.jpg" ></img>
+                                                	<img id="image" class="icon-size" src="<? echo "http://".$_SERVER["HTTP_HOST"]."/".$cookie->{"pathImage"}; ?>/icon80x80.jpg" ></img>
                                                  </span>
                                         	</p>
                                     	</div>
                                     	<div class="col-lg-8">
                                         	<p class="text-left">
                                             	<strong>
-													<? 
+													<?
                                                         //cosa molto molto scorretta
                                                         echo($cookie->{"name"});
                                                         echo(" ");
@@ -60,7 +60,7 @@
                                                 </strong>
                                              </p>
                                         	<p class="text-left small">
-                                            	<? 
+                                            	<?
                                                  	//cosa molto molto scorretta
                                                 	echo($cookie->{"username"});
                                             	?>
@@ -86,16 +86,16 @@
 <script>
 
 $(function(){
-	
-	
-	
+
+
+
 	$("#logout").on("click", function(){
 		$.removeCookie("user", {path: "/", domain:"localhost"});
 	});
-	
+
 	//aggiorna i badge
 	$.aggiornaBadge();
-	
+
 });
 
 </script>
