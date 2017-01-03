@@ -103,8 +103,8 @@ class User extends Account implements IUser{
 										'".$user["bday"]."',
 										'".$user["cellulare"]."',
 										'".$user["description"]."',
-										'".$user["tipo_studente"]."',
 										'".$user["address"]."',
+										'".$user["tipo_studente"]."',
 										'img/avatar/".$user["email"]."/',
 										'".$user["facolta"]."'
 										)";
