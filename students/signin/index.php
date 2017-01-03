@@ -10,7 +10,7 @@
         <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
         <link href="../css/students_style.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
-    	  <script src="../../js/bootstrap.min.js"></script>
+    	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script src="../../js/jquery.Jcrop.min.js"></script>
@@ -205,9 +205,7 @@
 							}
 
 
-							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente</div></center>');
-
-						}
+							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente </div> <a href="../../index.php"><button class="btn btn-lg btn-primary btn-block">Clicca qui per andare alla login</button></a></center>')}
 
 						var param = {
 							"user": {
@@ -233,15 +231,10 @@
 							"image": imageLoaded
 							}
 
-
-
-
-
 						console.log("AAAA");
 						console.log(param);
 
 						$.unisharing("User", "signin", "private", param, false, callBackSignin);
-
 					});
 				});
 			</script>

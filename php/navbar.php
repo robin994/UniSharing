@@ -91,6 +91,7 @@ $(function(){
 
 	$("#logout").on("click", function(){
 		$.removeCookie("user", {path: "/", domain:"localhost"});
+		$.removeCookie("listaUtenti", {path: "/", domain:"localhost"});
 	});
 
 	//aggiorna i badge
