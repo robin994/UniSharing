@@ -14,7 +14,7 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script src="../../js/jquery.Jcrop.min.js"></script>
-
+				<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwsDk4rP0FCWZ3OcbykddSb1wdYAvyLQ&libraries=places"></script>
 
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
      	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
@@ -61,7 +61,7 @@
 							alert("Errore! " + data.errorMessage);
 							return;
 						}
-						
+
 						$("#universita").append("<option value=''>Seleziona l'università</option>");
 						for(var i = 0;i < data.results.length;i++)
 							$("#universita").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
@@ -98,6 +98,19 @@
 
 
 					////////////////////////////////////////////////////////////////
+					/////////// RICERCA POSIZIONE UTENTE ///////////////////////////
+					////////////////////////////////////////////////////////////////
+
+
+					var input = document.getElementById('searchTextField');
+					var options = {
+					  types: ['address'],
+					  componentRestrictions: {country: 'it'}
+					};
+
+					autocomplete = new google.maps.places.Autocomplete(input, options);
+
+					////////////////////////////////////////////////////////////////
 					/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
 					////////////////////////////////////////////////////////////////
 
@@ -111,7 +124,7 @@
 						var password = $("#password").val();
 						var confpassword = $("#confpassword").val();
 						var bday = $("#bday").val();
-						var address = $("#indirizzo").val();
+						var address = $("#searchTextField").val();
 						var cellulare = $("#cellulare").val();
 						var universita = $("#universita").val();
 						var facolta = $("#facolta").val();
@@ -320,7 +333,7 @@
 							<div class="form-group col-lg-6">
 								<Label>Indirizzo</Label>
 								<div class="input-group" style="width:100%;">
-									<input type="text" id="indirizzo" class="form-control" placeholder="Indirizzo" aria-describedby="basic-addon1">
+									<input type="text" id="searchTextField" class="form-control" placeholder="Indirizzo" aria-describedby="basic-addon1">
 								</div>
 							</div>
 							<div class="form-group col-lg-6">
