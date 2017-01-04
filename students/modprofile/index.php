@@ -14,10 +14,11 @@
         <link href="../css/students_style.css" rel="stylesheet" media="screen">
         <link href="../../css/footer.css" rel="stylesheet" media="screen">
         <script src="../../js/jquery.1.12.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
+    	  <script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script src="../../js/jquery.Jcrop.min.js"></script>
+				<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwsDk4rP0FCWZ3OcbykddSb1wdYAvyLQ&libraries=places"></script>
 
 
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
@@ -66,6 +67,19 @@
 					 		$("#facolta").append("<option value='"+data.results[i].id+"'>"+data.results[i].name+"</option>");
 
 					 	}
+
+						////////////////////////////////////////////////////////////////
+						/////////// RICERCA POSIZIONE UTENTE ///////////////////////////
+						////////////////////////////////////////////////////////////////
+
+
+						var input = document.getElementById('indirizzo');
+						var options = {
+							types: ['address'],
+							componentRestrictions: {country: 'it'}
+						};
+
+						autocomplete = new google.maps.places.Autocomplete(input, options);
 
 					/////////////////////////////////////////////////////////////////
 					/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////
