@@ -84,7 +84,7 @@ class User extends Account implements IUser{
 
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
-
+		//var_dump($user);
 		//formulo la query di inserimento
 		$query = "INSERT INTO _user (	name,
 										surname,
@@ -95,7 +95,9 @@ class User extends Account implements IUser{
 										address,
 										typeStudent,
 										pathImage,
-										faculty
+										faculty,
+										latitude,
+										longitude
 										) VALUES (
 										'".$user["name"]."',
 										'".$user["surname"]."',
@@ -106,9 +108,12 @@ class User extends Account implements IUser{
 										'".$user["address"]."',
 										'".$user["tipo_studente"]."',
 										'img/avatar/".$user["email"]."/',
-										'".$user["facolta"]."'
+										'".$user["facolta"]."',
+										'".$user["latitude"]."',
+										'".$user["longitude"]."'
 										)";
 
+									//var_dump($query);
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
@@ -496,10 +501,10 @@ class User extends Account implements IUser{
 
 		$account = $post["account"];
 		$user = $post["user"];
-
+		//var_dump($post);
 		// invoco il metodo esteso da Account per inserire l'account
 		$objJSON = $this->modifyAccount($account);
-
+		//var_dump($objJSON);
 		//controllo se il metodo di Account ha restituito errore, in questo caso lo restituisco al client ed esco
 		if(!$objJSON["success"]){
 			return json_encode($objJSON);
@@ -519,7 +524,9 @@ class User extends Account implements IUser{
 							_user.telephone='".$user["cellulare"]."',
 							_user.description='".$user["description"]."',
 							_user.address='".$user["address"]."',
-		 					_user.typeStudent='".$user["tipo_studente"]."'
+		 					_user.typeStudent='".$user["tipo_studente"]."',
+							_user.longitude='".$user["longitude"]."',
+							_user.latitude='".$user["latitude"]."'
 							WHERE _user.email='".$user["usernameOld"]."'";
 							//_user.pathImage='img/avatar/".$user["pathImage"]."', AGGIUNGE path immagine alla query
 							//var_dump($query);

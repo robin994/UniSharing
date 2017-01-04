@@ -288,8 +288,8 @@ CREATE TABLE `_user` (
   `numberOfDesertedGroup` int(11) DEFAULT '0',
   `typeStudent` varchar(20) DEFAULT NULL,
   `faculty` int(11) NOT NULL,
-  `longitude` double DEFAULT '0' NOT NULL,
-  `latitude` double DEFAULT '0' NOT NULL
+  `longitude` varchar(70) DEFAULT NULL,
+  `latitude` varchar(70) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

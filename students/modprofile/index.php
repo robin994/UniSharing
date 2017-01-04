@@ -33,6 +33,8 @@
 				var boxWidth=500;
 				var boxHeight=500;
 				var emailOld = "";
+				var lat = 0;
+				var lng = 0;
 
 				$(function() {
 
@@ -88,18 +90,18 @@
 					console.log(latitude);
 					console.log(logitude);
 					*/
-					
+
 					//CODICE DI GIUSEPPE
 					google.maps.event.addDomListener(window, 'load', intilize);
 						function intilize() {
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById("indirizzo"));
 						google.maps.event.addListener(autocomplete, 'place_changed', function () {
 						var place = autocomplete.getPlace();
-						var lat = place.geometry.location.lat();
-						var lng = place.geometry.location.lng();
+						lat = place.geometry.location.lat();
+						lng = place.geometry.location.lng();
 						console.log(lat);
 						console.log(lng);
-						});					
+						});
 					};
 
 					/////////////////////////////////////////////////////////////////
@@ -307,7 +309,9 @@
 								"description": description,
 								"tipo_studente": tipo_studente,
 								"usernameOld":emailOld,
-								"features": features
+								"features": features,
+								"latitude": lat,
+								"longitude": lng
 							},
 
 							"account":{
@@ -319,9 +323,6 @@
 
 							"image": imageLoaded
 							}
-
-
-
 
 
 						console.log("AAAA");
