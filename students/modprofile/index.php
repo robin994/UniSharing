@@ -68,18 +68,39 @@
 
 					 	}
 
-						////////////////////////////////////////////////////////////////
-						/////////// RICERCA POSIZIONE UTENTE ///////////////////////////
-						////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////
+					/////////// RICERCA POSIZIONE UTENTE ///////////////////////////
+					////////////////////////////////////////////////////////////////
 
 
-						var input = document.getElementById('indirizzo');
-						var options = {
-							types: ['address'],
-							componentRestrictions: {country: 'it'}
-						};
+					//CODICE DI ROBERTO
+					/*
+					var input = document.getElementById('indirizzo');
+					var options = {
+					  types: ['address'],
+					  componentRestrictions: {country: 'it'}
+					};
 
-						autocomplete = new google.maps.places.Autocomplete(input, options);
+					var autocomplete = new google.maps.places.Autocomplete(input, options);
+					var places = autocomplete.getplace();
+					var latitude = places.geometry.location.lat();
+					var longitude = places.geometry.location.lng();
+					console.log(latitude);
+					console.log(logitude);
+					*/
+					
+					//CODICE DI GIUSEPPE
+					google.maps.event.addDomListener(window, 'load', intilize);
+						function intilize() {
+						var autocomplete = new google.maps.places.Autocomplete(document.getElementById("indirizzo"));
+						google.maps.event.addListener(autocomplete, 'place_changed', function () {
+						var place = autocomplete.getPlace();
+						var lat = place.geometry.location.lat();
+						var lng = place.geometry.location.lng();
+						console.log(lat);
+						console.log(lng);
+						});					
+					};
 
 					/////////////////////////////////////////////////////////////////
 					/////////////// PRELEVO L'ELENCO DELLE UNIVERITA'////////////////

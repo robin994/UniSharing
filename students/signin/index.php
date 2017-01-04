@@ -101,14 +101,34 @@
 					/////////// RICERCA POSIZIONE UTENTE ///////////////////////////
 					////////////////////////////////////////////////////////////////
 
-
-					var input = document.getElementById('searchTextField');
+					//CODICE DI ROBERTO
+					/*
+					var input = document.getElementById('indirizzo');
 					var options = {
 					  types: ['address'],
 					  componentRestrictions: {country: 'it'}
 					};
 
-					autocomplete = new google.maps.places.Autocomplete(input, options);
+					var autocomplete = new google.maps.places.Autocomplete(input, options);
+					var places = autocomplete.getplace();
+					var latitude = places.geometry.location.lat();
+					var longitude = places.geometry.location.lng();
+					console.log(latitude);
+					console.log(logitude);
+					*/
+					
+					//CODICE DI GIUSEPPE
+					google.maps.event.addDomListener(window, 'load', intilize);
+						function intilize() {
+						var autocomplete = new google.maps.places.Autocomplete(document.getElementById("indirizzo"));
+						google.maps.event.addListener(autocomplete, 'place_changed', function () {
+						var place = autocomplete.getPlace();
+						var lat = place.geometry.location.lat();
+						var lng = place.geometry.location.lng();
+						console.log(lat);
+						console.log(lng);
+						});					
+					};
 
 					////////////////////////////////////////////////////////////////
 					/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
@@ -333,7 +353,7 @@
 							<div class="form-group col-lg-6">
 								<Label>Indirizzo</Label>
 								<div class="input-group" style="width:100%;">
-									<input type="text" id="searchTextField" class="form-control" placeholder="Indirizzo" aria-describedby="basic-addon1">
+									<input type="text" id="indirizzo" class="form-control" placeholder="Indirizzo" aria-describedby="basic-addon1">
 								</div>
 							</div>
 							<div class="form-group col-lg-6">
