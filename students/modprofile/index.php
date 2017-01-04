@@ -94,7 +94,7 @@
 					//CODICE DI GIUSEPPE
 					google.maps.event.addDomListener(window, 'load', intilize);
 						function intilize() {
-<<<<<<< HEAD
+
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById("indirizzo"));
 						google.maps.event.addListener(autocomplete, 'place_changed', function () {
 						var place = autocomplete.getPlace();
@@ -103,7 +103,7 @@
 						console.log(lat);
 						console.log(lng);
 						});
-=======
+
 							var autocomplete = new google.maps.places.Autocomplete(document.getElementById("indirizzo"));
 							google.maps.event.addListener(autocomplete, 'place_changed', function () {
 							var place = autocomplete.getPlace();
@@ -114,8 +114,8 @@
 								console.log(lat);
 								console.log(lng);
 							}
-						});					
->>>>>>> origin/master
+						});
+
 					};
 
 					/////////////////////////////////////////////////////////////////
