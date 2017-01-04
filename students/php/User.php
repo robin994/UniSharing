@@ -4,9 +4,6 @@ include "Account.php";
 
 
 interface IUser{
-	
-	//metodo che permette di inviare il contatto
-	public function contactSend($post);
 
 	// metodo che permette di registrare un nuovo utente
 	public function signin($post);
@@ -63,26 +60,6 @@ class User extends Account implements IUser{
 		$this->cookie = json_decode($_COOKIE["user"], false);
 
 	}
-	
-	////////////////////////////////////////////////////////////////////
-	/////////// METODO CHE EFFETTUA INVIA LA SEGNALAZIONE //////////////
-	////////////////////////////////////////////////////////////////////
-	public function contactSend($post){
-		$object= $post["titolo"];
-		$message= $post["descrizione"];
-		$from= $post["mail"];
-		$to= "antonio.fasulo95@gmail.com";
-		
-		//re-inizializzo il json da restituire come risultato del metodo
-		$objJSON = array();
-		
-		// invoco il metodo che permette di inviarmi la mail
-		$notification= new Notification;
-		$notification->send($from, $to, $object, $message);
-	}
-	///////////////////////////////////////////////////////////////////
-	///////////FINE DEL METODO CHE INVIA LA SEGNALAZIONE //////////////
-	///////////////////////////////////////////////////////////////////
 
 
 	///////////////////////////////////////////////////////////
@@ -93,7 +70,7 @@ class User extends Account implements IUser{
 
 		$account = $post["account"];
 		$user = $post["user"];
-
+		$user["address"] = str_replace("'","\'",	$user["address"]);
 		// invoco il metodo esteso da Account per inserire l'account
 		$objJSON = $this->saveAccount($account);
 
