@@ -501,7 +501,7 @@ class User extends Account implements IUser{
 
 		$account = $post["account"];
 		$user = $post["user"];
-		//var_dump($post);
+		$user["address"] = str_replace("'","\'",	$user["address"]);
 		// invoco il metodo esteso da Account per inserire l'account
 		$objJSON = $this->modifyAccount($account);
 		//var_dump($objJSON);
