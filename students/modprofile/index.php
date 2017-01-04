@@ -127,13 +127,14 @@
 						$.unisharing("Istitutes", "getFaculties", "private", {"university": data.idUniversity}, false, callBackFaculties);
 
 						document.getElementById("facolta").selectedIndex = data.idFaculty;
+						document.getElementById("tipo_studente").value = data.typeStudent;
+
 						//$("#universita").append("<option value='"+data.idUniversity+"'>"+data.universita+"</option>");
 						//$("#facolta").append("<option value='"+data.idFaculty+"'>"+data.facolta+"</option>");
 						$("#email").attr('value',data.email);
 						emailOld = data.email;
 						$("#birthday").attr('value',data.birthOfDay);
 						//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
-						$("#typeStudent").attr('value',data.typeStudent);
 						$('#cellulare').attr('value',data.telephone);
 					}
 
@@ -214,7 +215,7 @@
 						}
 
 
-						if(password.length < 8 && password.length > 16){
+						if(password.length < 8 && password.length > 16) {
 							message_err += "La lunghezza della password deve essere almeno di 8 caratteri e al più di 16<br>";
 							boo_err = true;
 						}
