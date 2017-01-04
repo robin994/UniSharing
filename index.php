@@ -14,12 +14,12 @@
         <script src="js/jquery.cookie.js"></script>
 		<script>
 			$(function() {
-							
+
 				if($.cookie("user")){
 					var cookie = JSON.parse($.cookie('user'));
 					console.log(cookie.name);
 				}
-					
+
 				$("#btn-login").on("click", function() {
 					console.log("HO CLICCATO SUL TASTO DELLA LOGIN");
 
@@ -28,8 +28,8 @@
 					var username = $("#username").val();
 					var password = $("#password").val();
 
-					
-					
+
+
 					if(!username){
 						msg_err += "Non hai inserito l'username<br>";
 						boo = false;
@@ -39,7 +39,7 @@
 						msg_err += "Non hai inserito la password<br>";
 						boo = false;
 					}
-					
+
 					if(!boo){
 						var tmp = '<center>';
 						tmp += '<div class="alert alert-danger"><i class="fa fa-exclamation-triangle" style="font-size:22px;"/><br>';
@@ -47,7 +47,7 @@
 						tmp += '</div>';
 						tmp += '</center>';
 						$("#Message").html(tmp);
-						return;	
+						return;
 					}
 
 					var param = {
@@ -67,7 +67,7 @@
 							tmp += '</div>';
 							tmp += '</center>';
 							$("#Message").html(tmp);
-							return;	
+							return;
 						}
 
 						if(data.results.length <= 0){
@@ -77,25 +77,25 @@
 							tmp += '</div>';
 							tmp += '</center>';
 							$("#Message").html(tmp);
-							return;	
+							return;
 						}else{
 							var cook = {
 							"idUser":data.results[0].idUser,
-							"username":data.results[0].username, 
-							"name":data.results[0].name, 
-							"surname":data.results[0].surname, 
+							"username":data.results[0].username,
+							"name":data.results[0].name,
+							"surname":data.results[0].surname,
 							"pathImage":data.results[0].pathImage
-							}							
-							
+							}
+
 							var cook_options = {
 								path: "/",
-								domain: "localhost"	
+								domain: window.location.hostname
 							}
-							
+
 							if($(".connesso").is(":checked")){
 								cook_options.expires = 60;
 							}
-							
+
 							// creo il cookie
 							$.cookie('user', JSON.stringify(cook), cook_options);
 							document.location.href = "/research/home/";
@@ -110,8 +110,8 @@
 	</head>
 	<body style="background: url(img/bg.png);">
     	<!-- Includo la pagina php con il controllo sul cookie -->
-    	<? 		
-			// chiamo il controllo specifico per la pagina di login	
+    	<?
+			// chiamo il controllo specifico per la pagina di login
 			include("php/cookiescontrollogin.php");
 		?>
         <div id="conteiner" class="container">
@@ -125,8 +125,8 @@
                             <img src="../../img/logo_login.png" class="img-responsive" alt=""></center>
                           	<input id="username" type="email" name="email" placeholder="Username" required class="form-control input-lg">
                           	<input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
-                            
-                            <input type="checkbox" value="si" class="connesso" /> Mantieni una sessione su questo computer 
+
+                            <input type="checkbox" value="si" class="connesso" /> Mantieni una sessione su questo computer
                           	<button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Accedi</button>
                             <span id="Message"></span>
 							<div>
@@ -141,7 +141,7 @@
 			</div>
 		</div>
     	<!-- Includo la pagina php che stampa il footer -->
-    	<? 		
+    	<?
 			include("php/footer.php");
 		?>
 	</body>
