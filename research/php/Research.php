@@ -53,38 +53,73 @@ class Research implements IResearch{
 									" OR _user.surname LIKE '%".$post["parolachiave"]."%')";
 		}
 
-		//costruisco la query di select
-		$query = " SELECT *
-					FROM _user
-					WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
-							SELECT 	_userhasfeatures.idUser as user
-							FROM 	_features,
-									_userhasfeatures
-							WHERE  _features.idFeature = _userhasfeatures.idFeature ";
-
-		//QUERY GEOLOCALIZZAZIONE
-		$queryDistance = 	"SELECT *,
+		//QUERY GEOLOCALIZZATA
+ /*		$queryDistance = 	"SELECT *,
 		( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
 		* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
 		 * sin( radians( _user.latitude ) ) ) )
-		  AS distance from _user
+			AS distance from _user
 			where _user.email <> '".$this->cookie->{"username"}."' having distance < ".$post['distance']." ORDER BY distance";
-		//var_dump($queryDistance);
+		//var_dump($queryDistance);*/
+		//var_dump($this->cookie->{"distance"});
+		if ($post['distance'] == null) {
 
-		if(count($features) > 0){
-			$query .= "AND (";
-			for($i = 0; $i < count($features);$i++){
-				$query.= " _features.label = '".$features[$i]["features"]."' OR";
+			/////////////////////////////////////////////////////////////////
+			/////////////// QUERY RICERCA NON GEOLOCALIZZATA ////////////////
+			/////////////////////////////////////////////////////////////////
+
+			//costruisco la query di select
+			$query = " SELECT *
+						FROM _user
+						WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
+								SELECT 	_userhasfeatures.idUser as user
+								FROM 	_features,
+										_userhasfeatures
+								WHERE  _features.idFeature = _userhasfeatures.idFeature ";
+
+			if(count($features) > 0){
+				$query .= "AND (";
+				for($i = 0; $i < count($features);$i++){
+					$query.= " _features.label = '".$features[$i]["features"]."' OR";
+				}
+				$query = substr($query,0,strlen($query)-2).")";
+				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 			}
-			$query = substr($query,0,strlen($query)-2).")";
-			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
-		}
-		$query .= ")";
+			$query .= ")";
+			//var_dump($query);
+		} else {
 
+			/////////////////////////////////////////////////////////////////
+			/////////////// QUERY RICERCA GEOLOCALIZZATA ////////////////////
+			/////////////////////////////////////////////////////////////////
+
+			//costruisco la query di select
+			$query = " SELECT *, ( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
+					* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
+					 * sin( radians( _user.latitude ) ) ) )
+						AS distance
+						FROM _user
+						WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
+								SELECT 	_userhasfeatures.idUser as user
+								FROM 	_features,
+										_userhasfeatures
+								WHERE  _features.idFeature = _userhasfeatures.idFeature ";
+
+			if(count($features) > 0){
+				$query .= "AND (";
+				for($i = 0; $i < count($features);$i++){
+					$query.= " _features.label = '".$features[$i]["features"]."' OR";
+				}
+				$query = substr($query,0,strlen($query)-2).")";
+				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
+			}
+			$query .= ") having distance < ".$post['distance'];
+			//var_dump($query);
+		}
 		//var_dump($query);
 
 		//la passo la motore MySql
-		$result = $this->connect->myQuery($queryDistance);
+		$result = $this->connect->myQuery($query);
 
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
@@ -117,7 +152,7 @@ class Research implements IResearch{
 				if ($rowValori["distance"]) {
 					$objJSON["results"][$cont]["distance"] = $rowValori["distance"];
 				} else {
-					$objJSON["results"][$cont]["distance"] = 'unknown';
+					$objJSON["results"][$cont]["distance"] = null;
 				}
 				$cont++;
 			}

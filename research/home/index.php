@@ -30,11 +30,14 @@
 					if($(this).val() == "disabilitato") {
 						$("#barradacambiare").removeAttr("disabled");
 						$(this).val("");
+						distance = $('#barradacambiare').val();
+						console.log(distance);
 						console.log("ABILITO LA RICERCA GEOLOCALIZZATA");
 					} else {
 						$("#barradacambiare").attr("disabled","true");
 						$(this).val("disabilitato");
 						distance = null;
+						console.log(distance);
 						console.log("DISABILITO LA RICERCA GEOLOCALIZZATA");
 					}
 				});
