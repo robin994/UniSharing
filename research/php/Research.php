@@ -93,7 +93,7 @@ class Research implements IResearch{
 			/////////////// QUERY RICERCA GEOLOCALIZZATA ////////////////////
 			/////////////////////////////////////////////////////////////////
 
-			//costruisco la query di select
+			//costruisco la query di select (solo dio sa come funziona)
 			$query = " SELECT *, ( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
 					* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
 					 * sin( radians( _user.latitude ) ) ) )
@@ -113,7 +113,7 @@ class Research implements IResearch{
 				$query = substr($query,0,strlen($query)-2).")";
 				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 			}
-			$query .= ") having distance < ".$post['distance'];
+			$query .= ") having distance < ".$post['distance']." ORDER BY distance";
 			//var_dump($query);
 		}
 		//var_dump($query);
