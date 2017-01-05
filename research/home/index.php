@@ -17,30 +17,43 @@
         <script src="../../js/jquery.cookie.js"></script>
         <script>
 			$(function() {
-				
+				var distance = null;
+				var cookie = JSON.parse($.cookie('user'));
+				var user = {
+					'latitude': cookie.latitude,
+					'longitude': cookie.longitude
+				}
+				console.log(user);
 				//Attivo o disattivo la barra per la ricerca geolocalizzata
-				$("#cambiastato").on("click", function() {					if($(this).val() == "disabilitato") {
+
+				$("#cambiastato").on("click", function() {
+					if($(this).val() == "disabilitato") {
 						$("#barradacambiare").removeAttr("disabled");
 						$(this).val("");
 						console.log("ABILITO LA RICERCA GEOLOCALIZZATA");
-					} else {					
+					} else {
 						$("#barradacambiare").attr("disabled","true");
 						$(this).val("disabilitato");
+						distance = null;
 						console.log("DISABILITO LA RICERCA GEOLOCALIZZATA");
-					}					
+					}
 				});
-				
+
+				$("#barradacambiare").on("change", function() {
+						distance = $('#barradacambiare').val();
+						console.log(distance);
+				});
 				$("#btn-start-research").on("click", function() {
-					
+
 					$("#Message").html("");
-					
+
 					console.log("HO CLICCATO SUL TASTO DELLA RICERCA");
-					
+
 					var arr_features = [];
 					var parolachiave = $("#parolachiave").val();
 					var boo = false;
-					
-					
+
+
 					$(".features").each(function(){
 						if($(this).is(":checked")){
 							arr_features.push({"features": $(this).val()});
@@ -60,31 +73,31 @@
 							return;
 					}
 					function callBackUsers(data){
-						
+
 						if(!data.success){
 							var tmp = '<center><br>';
 							tmp += '<div class="alert alert-danger">';
 							tmp += '<i class="glyphicon glyphicon-delete"/> ';
 							tmp += '<span style="font-size:18px;">'+data.messageError+' '+data.error+'</span>';
 							tmp += '</div>';
-							tmp += '</center>';							
+							tmp += '</center>';
 							$("#Message").html(tmp);
 							$("#ris").html("");
 							return;
 						}
-						
+
 						if(data.results.length <= 0){
 							var tmp = '<center><br>';
 							tmp += '<div class="alert alert-warning">';
 							tmp += '<i class="glyphicon glyphicon-delete"/> ';
 							tmp += '<span style="font-size:18px;">Nessun utente trovato con le caratteristiche indicate</span>';
 							tmp += '</div>';
-							tmp += '</center>';							
+							tmp += '</center>';
 							$("#Message").html(tmp);
 							$("#ris").html("");
 							return;
 						}
-	
+
 						var tmp = "";
 						for(var i = 0; i < data.results.length;i++){
 							console.log(data.results[i]);
@@ -104,15 +117,15 @@
 						}
 						$("#ris").html("");
 						$("#ris").html(tmp);
-						
+
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista dei compagni di studio ideali
-						$(".addUser").on("click", function() {	
-							
+						$(".addUser").on("click", function() {
+
 							$("#Message").html("");
-							
-							if($.cookie("listaUtenti")){							
+
+							if($.cookie("listaUtenti")){
 								var cookie_lista = JSON.parse($.cookie("listaUtenti"));
-							
+
 								if(cookie_lista.length < 10) {
 									var nome = $(this).attr("name");
 									var cognome = $(this).attr("surname");
@@ -120,7 +133,7 @@
 									var usernome = $(this).attr("username");
 									var iduser = $(this).attr("id");
 									var boopresente = false;
-									
+
 									for (var i=0; i<cookie_lista.length; i++) {
 										if(usernome == cookie_lista[i]["username"]) {
 											boopresente = true;
@@ -141,11 +154,11 @@
 											"surname": cognome,
 											"pathImage": pathImmagine,
 											"username": usernome,
-											"id": iduser								
+											"id": iduser
 										});
 									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
 									$.aggiornaBadge();
-									}									
+									}
 								} else {
 									var tmp = '<center><br>';
 										tmp += '<div class="alert alert-warning">';
@@ -155,7 +168,7 @@
 										tmp += '</center>';
 									$("#Message").html(tmp);
 									return;
-								}									
+								}
 							}else{
 								var cookie_lista = [];
 								var name = $(this).attr("name");
@@ -165,20 +178,20 @@
 								var id = $(this).attr("id");
 								var cookie = {
 									"name": name,
-									"surname": surname, 
+									"surname": surname,
 									"pathImage": pathImage,
 									"username": username,
 									"id": id
 								}
+
 								cookie_lista.push(cookie);
-								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });	
-								
+								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
+
 								$.aggiornaBadge();
-							
+
 							}
-						})				
+						})
 					}
-					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave}, false, callBackUsers);
 
 				});
 			});
