@@ -106,7 +106,7 @@
 							console.log(data.results[i]);
 							var distanceUser = 'sconosciuta';
 							if (data.results[i]["distance"]!= null) {
-								var distanceUser = parseFloat(data.results[i]["distance"]).toFixed(2);
+								var distanceUser = parseFloat(data.results[i]["distance"]).toFixed(2) + ' km';
 							};
 							tmp += '<div class="col-lg-4">';
 							tmp += '<table class="table user-list">';
@@ -115,7 +115,7 @@
 							tmp += '			<td>';
 							tmp += '				<a href="../../students/description/index.php?user='+data.results[i]["id"]+'"><img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt=""></a>';
 							tmp += '				<h5><a href="../../students/description/index.php?user='+data.results[i]["id"]+'" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
-							tmp += '				<h5>Distanza: '+distanceUser+'km </h5>';
+							tmp += '				<h5>Distanza: '+distanceUser+'</h5>';
 							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'" id="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
@@ -164,7 +164,7 @@
 											"username": usernome,
 											"id": iduser
 										});
-									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
+									$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: window.location.hostname, expires: 60 });
 									$.aggiornaBadge();
 									}
 								} else {
@@ -193,7 +193,7 @@
 								}
 
 								cookie_lista.push(cookie);
-								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: 'localhost', expires: 60 });
+								$.cookie('listaUtenti', JSON.stringify(cookie_lista), { path: '/', domain: window.location.hostname, expires: 60 });
 
 								$.aggiornaBadge();
 
