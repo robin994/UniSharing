@@ -25,24 +25,24 @@
                 <h1>Segnalazione</h1>
 				<label>Titolo</label>
 				<div class ="input-group" style="width:100%;">
-                	<input type="text" class ="form-control" placeholder="">
-                </div>
-                <br>
-                <label>Testo</label><br>
-                <div class ="input-group" style="width:100%;">
-                	<textarea class="form-control" rows="10"></textarea>
-                </div>
-                <br>
-                <center>
-                	<div class ="input-group">
-                 		<button  type="button" class="btn btn-default btn-lg">Annulla</button>&nbsp;
-                		<button  type="button " class="btn btn-default btn-lg">Invia</button>
-                    </div>
-                </center>
-           	</div>
-            <div class="col-lg-2">
-            </div>           
+          <input type="text" class ="form-control" placeholder="">
         </div>
-        <? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
+        <br>
+        <label>Testo</label><br>
+        <div class ="input-group" style="width:100%;">
+        	<textarea class="form-control" rows="10"></textarea>
+        </div>
+        <br>
+        <center>
+        	<div class ="input-group">
+         		<button  type="button" class="btn btn-default btn-lg">Annulla</button>&nbsp;
+        		<button  type="button " class="btn btn-default btn-lg">Invia</button>
+          </div>
+        </center>
+       	</div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+    <? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>
 </html>

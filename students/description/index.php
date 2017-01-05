@@ -115,7 +115,7 @@
 							<p id="address">Indirizzo</p>
 						</div>
 						<div class="col-lg-12">
-							<!-- <label></label> -->
+							<label>Tipo di Studente</label>
 							<p id="typeStudent">Indirizzo</p>
 						</div>
 						<div class="col-lg-12">

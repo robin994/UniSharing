@@ -170,7 +170,7 @@
 						//$("#facolta").append("<option value='"+data.idFaculty+"'>"+data.facolta+"</option>");
 						$("#email").attr('value',data.email);
 						emailOld = data.email;
-						$("#birthday").attr('value',data.birthOfDay);
+						$("#bday").attr('value',data.birthOfDay);
 						//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
 						$('#cellulare').attr('value',data.telephone);
 					}
