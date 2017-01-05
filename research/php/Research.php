@@ -2,10 +2,10 @@
 
 // interfaccia della classe
 interface IResearch{
-	
+
 	//metodo che effettua la ricerca degli utenti
 	public function researchUsers($param);
-	
+
 }
 
 
@@ -13,21 +13,21 @@ interface IResearch{
 class Research implements IResearch{
 
 	private $connect;
-	
+
 	private $cookie;
 
 	public function init(){
-		
+
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
-		
+
 		// prelevo l'eventuale cookie dell'utente connesso
 		$this->cookie = json_decode($_COOKIE["user"], false);
 	}
-	
+
 	public function researchUsers($post){
 
-		
+
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
 
@@ -47,23 +47,30 @@ class Research implements IResearch{
 			$this->connect->disconnetti();
 			return json_encode($objJSON);
 		}
-		
+
 		if($post["parolachiave"]){
 			$search_parolachiave = "AND (_user.name LIKE '%".$post["parolachiave"]."%'".
 									" OR _user.surname LIKE '%".$post["parolachiave"]."%')";
 		}
 
 		//costruisco la query di select
-		$query = " SELECT * 	
-					FROM _user 
+		$query = " SELECT *
+					FROM _user
 					WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
-							SELECT 	_userhasfeatures.idUser as user 
-							FROM 	_features, 
-									_userhasfeatures 
+							SELECT 	_userhasfeatures.idUser as user
+							FROM 	_features,
+									_userhasfeatures
 							WHERE  _features.idFeature = _userhasfeatures.idFeature ";
-							
-							
-							
+
+		//QUERY GEOLOCALIZZAZIONE
+		$queryDistance = 	"SELECT *,
+		( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
+		* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
+		 * sin( radians( _user.latitude ) ) ) )
+		  AS distance from _user
+			where _user.email <> '".$this->cookie->{"username"}."' having distance < ".$post['distance']." ORDER BY distance";
+		//var_dump($queryDistance);
+
 		if(count($features) > 0){
 			$query .= "AND (";
 			for($i = 0; $i < count($features);$i++){
@@ -73,10 +80,11 @@ class Research implements IResearch{
 			$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 		}
 		$query .= ")";
-		
-		
+
+		//var_dump($query);
+
 		//la passo la motore MySql
-		$result = $this->connect->myQuery($query);
+		$result = $this->connect->myQuery($queryDistance);
 
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){
@@ -106,6 +114,11 @@ class Research implements IResearch{
 				$objJSON["results"][$cont]["username"] = $rowValori["email"];
 				$objJSON["results"][$cont]["pathImage"] = $rowValori["pathImage"];
 				$objJSON["results"][$cont]["address"] = $rowValori["address"];
+				if ($rowValori["distance"]) {
+					$objJSON["results"][$cont]["distance"] = $rowValori["distance"];
+				} else {
+					$objJSON["results"][$cont]["distance"] = 'unknown';
+				}
 				$cont++;
 			}
 		}

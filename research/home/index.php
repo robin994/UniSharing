@@ -192,6 +192,7 @@
 							}
 						})
 					}
+					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, false, callBackUsers);
 
 				});
 			});
