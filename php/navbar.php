@@ -90,8 +90,8 @@ $(function(){
 
 
 	$("#logout").on("click", function(){
-		$.removeCookie("user", {path: "/", domain:"localhost"});
-		$.removeCookie("listaUtenti", {path: "/", domain:"localhost"});
+		$.removeCookie("user", {path: "/", domain: window.location.hostname});
+		$.removeCookie("listaUtenti", {path: "/", domain: window.location.hostname});
 	});
 
 	//aggiorna i badge
