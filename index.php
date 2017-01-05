@@ -84,9 +84,11 @@
 							"username":data.results[0].username,
 							"name":data.results[0].name,
 							"surname":data.results[0].surname,
-							"pathImage":data.results[0].pathImage
+							"pathImage":data.results[0].pathImage,
+							"latitude":data.results[0].latitude,
+							"longitude":data.results[0].longitude
 							}
-
+														
 							var cook_options = {
 								path: "/",
 								domain: window.location.hostname

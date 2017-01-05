@@ -143,6 +143,8 @@ class Account{
 				$objJSON["results"][$cont]["name"] = $rows["name"];
 				$objJSON["results"][$cont]["surname"] = $rows["surname"];
 				$objJSON["results"][$cont]["pathImage"] = $rows["pathImage"];
+				$objJSON["results"][$cont]["latitude"] = $rows["latitude"];
+				$objJSON["results"][$cont]["longitude"] = $rows["longitude"];
 				$cont++;
 			}
 		}
