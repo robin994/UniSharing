@@ -348,7 +348,7 @@ class User extends Account implements IUser{
 			$values = substr($values, 0, strlen($values)-1);
 			$query = "INSERT INTO _userhasfeatures (idFeature, idUser) VALUES ".$values;
 
-
+			//var_dump($query);
 
 			// eseguo la query nel motore mysql
 			$this->connect->myQuery($query);
@@ -542,6 +542,13 @@ class User extends Account implements IUser{
 							//var_dump($query);
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
+
+		// inserisco le features dell'utente
+		$queryCancellaFeature = "DELETE FROM _userhasfeatures where _userhasfeatures.idUser = ".$post["user"]["idUser"];
+		$this->connect->myQuery($queryCancellaFeature);
+		//var_dump($queryCancellaFeature);
+		$this->setUserHasFeatures($post);
+
 
 		//Righe che gestiscono casi di errore di chiamata al database
 		if($this->connect->errno()){

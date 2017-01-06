@@ -153,6 +153,16 @@
 						$("#bday").attr('value',data.birthOfDay);
 						//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
 						$('#cellulare').attr('value',data.telephone);
+
+						$("input:checkbox").each(function(){
+							for (var i = 0;i < data.features.length; i++) {
+								if ($(this).val() == data.features[i].idFeature) {
+									$(this).attr('checked','true');
+								}
+							}
+
+						});
+
 					}
 
 						if($.cookie("user")){
@@ -257,15 +267,21 @@
 							}
 
 							$("#result_message").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br><h4>Utente modificato correttamente<h4><h5>Verrai reindirizzato sulla home fra qualche istante...<h5><h5>Se non vuoi attendere <a href="../../research/home/index.php">clicca qui.</a></h5></div></center>');
-	
-							// Ridireziona alla home dopo 5 secondi	
+
+							// Ridireziona alla home dopo 5 secondi
 							setTimeout (function() {
 							 	window.location.href = document.location.origin + "/research/home/index.php";
 							}, 5000);
 						}
+						if($.cookie("user")){
+							var cookie = JSON.parse($.cookie('user'));
+							console.log(cookie.idUser);
+							var idUser = cookie.idUser;
+						}
 
 						var param = {
 							"user": {
+								"idUser":idUser,
 								"name": name,
 								"surname":surname,
 								"univerista":universita,
