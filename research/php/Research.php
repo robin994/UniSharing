@@ -65,17 +65,19 @@ class Research implements IResearch{
 	//	if ($post['distance'] == null) {
 
 			/////////////////////////////////////////////////////////////////
-			/////////////// QUERY RICERCA ///////////////////////////////////
+			/////////////// QUERY RICERCA AKA SUPER QUERY ///////////////////
 			/////////////////////////////////////////////////////////////////
 
 			//costruisco la query di select
 			$query = " SELECT * ";
+			//CONTROLLO SE E' STATA RICHIESTA LA RICERCA GEOLOCALIZZATA
 			if ($post['distance'] != null) {
 				$query .= ", ( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
 				* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
 				 * sin( radians( _user.latitude ) ) ) )
 					AS distance";
 			}
+			//PRELEVO GLI UTENTI IN BASE ALLE FEATURE RICHIESTE
 			$query .= " FROM _user WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
 								SELECT 	_userhasfeatures.idUser as user
 								FROM 	_features,
@@ -90,6 +92,7 @@ class Research implements IResearch{
 				$query = substr($query,0,strlen($query)-2).")";
 				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 			}
+			//CONTROLLO LA LISTA DEGLI UTENTI BLOCCATI
 			$query .= ") AND not exists (SELECT blockedUser FROM _blacklist WHERE
 			_blacklist.user = '".$this->cookie->{"username"}."' AND _user.email =  _blacklist.blockedUser)
 			 AND not exists (SELECT blockedUser FROM _blacklist WHERE _blacklist.user = _user.email
