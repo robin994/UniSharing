@@ -20,28 +20,32 @@
 	<body>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
         <div class="contaniner">
-           <div class="col-lg-2">
-           </div>
-           <div class="col-lg-8">
-                <h1>Segnalazione</h1>
-				<label>Titolo</label>
-				<div class ="input-group" style="width:100%;">
-          <input id="object" type="text" class ="form-control" placeholder="">
-        </div>
-        <br>
-        <label>Testo</label><br>
-        <div class ="input-group" style="width:100%;">
-        	<textarea id="message" class="form-control" rows="10"></textarea>
-        </div>
-        <br>
-        <center>
-        	<div class ="input-group">
-         		<button  type="button" class="btn btn-default btn-lg" onclick="sendClear()">Pulisci</button>&nbsp;
-        		<button  type="button" class="btn btn-default btn-lg" onclick="sendReport()">Invia</button>
-          </div>
-        </center>
+           	<div class="col-lg-3">
+           	</div>
+           	<div class="col-lg-6">
+           	<h1>Segnalazione</h1>
+            <hr>
+ 			<div class="row-fluid">
+				<div class="form-group col-lg-12" id="formname">
+					<Label>Oggetto della segnalazione</Label>
+					<div class="input-group" style="width:100%;">
+						<input type="text" id="object" class="form-control" placeholder="Oggetto della segnalazione" aria-describedby="basic-addon1" required>
+					</div>
+				</div>
+            </div>
+          	<div class="row-fluid">
+             	<div class="form-group col-md-12">
+           			<label>Descrizione</label>
+            		<textarea id="description" class="form-control" placeholder="Inserisci una breve descrizione del problema" style="resize:vertical;height:100px;"></textarea>
+				</div>
+			</div>
+            <div class="col-md-4">
+				<br>
+            	<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
+            	<input type="button" class="btn btn-primary" id="btn-segnalazione" value="Conferma">
+            </div>
        	</div>
-        <div class="col-lg-2">
+        <div class="col-lg-3">
         </div>
     </div>
     <? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
