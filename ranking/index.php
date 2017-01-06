@@ -18,18 +18,17 @@
 		<link href="css/ranking.css" rel="stylesheet" media="screen">
 		<script src="../js/bootstrap.min.js"></script>
 		<script src="js/main.js"></script>
-			
+
 
 		<script>
 		// ONLOAD JQUERY
 		$(function(){
-			
 			// funzione che riceve la classifica generale
-			getRanking();
-			
+			init();
+
 		});
-		
-        </script>
+
+    </script>
 
     </head>
 	<body>
@@ -45,9 +44,18 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Utente</th>
-                    <th>Punteggio</th>
-                    <th></th>
+                    <th id="Utente">
+											<a onclick="orderByUser()">Utente</a>
+											<span id="SpanU"  class="glyphicon glyphicon-triangle-bottom"style="display:none" aria-hidden="true"></span>
+										</th>
+                    <th id="Punteggio">
+											<a onclick="orderByScore()">Punteggio</a>
+											<span id="SpanP" class="glyphicon glyphicon-triangle-bottom" style="display:none" aria-hidden="true"></span>
+										</th>
+                    <th id="Feedback">
+											<a onclick="orderByFeedback()">Feedback</a>
+											<span id="SpanF" class="glyphicon glyphicon-triangle-bottom" style="display:none" aria-hidden="true"></span>
+										</th>
                 </tr>
                 </thead>
                 <tbody id="idRanking"></tbody>

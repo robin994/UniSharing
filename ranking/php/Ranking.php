@@ -4,30 +4,40 @@
 interface IRanking{
 
 	// metodo che resistuisce la classifica
-	public function getRanking($param);	
-	
+	public function getRanking($post);
+
 }
 
 
 //definizione della classe
 class Ranking implements IRanking{
-	
+
 	private $connect;
-	
+
 	public function init(){
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
 	}
-	
+
+
 	public function getRanking($post){
-		
+
+		//var_dump($post);
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
-		
+
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 		//costruisco la query di select
-	  $query = " SELECT * FROM _user WHERE score > 0 ORDER BY score DESC";
+	  $query = " SELECT *, (5 * (_user.score / _user.numberOfFeedback)) AS perc FROM _user WHERE score > 0 ORDER BY ".$post['orderBy'];
+
+		if ($post['cresc'] == "true") {
+			$query .= " ASC";
+		} else {
+			$query .= " DESC";
+		}
+
+		//var_dump($query);
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 		//Righe che gestiscono casi di errore di chiamata al database
@@ -52,9 +62,7 @@ class Ranking implements IRanking{
 				$objJSON["results"][$cont]["pathImage"] = $rowValori["pathImage"];
 				$objJSON["results"][$cont]["address"] = $rowValori["address"];
 				$objJSON["results"][$cont]["score"] = $rowValori["score"];
-				
-				$perc = 5*($rowValori["score"]/$rowValori["numberOfFeedback"]);
-				$objJSON["results"][$cont]["percent"] = $perc;
+				$objJSON["results"][$cont]["percent"] = $rowValori["perc"];
 				$cont++;
 			}
 		}
