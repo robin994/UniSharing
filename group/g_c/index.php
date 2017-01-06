@@ -5,22 +5,22 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Unisharing</title>
 
 		 <script src="../../js/jquery.1.12.js"></script>
-	  <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../../css/style.css" rel="stylesheet" media="screen">
-    <link href="../../css/jquery.ui.css" rel="stylesheet" media="screen">
-    <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
-    <link href="../../css/font-awesome.min.css" rel="stylesheet" media="screen">
-           <link href="../../css/footer.css" rel="stylesheet" media="screen">
-        <link href="../../css/navbar.css" rel="stylesheet" media="screen">
-		<script src="../../js/bootstrap.min.js"></script>
-    <script src="../../js/functions.js"></script>
-    <script src="../../js/jquery.cookie.js"></script>
-    <script src="../../js/jquery.Jcrop.min.js"></script>
-     <script src="../../js/jquery.ui.js"></script>
+	  	 <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+    	 <link href="../../css/style.css" rel="stylesheet" media="screen">
+    	 <link href="../../css/jquery.ui.css" rel="stylesheet" media="screen">
+   		 <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
+    	 <link href="../../css/font-awesome.min.css" rel="stylesheet" media="screen">
+         <link href="../../css/footer.css" rel="stylesheet" media="screen">
+         <link href="../../css/navbar.css" rel="stylesheet" media="screen">
+		 <script src="../../js/bootstrap.min.js"></script>
+   		 <script src="../../js/functions.js"></script>
+    	 <script src="../../js/jquery.cookie.js"></script>
+    	 <script src="../../js/jquery.Jcrop.min.js"></script>
+     	 <script src="../../js/jquery.ui.js"></script>
 
 		<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -246,8 +246,12 @@
 								return;
 							}
 
-
-								document.location.href = "http://<? echo $_SERVER["HTTP_HOST"]; ?>/group/g_a/";
+							$("#result_message").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br><h4>Gruppo di studio creato correttamente<h4><h5>Verrai reindirizzato sulla home fra qualche istante...<h5><h5>Se non vuoi attendere <a href="http://<? echo $_SERVER["HTTP_HOST"]; ?>/research/home/index.php">clicca qui.</a></h5></div></center>');
+	
+							// Ridireziona alla home dopo 5 secondi	
+							setTimeout (function() {
+							 	window.location.href = document.location.href = "http://<? echo $_SERVER["HTTP_HOST"]; ?>/research/home/index.php";
+							}, 5000);
 
 							}
 
@@ -268,6 +272,8 @@
 
 						$.unisharing("Group", "createGroup", "public", param, false, callBackGroupCreation);
 
+						//Elimino il cookie lista utenti quando creo il gruppo
+						$.removeCookie("listaUtenti", {path: "/", domain: window.location.hostname});
 						});
 
 
@@ -277,7 +283,7 @@
 
 	</head>
 	<body>
-        <? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
+    <? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
 	<div class="container">
 		<div class="row">
         	<div class="col-lg-3"></div>
@@ -286,36 +292,36 @@
         </div>
         <div class="row">
       		<div class="col-lg-2"></div>
-			<div class="col-lg-8">
-				<h2>Creazione Gruppo</h2>
+			<div class="col-lg-8" id="result_message">
+				<h1>Creazione gruppo di studio</h1>
+                <hr>
                 <div class="row-fluid">
-                	<div class="col-lg-12">
+                	<div class="form-group col-lg-12">
                     	<label>Il tuo team</label><br>
                         <span id="lista_utenti">
-
                       	</span>
                    	</div>
                 </div><br>
 				<div class="row-fluid">
-					<div class="col-lg-12" id="result_message">
-						<label>Nome gruppo</label>
-						<input type="text" id="name" class="form-control" placeholder="Nome Gruppo" aria-describedby="basic-addon1" required>
+					<div class="form-group col-lg-12">
+						<label>Nome del gruppo</label>
+						<input type="text" id="name" class="form-control" placeholder="Nome del gruppo" aria-describedby="basic-addon1" required>
 					</div><br>
-					<div class="col-md-6">
+					<div class="form-group col-md-6">
 						<label>Università</label>
 						<select id="universita" name="selectbasic" class="form-control">
 						</select>
 					</div>
-					<div class="col-md-6">
+					<div class="form-group col-md-6">
 						<label>Facoltà</label>
 						<select id="facolta" name="selectbasic" class="form-control">
 						</select>
 					</div><br>
-					<div class="col-lg-12">
+					<div class="form-group col-lg-12">
 						<label>Nome esame</label>
-						<input id="exam" class="form-control" placeholder="Nome esame" aria-describedby="basic-addon1" required>
+						<input id="exam" class="form-control" placeholder="Nome dell'esame" aria-describedby="basic-addon1" required>
 					</div><br>
-                    <div class="col-lg-12">
+                    <div class="form-group col-lg-12">
                     	<div class='col-lg-6' style="padding-left:0px !important;">
 							<label>Scadenza gruppo</label>
 							<input type="date" class="form-control" id="expirationDate" placeholder="" aria-describedby="basic-addon1" min="<? echo date("Y-m-d");?>">
@@ -325,13 +331,17 @@
 							<input type="date" class="form-control" id="expirationInvite" placeholder="" aria-describedby="basic-addon1" min="<? echo date("Y-m-d");?>">
 						</div>
                     </div><br>
-					<div class="col-lg-12">
+					<div class="form-group col-lg-12">
 						<label>Descrizione</label>
-						<textarea id="description" class="form-control" style="resize:vertical;height:250px;"></textarea>
+						<textarea placeholder="Insirisci una breve descrizione del gruppo" id="description" class="form-control" style="resize:vertical;height:100px;">									
+                        </textarea>
 					</div>
 				</div>
-
-
+				<div class="col-md-4">
+					<br>
+              		<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
+                	<input type="button" class="btn btn-primary" id="btn-create-group" value="Conferma">
+          		</div>
 			</div>
       		<div class="col-log-2"></div>
 		</div>
@@ -340,14 +350,6 @@
         	<div class="col-lg-3"></div>
             <div class="col-lg-6" id="FormError"></div>
             <div class="col-lg-3"></div>
-        </div>
-        <br>
-        <div class="row">
-        	<div class="col-lg-4"></div>
-            <div class="col-lg-4">
-           		<button class="btn btn-lg btn-primary btn-block" id="btn-create-group">Crea Gruppo</button><br><br>
-			</div>
-            <div class="col-lg-4"></div>
         </div>
 	</div>
  <? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>

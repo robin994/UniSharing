@@ -240,7 +240,13 @@
 							}
 
 
-							$("#result_message").html('<center><br><div class="alert alert-success" style="font-size:34px;"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br>Utente iscritto correttamente </div> <a href="../../index.php"><button class="btn btn-lg btn-primary btn-block">Clicca qui per andare alla login</button></a></center>')}
+							$("#result_message").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br><h4>Utente iscritto correttamente<h4><h5>Verrai reindirizzato sulla login fra qualche istante...<h5><h5>Se non vuoi attendere <a href="http://<? echo $_SERVER["HTTP_HOST"]; ?>/index.php">>clicca qui.</a></h5></div></center>');
+	
+							// Ridireziona alla home dopo 5 secondi	
+							setTimeout (function() {
+							 	window.location.href = "http://<? echo $_SERVER["HTTP_HOST"]; ?>/index.php";
+							}, 5000);
+						}
 
 						var param = {
 							"user": {
