@@ -14,39 +14,35 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
         <script src="../../js/jquery.Jcrop.min.js"></script>
-				<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwsDk4rP0FCWZ3OcbykddSb1wdYAvyLQ&libraries=places"></script>
-
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwsDk4rP0FCWZ3OcbykddSb1wdYAvyLQ&libraries=places"></script>
         <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
      	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
 
 		<script>
+			var imageLoaded = {};
+			var aspectRatio = 500/500;
+			var dimW = 500;
+			var dimH = 500;
+			var boxWidth=500;
+			var boxHeight=500;
+			var lat = 0;
+			var lng = 0;
 
-				var imageLoaded = {};
-				var aspectRatio = 500/500;
-				var dimW = 500;
-				var dimH = 500;
-				var boxWidth=500;
-				var boxHeight=500;
-				var lat = 0;
-				var lng = 0;
+			$(function() {
 
+			/*
+			$("#clickHere").on("click", function(){
+			$("#file").trigger("change");
+			});
+			*/
 
-				$(function() {
-
-					/*
-					$("#clickHere").on("click", function(){
-						$("#file").trigger("change");
-					});
-					*/
-
-					$("#file").on("change", function (e){
-
-					  if(this.files && this.files[0]) {
-						  	hideCoordinate();
-							handleFiles(this.files);
-							$("#drop-zone").css({"background":"none"});
-						}
-					 });
+			$("#file").on("change", function (e){
+				if(this.files && this.files[0]) {
+					hideCoordinate();
+					handleFiles(this.files);
+					$("#drop-zone").css({"background":"none"});
+				}
+			});
 
 
 
@@ -147,34 +143,26 @@
 						var confpassword = $("#confpassword").val();
 						var bday = $("#bday").val();
 						var address = $("#indirizzo").val();
-						console.log($("#indirizzo").val());
 						var cellulare = $("#cellulare").val();
 						var universita = $("#universita").val();
 						var facolta = $("#facolta").val();
 						var description = $("#description").val();
 						var tipo_studente = $("#tipo_studente").val();
-
+						
+						var formname = document.getElementById("formname");
+						var formsurname = document.getElementById("formsurname");
+						var formemail = document.getElementById("formemail");
+						var formpassword = document.getElementById("formpassword");
+						var formcpassword = document.getElementById("formcpassword");
+						var formuniversita = document.getElementById("formuniversita");
+						var formfacolta = document.getElementById("formfacolta");
+												
 						var features = [];
 
 						$(".features").each(function(){
 							if($(this).is(":checked"))
 								features.push($(this).val());
 						});
-
-						/*
-						// DATI DA INSERIRE PER IL TESTING
-						name = "Lorenzo";
-						surname = "Vitale"
-						email = "l.vitale@live.it";
-						password = "provapassword";
-						confpassword = "provapassword";
-						address = "via Repubblica, 2 ";
-						universita = "1";
-						bday = "2016-12-16";
-						facolta = "1";
-						description = "Mi piace IS";
-						*/
-
 
 						// CONTROLLO SE SONO STATI INSERITI CORRETTAMENTE I CAMPI RICHIESTI
 						var message_err = "";
@@ -183,42 +171,53 @@
 						if(!name){
 							message_err += "Non è stato inserito il nome<br>";
 							boo_err = true;
+							formname.className += " has-error";
 						}
 
 						if(!surname){
 							message_err += "Non è stato inserito il cognome<br>";
 							boo_err = true;
+							formsurname.className += " has-error";
 						}
 
 						if(!email){
 							message_err += "Non è stato inserita l'email<br>";
 							boo_err = true;
+							formemail.className += " has-error";
 						}
 
 						if(!password){
 							message_err += "Non è stato inserita la password<br>";
 							boo_err = true;
+							formpassword.className += " has-error";
+							formcpassword.className += " has-error";
 						}
 
 
 						if(password.length < 8 && password.length > 16){
 							message_err += "La lunghezza della password deve essere almeno di 8 caratteri e al più di 16<br>";
 							boo_err = true;
+							formpassword.className += " has-error";
+							formcpassword.className += " has-error";
 						}
 
 						if(password != confpassword){
 							message_err += "Le password inserite non coincidono<br>";
 							boo_err = true;
+							formpassword.className += " has-error";
+							formcpassword.className += " has-error";
 						}
 
 						if(!universita){
 							message_err += "Non è stata selezionata l'università<br>";
 							boo_err = true;
+							formuniversita.className += " has-error";
 						}
 
 						if(!facolta){
 							message_err += "Non è stata selezionata la facoltà<br>";
 							boo_err = true;
+							formfacolta.className += " has-error";
 						}
 
 						if(boo_err){
@@ -279,80 +278,68 @@
 
 	</head>
 	<body>
-
-	<div class="container">
-		<div class="row-fluid">
-        	<div class="col-lg-2"></div>
-			<div class="col-lg-8" id="result_message">
-				<h1>Registrazione</h1>
-					<div class="row-fluid">
-						<div class="form-group col-lg-6">
-							<Label>Nome</Label>
-							<div class="input-group" style="width:100%;">
-								<input type="text" id="name" class="form-control" placeholder="Nome" id="name" aria-describedby="basic-addon1" required>
-							</div>
-						</div>
-						<div class="form-group col-lg-6">
-							<Label>Cognome</Label>
-							<div class="input-group" style="width:100%;">
-								<input type="text" id="surname" class="form-control" placeholder="Cognome" id="surname" aria-describedby="basic-addon1" required>
-							</div>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="form-group col-lg-12">
-							<Label>Email</Label>
-							<div class="input-group" style="width:100%;">
-								<input type="text" id="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" required>
-							</div>
-						</div>
-					</div>
-                    <div class="row-fluid">
-						<div class="form-group col-lg-12">
-							<Label>Tipo di studente</Label>
-							<div class="input-group" style="width:100%;">
-								<select id="tipo_studente" class="form-control" required>
-                                	<option value="corsista-fuorisede">Corsista fuori sede</option>
-                                    <option value="corsista-pendolare">Corsista pendolare</option>
-                                    <<option value="studente-lavoratore">Studente lavoratore</option>
-                                </select>
-							</div>
-						</div>
-					</div>
-                    <div class="row-fluid">
-                    	<div class="form-group col-lg-12">
-                        	<div style="float:left;width:100%;" class="imageDropZone">
-                                <div id="ritaglio">Carica l'immagine dell'avatar:</div>
-                                <div id="drop-zone" style="width: 100%;">
-                                 <input type="file" name="file" id="file" style="opacity: 1;filter: alpha(opacity=100);" accept="image/jpeg">
-                                <!--<div id="clickHere" class="button_input_form">carica l'immagine
-
-
-                                </div>-->
-                                </div>
-                                </div>
-                        </div>
-                    </div>
+		<div class="container">
+			<div class="row-fluid">
+        		<div class="col-lg-2">
+                </div>
+				<div class="col-lg-8" id="result_message">
+					<h1>Registrazione</h1>
+                    <hr>
 						<div class="row-fluid">
-								<div class="form-group col-lg-6">
-								<Label>Password</Label>
-									<div class="input-group" style="width:100%;">
-										<input type="password" id="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" required>
-									</div>
-								</div>
-								<div class="form-group col-lg-6">
-								<Label>Conferma Password</Label>
-									<div class="input-group" style="width:100%;">
-										<input type="password" id="confpassword" class="form-control" placeholder="Conferma Password" aria-describedby="basic-addon1" required>
-									</div>
+							<div class="form-group col-lg-6" id="formname">
+								<Label>Nome</Label>
+								<div class="input-group" style="width:100%;">
+									<input type="text" id="name" class="form-control" placeholder="Nome" id="name" aria-describedby="basic-addon1" required>
 								</div>
 							</div>
-							<div class="row-fluid">
-								<div class='col-lg-8'>
-									<label>Data di nascita</label>
-										<input type="date" class="form-control" id="bday" placeholder="" aria-describedby="basic-addon1">
-									</div>
-
+							<div class="form-group col-lg-6" id="formsurname">
+								<Label>Cognome</Label>
+								<div class="input-group" style="width:100%;">
+									<input type="text" id="surname" class="form-control" placeholder="Cognome" id="surname" aria-describedby="basic-addon1" required>
+								</div>
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="form-group col-lg-12" id="formemail">
+								<Label>Email</Label>
+								<div class="input-group" style="width:100%;">
+									<input type="email" id="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" required>
+								</div>
+							</div>
+						</div>
+                       	<div class="row-fluid">
+							<div class="form-group col-lg-6" id="formpassword">
+								<Label>Password</Label>
+								<div class="input-group" style="width:100%;">
+									<input type="password" id="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" required>
+								</div>
+							</div>
+							<div class="form-group col-lg-6" id="formcpassword">
+								<Label>Conferma password</Label>
+								<div class="input-group" style="width:100%;">
+									<input type="password" id="confpassword" class="form-control" placeholder="Conferma password" aria-describedby="basic-addon1" required>
+								</div>
+							</div>
+						</div>
+                        <div class="row-fluid">
+                            <div class="form-group col-lg-12">
+                                <div style="float:left;width:100%;" class="imageDropZone">
+                                    <div id="ritaglio">
+                                    	<Label>Avatar</Label>
+                                    </div>
+                                    <div id="drop-zone" style="width: 100%;">
+                                     	<input type="file" name="file" id="file" style="opacity: 1;filter: alpha(opacity=100);" accept="image/jpeg">
+                                    	<!--<div id="clickHere" class="button_input_form">carica l'immagine
+                                        </div>-->
+                                    </div>
+                            	</div>
+                            </div>
+                        </div>
+						<div class="row-fluid">
+							<div class="form-group col-lg-12">
+								<label>Data di nascita</label>
+								<input type="date" class="form-control" id="bday" placeholder="" aria-describedby="basic-addon1">
+							</div>
 						</div>
 						<div class="row-fluid">
 							<div class="form-group col-lg-6">
@@ -363,240 +350,218 @@
 							</div>
 							<div class="form-group col-lg-6">
 								<Label>Cellulare</Label>
-							<div class="input-group" style="width:100%;">
+								<div class="input-group" style="width:100%;">
 									<input type="text" id="cellulare" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
+								</div>
 							</div>
 						</div>
-					</div>
-                    <div class="row-fluid">
-                    	<div class="col-md-12">
-								<label>Descrizione</label>
-								<textarea id="description" class="form-control" style="resize:vertical;height:250px;"></textarea>
-						</div>
-                    </div>
-					<div class="row-fluid">
-						<div class="col-md-12">
-								<label>Università</label>
-								<select id="universita" name="selectbasic" class="form-control">
-								</select>
-						</div>
-						<div class="col-md-12">
+                        <div class="row-fluid">
+                            <div class="form-group col-md-12">
+                            	<label>Descrizione</label>
+                            	<textarea id="description" class="form-control" placeholder="Inserisci una breve descrizione di te" style="resize:vertical;height:100px;"></textarea>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="form-group col-md-12" id="formuniversita">
+                      			<label>Università</label>
+                        		<select id="universita" name="selectbasic" class="form-control">
+                        		</select>
+                            </div>
+							<div class="form-group col-md-12" id="formfacolta">
 								<label>Facoltà</label>
 								<select id="facolta" name="selectbasic" class="form-control">
-
 								</select>
-
+							</div>
+                            <div class="row-fluid">
+                            <div class="form-group col-lg-12">
+                                <Label>Tipo di studente</Label>
+                                <div class="input-group" style="width:100%;">
+                                    <select id="tipo_studente" class="form-control" required>
+                                        <option value="corsista-fuorisede">Corsista fuori sede</option>
+                                        <option value="corsista-pendolare">Corsista pendolare</option>
+                                        <<option value="studente-lavoratore">Studente lavoratore</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                        </div>
+                        <div class="col-md-12">
+                        	<Label>Caratteristiche</Label>
+                        	<!-- FEATURES -->
+                            <div class="filter-panel collapse in" aria-expanded="true">
+                    			<div class="panel with-nav-tabs panel-default">
+                    				<div class="panel-heading">
+                    					<ul class="nav nav-tabs">
+                     						<li class="active"><a href="#personality" data-toggle="tab">Personalità</a></li>
+                                			<li><a href="#knowledge" data-toggle="tab">Conoscenze</a></li>
+                            			</ul>
+                        			</div>
+                        			<div class="panel-body">
+                        				<div class="tab-content">
+                        					<div class="tab-pane fade in active" id="personality">
+                               					<div class="col-lg-6">
+                                    				<div class="checkbox">
+                                            			<div class="row" style="margin-bottom: 2px">
+                                                			<label>
+                                                    			<input type="checkbox" value="1" class="features">
+                                                    			<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Simpatico
+                                                			</label>
+                                           				</div>
+                                            			<div class="row" style="margin-bottom: 2px">
+                                                			<label>
+                                                    			<input type="checkbox" value="2" class="features">
+                                                   				<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Cordiale
+                                                			</label>
+                                            			</div>
+                                            			<div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="4" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diligente
+                                                            </label>
+                                            			</div>
+                                        			</div>
+                                				</div>
+                                                <div class="col-lg-6">
+                                                	<div class="checkbox">
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="3" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Socievole
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="5" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Timido
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="6" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Estroverso
+                                                            </label>
+                                                        </div>
+                                        			</div>
+                                				</div>
+                               				</div>
+                            				<div class="tab-pane fade" id="knowledge">
+                                                <div class="col-lg-6">
+                                                    <div class="checkbox">
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="7"  class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Informatica
+                                                            </label>
+                                                        </div>
+                                                       	<div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="8"  class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Matematica
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="9" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Fisica
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="10" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Scienze
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="11" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Biologia
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="12" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Chimica
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="13" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Architettura
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="14" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diritto ed Economia
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="checkbox">
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="15" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Geografia
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="16" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Storia e Filosofia
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="17" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Lettere
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="18" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Latino e Greco
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="19" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Inglese
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="20" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Francesce
+                                                            </label>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom: 2px">
+                                                            <label>
+                                                                <input type="checkbox" value="21" class="features">
+                                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Spagnolo
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                			</div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+						<!-- fine FEATURES -->
 						</div>
-                        <div class="col-md-12">&nbsp;</div>
-                        <div class="col-md-12">
-
-
-
-
-
-
-                            <!-- FEATURES -->
-
-
-                  <div id="advancedsearch" class="filter-panel collapse in" aria-expanded="true">
-                    <div class="panel with-nav-tabs panel-default">
-                    	<div class="panel-heading">
-                    		<ul class="nav nav-tabs">
-                     			<li class="active"><a href="#personality" data-toggle="tab">Personalità</a></li>
-                                <li><a href="#knowledge" data-toggle="tab">Conoscenze</a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                        	<div class="tab-content">
-                        		<div class="tab-pane fade in active" id="personality">
-                               	<div class="col-lg-6">
-                                    	<div class="checkbox">
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="1" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Simpatico
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="2" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Cordiale
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="4" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diligente
-                                                </label>
-                                            </div>
-                                        </div>
-                                	</div>
-                                	<div class="col-lg-6">
-                                    	<div class="checkbox">
-                                        	<div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="3" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Socievole
-                                                </label>
-                                            </div>
-
-                                        	<div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="5" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Timido
-                                                </label>
-                                            </div>
-                                        	<div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="6" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Estroverso
-                                                </label>
-                                            </div>
-                                        </div>
-                                	</div>
-                                </div>
-                            	<div class="tab-pane fade" id="knowledge">
-                               	<div class="col-lg-6">
-                                    	<div class="checkbox">
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="7"  class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Informatica
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="8"  class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Matematica
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="9" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Fisica
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="10" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Scienze
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="11" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Biologia
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="12" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Chimica
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="13" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Architettura
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="14" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Diritto ed Economia
-                                                </label>
-                                            </div>
-                                        </div>
-                                	</div>
-                                	<div class="col-lg-6">
-                                    	<div class="checkbox">
-                                        	<div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="15" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Geografia
-                                                </label>
-                                            </div>
-                                        	<div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="16" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Storia e Filosofia
-                                                </label>
-                                            </div>
-                                        	<div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="17" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Lettere
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="18" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Latino e Greco
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="19" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Inglese
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="20" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Francesce
-                                                </label>
-                                            </div>
-                                            <div class="row" style="margin-bottom: 2px">
-                                                <label>
-                                                    <input type="checkbox" value="21" class="features">
-                                                    <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Spagnolo
-                                                </label>
-                                            </div>
-                                        </div>
-                                	</div>
-                                </div>
-
-                           	</div>
-                    	</div>
-                	</div>
-								</div>
-
-
-
-
-
-                            <!-- fine FEATURES -->
-
-
-                        </div>
-
-
-                        <div class="col-md-12">
-                        	<br>
-								<button class="btn btn-lg btn-primary btn-block" id="btn-iscriviti">Iscriviti</button>
-                           	<br>
+						<div class="col-md-4">
+							<br>
+                            <input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
+                            <input type="button" class="btn btn-primary" id="btn-iscriviti" value="Iscriviti">
                         </div>
 					</div>
 				</div>
 			</div>
-            <div class="col-log-2"></div>
-			<!--<div class="col-md-6">
-				<label>Prova</label>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-				sed do eiusmod tempor incididunt ut labore et dolore magna
-				aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-				ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-				aute irure dolor in reprehenderit in voluptate velit esse cillum
-				dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-				non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<div class="row-fluid">
-				<div class="col-md-12" style="width:100%;">
-				</br>
-
-				</div>
-			</div>-->
+            <div class="col-log-2">
+            </div>
 		</div>
-	</div>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>
 </html>
