@@ -62,16 +62,21 @@ class Research implements IResearch{
 			where _user.email <> '".$this->cookie->{"username"}."' having distance < ".$post['distance']." ORDER BY distance";
 		//var_dump($queryDistance);*/
 		//var_dump($this->cookie->{"distance"});
-		if ($post['distance'] == null) {
+	//	if ($post['distance'] == null) {
 
 			/////////////////////////////////////////////////////////////////
-			/////////////// QUERY RICERCA NON GEOLOCALIZZATA ////////////////
+			/////////////// QUERY RICERCA ///////////////////////////////////
 			/////////////////////////////////////////////////////////////////
 
 			//costruisco la query di select
-			$query = " SELECT *
-						FROM _user
-						WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
+			$query = " SELECT * ";
+			if ($post['distance'] != null) {
+				$query .= ", ( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
+				* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
+				 * sin( radians( _user.latitude ) ) ) )
+					AS distance";
+			}
+			$query .= " FROM _user WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
 								SELECT 	_userhasfeatures.idUser as user
 								FROM 	_features,
 										_userhasfeatures
@@ -86,37 +91,9 @@ class Research implements IResearch{
 				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 			}
 			$query .= ")";
-			//var_dump($query);
-		} else {
-
-			/////////////////////////////////////////////////////////////////
-			/////////////// QUERY RICERCA GEOLOCALIZZATA ////////////////////
-			/////////////////////////////////////////////////////////////////
-
-			//costruisco la query di select (solo dio sa come funziona)
-			$query = " SELECT *, ( 6371 * acos( cos( radians(".$this->cookie->{"latitude"}.") ) * cos( radians( _user.latitude ) )
-					* cos( radians( _user.longitude ) - radians(".$this->cookie->{"longitude"}.") ) + sin( radians(".$this->cookie->{"latitude"}.") )
-					 * sin( radians( _user.latitude ) ) ) )
-						AS distance
-						FROM _user
-						WHERE _user.email != '".$this->cookie->{"username"}."' ".$search_parolachiave." AND _user.idUser IN (
-								SELECT 	_userhasfeatures.idUser as user
-								FROM 	_features,
-										_userhasfeatures
-								WHERE  _features.idFeature = _userhasfeatures.idFeature ";
-
-			if(count($features) > 0){
-				$query .= "AND (";
-				for($i = 0; $i < count($features);$i++){
-					$query.= " _features.label = '".$features[$i]["features"]."' OR";
-				}
-				$query = substr($query,0,strlen($query)-2).")";
-				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
+			if ($post['distance'] != null) {
+					$query .= " having distance < ".$post['distance']." ORDER BY distance";
 			}
-			$query .= ") having distance < ".$post['distance']." ORDER BY distance";
-			//var_dump($query);
-		}
-		//var_dump($query);
 
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
