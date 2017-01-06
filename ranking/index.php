@@ -34,37 +34,40 @@
 	<body>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
         <div class="container">
-                        <div class="row">
-                            <div class="col-lg-2"></div>
-                            <div class="col-lg-8">
-                        <div class="bootstrap-demo">
-                        <h1> Ranking </h1>
-                        <h7> Clicca i nomi per visualizzare i profili sulla destra </h7>
-        <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th id="Utente">
-											<a onclick="orderByUser()">Utente</a>
-											<span id="SpanU"  class="glyphicon glyphicon-triangle-bottom"style="display:none" aria-hidden="true"></span>
-										</th>
-                    <th id="Punteggio">
-											<a onclick="orderByScore()">Punteggio</a>
-											<span id="SpanP" class="glyphicon glyphicon-triangle-bottom" style="display:none" aria-hidden="true"></span>
-										</th>
-                    <th id="Feedback">
-											<a onclick="orderByFeedback()">Feedback</a>
-											<span id="SpanF" class="glyphicon glyphicon-triangle-bottom" style="display:none" aria-hidden="true"></span>
-										</th>
-                </tr>
-                </thead>
-                <tbody id="idRanking"></tbody>
-            </table>
+			<div class="row">
+				<div class="col-lg-2">
                 </div>
-            </div>
-            <div class="col-lg-2"></div>
-          	</div>
-        </div>
-        <? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
+				<div class="col-lg-8">
+					<div class="bootstrap-demo">
+                        <h1> Ranking </h1>
+                        <hr>
+        				<table class="table table-striped">
+                			<thead>
+                				<tr>
+                    				<th>
+                                    </th>
+                    				<th id="Utente">
+										<Label><a class="mya" onclick="orderByUser()">Utente</a></Label>
+										<span id="SpanU"  class="glyphicon glyphicon-triangle-bottom"style="display:none" aria-hidden="true"></span>
+									</th>
+                    				<th id="Punteggio">
+										<Label><a class="mya" onclick="orderByScore()">Punteggio</a></Label>
+										<span id="SpanP" class="glyphicon glyphicon-triangle-bottom" style="display:none" aria-hidden="true"></span>
+									</th>
+                    				<th id="Feedback">
+										<Label><a class="mya" onclick="orderByFeedback()">Feedback</a></Label>
+										<span id="SpanF" class="glyphicon glyphicon-triangle-bottom" style="display:none" aria-hidden="true"></span>
+									</th>
+								</tr>
+                			</thead>
+                			<tbody id="idRanking">
+                            </tbody>
+            			</table>
+                	</div>
+            	</div>
+            	<div class="col-lg-2"></div>
+			</div>
+		</div>
+		<? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>
 </html>

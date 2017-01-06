@@ -1,6 +1,7 @@
 #colonna_centrale {
   margin-left:2vw;
   margin-right:2vw;
+  border: dotted;
 }
 
 .half:after {
