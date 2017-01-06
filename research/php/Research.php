@@ -94,7 +94,7 @@ class Research implements IResearch{
 			if ($post['distance'] != null) {
 					$query .= " having distance < ".$post['distance']." ORDER BY distance";
 			}
-
+			
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
