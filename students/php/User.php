@@ -635,8 +635,15 @@ class User extends Account implements IUser{
 		//eseguo la connessione al database definita in ConnectionDB.php sfruttando l'oggetto connect creato nella classe Account che estende
 		$this->connect->connetti();
 
+		$query = "SELECT email FROM _user where _user.idUser = ".$post["blockedUser"];
+
+		//la passo la motore MySql
+		$result = $this->connect->myQuery($query);
+		$row = mysqli_fetch_array($result);
+		$email = $row["email"];
+
 		// formulo la query
-		$query = "INSERT IGNORE INTO _blacklist (user, blockedUser) VALUES ('".$this->cookie->{"username"}."','".$post["user"]."')";
+		$query = "INSERT IGNORE INTO _blacklist (user, blockedUser) VALUES ('".$this->cookie->{"username"}."','".$email."')";
 
 
 		//la passo la motore MySql

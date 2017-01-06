@@ -17,6 +17,6 @@ function blockUser(idUser){
       console.log(data);
   	}
 
-  	$.unisharing("AddBlacklist", "blockUser", "private", param, false, callBackSendReport);
+  	$.unisharing("User", "addUserToBlackList", "private", param, false, callBackSendReport);
   });
 }
