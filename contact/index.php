@@ -15,6 +15,7 @@
 		<script src="../js/bootstrap.min.js"></script>
         <script src="../js/jquery.cookie.js"></script>
         <script src="../js/functions.js"></script>
+				<script src="js/main.js"></script>
 	</head>
 	<body>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
@@ -25,18 +26,18 @@
                 <h1>Segnalazione</h1>
 				<label>Titolo</label>
 				<div class ="input-group" style="width:100%;">
-          <input type="text" class ="form-control" placeholder="">
+          <input id="object" type="text" class ="form-control" placeholder="">
         </div>
         <br>
         <label>Testo</label><br>
         <div class ="input-group" style="width:100%;">
-        	<textarea class="form-control" rows="10"></textarea>
+        	<textarea id="message" class="form-control" rows="10"></textarea>
         </div>
         <br>
         <center>
         	<div class ="input-group">
-         		<button  type="button" class="btn btn-default btn-lg">Annulla</button>&nbsp;
-        		<button  type="button " class="btn btn-default btn-lg">Invia</button>
+         		<button  type="button" class="btn btn-default btn-lg" onclick="sendClear()">Pulisci</button>&nbsp;
+        		<button  type="button" class="btn btn-default btn-lg" onclick="sendReport()">Invia</button>
           </div>
         </center>
        	</div>

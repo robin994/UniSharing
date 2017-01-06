@@ -10,6 +10,7 @@ include "../ranking/php/Ranking.php";
 include "../group/php/Group.php";
 include "../notification/php/Notification.php";
 include "../feedback/php/Feedback.php";
+include "../contact/php/Contact.php";
 
 //if(is_file($_POST['classe'].".php"))
 //	include $_POST['classe'].".php";
