@@ -277,7 +277,7 @@
                                             </div>
                                         	<div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="" class="features">
+                                                    <input type="checkbox" value="Estroverso" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Estroverso
                                                 </label>
                                             </div>
@@ -289,7 +289,7 @@
                                     	<div class="checkbox">
                                             <div class="row" style="margin-bottom: 2px">
                                                 <label>
-                                                    <input type="checkbox" value="Timido" class="features">
+                                                    <input type="checkbox" value="Informatica" class="features">
                                                     <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>Informatica
                                                 </label>
                                             </div>

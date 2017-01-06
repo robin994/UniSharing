@@ -456,7 +456,7 @@ class User extends Account implements IUser{
 			*/
 
 			$rowValori = mysqli_fetch_array($result);
-
+			$objJSON["idUser"] = $rowValori["idUser"];
 			$objJSON["email"] = $rowValori["email"];
 			$objJSON["name"] = $rowValori["name"];
 			$objJSON["surname"] = $rowValori["surname"];
@@ -480,6 +480,16 @@ class User extends Account implements IUser{
 			$objJSON["facolta"] = $rowValori["NF"];
 
 			//var_dump($objJSON);
+
+			$query4 = "SELECT * from _userhasfeatures JOIN _features ON _features.idFeature=_userhasfeatures.idFeature where _userhasfeatures.idUser = ".$objJSON["idUser"];
+			$result4 = $this->connect->myQuery($query4);
+			$cont = 0;
+			while($rowValori = mysqli_fetch_array($result4)) {
+					$objJSON["features"][$cont]["idFeature"] = $rowValori["idFeature"];
+					$objJSON["features"][$cont]["label"] = $rowValori["label"];
+					$cont++;
+			}
+
 
 		}
 

@@ -398,7 +398,7 @@
                             <!-- FEATURES -->
 
 
-                            <div id="advancedsearch" class="filter-panel collapse in" aria-expanded="true">
+                  <div id="advancedsearch" class="filter-panel collapse in" aria-expanded="true">
                     <div class="panel with-nav-tabs panel-default">
                     	<div class="panel-heading">
                     		<ul class="nav nav-tabs">
@@ -559,7 +559,7 @@
                            	</div>
                     	</div>
                 	</div>
-                    </div>
+								</div>
 
 
 

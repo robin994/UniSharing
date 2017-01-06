@@ -36,12 +36,33 @@
 						$("#typeStudent").html(data.typeStudent);
 						//console.log(data.pathImage);
 
+
 						var tmp = "";
+						console.log(data.features);
+						//Stampa features
+						for (var i = 0;i < data.features.length; i++) {
+							tmp += "<div class=\"col-lg-6\">";
+							tmp += "	<div class=\"row\" style=\"margin-bottom: 2px\">";
+							tmp += "		<p>";
+						//tmp += "		<input type=\"checkbox\" value=\'"+data.features[i].idFeature+"\' class=\"features\">";
+							tmp += 		  data.features[i].label;
+							tmp += "		</p>";
+							tmp += "	</div>";
+							tmp += "</div>";
+							if (data.features[i].idFeature > 6) {
+								$("#knowledge").append(tmp);
+							} else {
+								$("#personality").append(tmp);
+							}
+							tmp = "";
+						}
 						/*
 						 *<div class="rating">
                             <span class="glyphicon glyphicon-star"><span class="glyphicon glyphicon-star-empty"></span>
                         </div>
 						 */
+
+						 tmp = "";
 						 // STAMPA FEEDBACK
 						for (var i = 0;i < data.results.length; i++) {
 							var ratingAverage = (parseFloat(data.results[i]["f1"])
@@ -134,6 +155,36 @@
 						<p id="description"> <!--DESCRIZIONE UTENTE -->
 						</p>
 					</div>
+
+					<!-- FEATURES utente -->
+
+					<div id="advancedsearch" class="filter-panel collapse in" aria-expanded="true">
+						<div class="panel with-nav-tabs panel-default">
+							<div class="panel-heading">
+								<ul class="nav nav-tabs">
+									<li class="active"><a href="#personality" data-toggle="tab">Personalità</a></li>
+									<li><a href="#knowledge" data-toggle="tab">Conoscenze</a></li>
+								</ul>
+							</div>
+							<div class="panel-body">
+								<div class="tab-content">
+									<div class="tab-pane fade in active" id="personality">
+
+										<!-- qui le personalita'-->
+
+									</div>
+									<div class="tab-pane fade" id="knowledge">
+
+										<!-- qui le conoscenze'-->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				<!-- FINE FEATURES utente -->
+
 					<div class="row"> <!-- FEEDBACK utenti -->
 						<br>
 						<label>Feedbacks</label>
