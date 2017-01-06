@@ -90,11 +90,14 @@ class Research implements IResearch{
 				$query = substr($query,0,strlen($query)-2).")";
 				$query .= " GROUP BY _userhasfeatures.idUser HAVING COUNT(*) = ".count($features);
 			}
-			$query .= ")";
+			$query .= ") AND not exists (SELECT blockedUser FROM _blacklist WHERE
+			_blacklist.user = '".$this->cookie->{"username"}."' AND _user.email =  _blacklist.blockedUser)
+			 AND not exists (SELECT blockedUser FROM _blacklist WHERE _blacklist.user = _user.email
+			   AND '".$this->cookie->{"username"}."' =  _blacklist.blockedUser)";
 			if ($post['distance'] != null) {
 					$query .= " having distance < ".$post['distance']." ORDER BY distance";
 			}
-			
+			//var_dump($query);
 		//la passo la motore MySql
 		$result = $this->connect->myQuery($query);
 
