@@ -10,14 +10,14 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	<link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
 	<link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="../../css/style.css" rel="stylesheet" media="screen">
-	<link href="../../css/group_style.css" rel="stylesheet" media="screen">
+	<link href="../css/group_style.css" rel="stylesheet" media="screen">
 	<link href="../../css/footer.css" rel="stylesheet" media="screen">
 	<link href="../../css/navbar.css" rel="stylesheet" media="screen">
 	<script src="../../js/jquery.1.12.js"></script>
 	<script src="../../js/bootstrap.min.js"></script>
 	<script src="../../js/functions.js"></script>
 	<script src="../js/main.js"></script>
-	<script src="../../js/jquery_cookie.js" type="text/javascript"></script>
+	<script src="../../js/jquery.cookie.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
 	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
 
