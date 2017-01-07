@@ -66,32 +66,28 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 					tmp += "<tr>";
 					tmp += "<td><a href=\"../description/index.php?user="+data.results[i].id+"\"><img class=\"imageStyle\" src=\"../../"+data.results[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
 					tmp += "<td><h5><a href=\"#\" class=\"user-link\">"+data.results[i].name+" "+data.results[i].surname+"</a></h5></td>";
-					tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+data.results[i].username+"\">";
+					tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" onclick=\"removeUser()\" user-subhead=\"\" user=\""+data.results[i].username+"\">";
 					tmp += " Rimuovi";
 					tmp += "<span class=\"glyphicon glyphicon-minus\"></span></button></td>";
 					tmp += "</tr>";
 				}
-
 				tmp += "</tbody>";
 				tmp += "</table>";
 
 				$("#ris").html(tmp);
-
 			}
 		}
 
 		waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
 			$.unisharing("User", "getBlackList", "private", {}, true, callBackUser);
 		}});
-
-
-		$(".removeUser").on("click", function(){
-
-			var sel_user = $(this).attr("user");
-			removeFromBlackList(sel_user);
-
-		});
 	});
+
+	function removeUser() {
+		console.log("AAA");
+		var sel_user = $(".removeUser").attr('user');
+		removeFromBlackList(sel_user);
+	}
 	</script>
 
 </head>
