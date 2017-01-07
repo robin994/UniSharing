@@ -15,6 +15,7 @@
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
 		<link href="css/description.css" rel="stylesheet" media="screen">
+		<script src="../../js/bootstrap-waitingfor.js"></script>
 		<script>
 			$(function() {
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
@@ -96,6 +97,7 @@
 
 						//console.log(tmp);
 						$("#feedbacks").html(tmp);
+						waitingDialog.hide();
 					}
 
 					var idUser = 0;
@@ -109,8 +111,9 @@
 					console.log(params.get("user"));
 					var idUser = params.get("user");
 
-
-					$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackDescription);
+					waitingDialog.show('Attendere',{onShow: function () {
+						$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackDescription);
+					}});
 				});
 			</script>
 	</head>
@@ -124,7 +127,7 @@
             	<h1>Profilo utente</h1>
             	<hr>
                 <div class="row">
-                    <div class="col-lg-4" id="colonna_laterale"> 
+                    <div class="col-lg-4" id="colonna_laterale">
                         <center ><img id="imagePath" style="width:50%; height:50%"> </center>
                         <center><label id="nomeCompleto"></label></center>
                         <center><label id="universita"></label></center>
@@ -159,10 +162,10 @@
                             <p id="description"> <!--DESCRIZIONE UTENTE -->
                             </p>
                         </div>
-                        <br>  
-                        <!-- FEATURES utente --> 
+                        <br>
+                        <!-- FEATURES utente -->
                         <div class="row" >
-                        	<Label>Caratteristiche</Label>   
+                        	<Label>Caratteristiche</Label>
                             <div class="filter-panel collapse in" aria-expanded="true" >
                                 <div class="panel with-nav-tabs panel-default">
                                     <div class="panel-heading">
@@ -182,8 +185,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                   		</div>  
+                            </div>
+                   		</div>
                     	<!-- FINE FEATURES utente -->
                      	<div class="row"> <!-- FEEDBACK utenti -->
                         	<br>
@@ -191,7 +194,7 @@
                         	<div id="feedbacks">
                             	<!--Spazio dedicato ai feedbacks -->
                      		</div>
-                    	</div>                        
+                    	</div>
 					</div>
 				</div>
 			</div>
@@ -199,5 +202,6 @@
         <div class="col-lg-2">
         </div>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
+
 	</body>
 </html>
