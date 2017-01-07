@@ -36,13 +36,13 @@
           	<div class="row-fluid">
              	<div class="form-group col-md-12">
            			<label>Descrizione</label>
-            		<textarea id="description" class="form-control" placeholder="Inserisci una breve descrizione del problema" style="resize:vertical;height:100px;"></textarea>
+            		<textarea id="message" class="form-control" placeholder="Inserisci una breve descrizione del problema" style="resize:vertical;height:100px;"></textarea>
 				</div>
 			</div>
             <div class="col-md-4">
 				<br>
             	<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
-            	<input type="button" class="btn btn-primary" id="btn-segnalazione" value="Conferma">
+            	<input type="button" class="btn btn-primary" id="btn-segnalazione" onclick="sendReport()" value="Conferma">
             </div>
        	</div>
         <div class="col-lg-3">

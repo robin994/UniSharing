@@ -1,6 +1,6 @@
 // Javascript document
 
-function sendReport(object, message){
+function sendReport(){
   console.log("AAAA");
 
 	if($.cookie("user")){
