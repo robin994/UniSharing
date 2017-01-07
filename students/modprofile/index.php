@@ -7,20 +7,21 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../../css/style.css" rel="stylesheet" media="screen">
-        <link href="../../css/navbar.css" rel="stylesheet" media="screen">
-        <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
-        <link href="../css/students_style.css" rel="stylesheet" media="screen">
-        <link href="../../css/footer.css" rel="stylesheet" media="screen">
-        <script src="../../js/jquery.1.12.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
-        <script src="../../js/functions.js"></script>
-        <script src="../../js/jquery.cookie.js"></script>
-        <script src="../../js/jquery.Jcrop.min.js"></script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwsDk4rP0FCWZ3OcbykddSb1wdYAvyLQ&libraries=places"></script>
-        <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
+      <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+      <link href="../../css/style.css" rel="stylesheet" media="screen">
+      <link href="../../css/navbar.css" rel="stylesheet" media="screen">
+      <link href="../../css/jquery.Jcrop.css" rel="stylesheet" media="screen">
+      <link href="../css/students_style.css" rel="stylesheet" media="screen">
+      <link href="../../css/footer.css" rel="stylesheet" media="screen">
+      <script src="../../js/jquery.1.12.js"></script>
+  		<script src="../../js/bootstrap.min.js"></script>
+      <script src="../../js/functions.js"></script>
+      <script src="../../js/jquery.cookie.js"></script>
+      <script src="../../js/jquery.Jcrop.min.js"></script>
+			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQwsDk4rP0FCWZ3OcbykddSb1wdYAvyLQ&libraries=places"></script>
+      <link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
      	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
+			<script src="../../js/bootstrap-waitingfor.js"></script>
 
 		<script>
 
@@ -102,7 +103,7 @@
 
 					}
 
-					$.unisharing("Istitutes", "getUniversities", "private", {}, false, callBackUni);
+					$.unisharing("Istitutes", "getUniversities", "private", {}, true, callBackUni);
 
 					/////////////////////////////////////////////////////////////////////////
 					/////////////// DEFINISCO L'AZIONE SULLA SCELTA DELL'UNI ////////////////
@@ -112,7 +113,7 @@
 						var uni = $(this).val();
 
 
-						$.unisharing("Istitutes", "getFaculties", "private", {"university": uni}, false, callBackFaculties);
+						$.unisharing("Istitutes", "getFaculties", "private", {"university": uni}, true, callBackFaculties);
 
 					});
 
@@ -160,7 +161,7 @@
 									$(this).attr('checked','true');
 								}
 							}
-
+						waitingDialog.hide();
 						});
 
 					}
@@ -171,8 +172,12 @@
 							var idUser = cookie.idUser;
 						}
 
-						$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackProfile);
-
+						waitingDialog.show('Contattando il server, attendere...',{dialogSize: 'sm',  onShow: function () {
+							async function callBack() {
+								$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, true, callBackProfile);
+							};
+							callBack();
+						}});
 
 					////////////////////////////////////////////////////////////////
 					/////////// DEFINISCO IL SUBMIT DELLA FORM /////////////////////
@@ -265,7 +270,7 @@
 								alert("Errore! " + data.messageError);
 								return;
 							}
-
+							waitingDialog.hide();
 							$("#result_message").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br><h4>Utente modificato correttamente<h4><h5>Verrai reindirizzato sulla home fra qualche istante...<h5><h5>Se non vuoi attendere <a href="http://<? echo $_SERVER["HTTP_HOST"]; ?>/research/home/index.php">clicca qui.</a></h5></div></center>');
 
 							// Ridireziona alla home dopo 5 secondi
@@ -312,7 +317,12 @@
 						console.log("AAAA");
 						console.log(param);
 
-						$.unisharing("User", "modifyProfile", "private", param, false, callBackSignin);
+						waitingDialog.show('Invio dati al server, attendere...',{dialogSize: 'sm',  onShow: function () {
+							async function callBack() {
+								$.unisharing("User", "modifyProfile", "private", param, true, callBackSignin);
+							};
+							callBack();
+						}});
 
 					});
 				});

@@ -5,21 +5,21 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>UniSharing</title>
-        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../../css/footer.css" rel="stylesheet" media="screen">
-        <link href="../../css/navbar.css" rel="stylesheet" media="screen">
+    <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="../../css/footer.css" rel="stylesheet" media="screen">
+    <link href="../../css/navbar.css" rel="stylesheet" media="screen">
 		<script src="../../js/jquery.1.12.js"></script>
-    	<script src="../../js/bootstrap.min.js"></script>
-        <script src="../../js/functions.js"></script>
-        <script src="../../js/jquery.cookie.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/functions.js"></script>
+    <script src="../../js/jquery.cookie.js"></script>
 		<link href="css/description.css" rel="stylesheet" media="screen">
 		<script src="../../js/bootstrap-waitingfor.js"></script>
 		<script>
-			$(function() {
+			$( function() {
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
-					function callBackDescription(data){
+					async function callBackDescription(data){
 
 						console.log("DATI");
 						console.log(data);
@@ -111,13 +111,15 @@
 					console.log(params.get("user"));
 					var idUser = params.get("user");
 
-					waitingDialog.show('Attendere',{onShow: function () {
-						$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, false, callBackDescription);
+					waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
+						async function callBack() {
+							$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, true, callBackDescription);
+						};
+						callBack();
 					}});
 				});
 			</script>
 	</head>
-
 	<body>
 		<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
         <div id="conteiner" class="container">
