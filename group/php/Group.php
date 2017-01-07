@@ -555,7 +555,7 @@ class Group implements IGroup{
 
 					//creo il messaggio di benvenuto all'utente iscritto
 					$message = "<html><body style='font-family:courier;font-size:16px;'>Sei stato invitato ad un gruppo di studio<br><br>:::::::::::::::::::::::::::::<br><a href='http://".$_SERVER["HTTP_HOST"]."/group/g_accept/?g=".$idGroup."'>Accetta</a><br><a href='http://".$_SERVER["HTTP_HOST"]."/group/g_refusal/?g=".$idGroup."'>Rifiuta</a><br>
-					<a href='http://".$_SERVER["HTTP_HOST"]."/students/add_blacklist/indext.php?user=".$this->cookie->{"idUser"}."'>Aggiungi alla lista nera</a><br>:::::::::::::::::::::::::::::<br></body></html>";
+					<a href='http://".$_SERVER["HTTP_HOST"]."/students/add_blacklist/index.php?user=".$this->cookie->{"idUser"}."'>Aggiungi alla lista nera</a><br>:::::::::::::::::::::::::::::<br></body></html>";
 
 
 					// verifico se qualche utente ha l'admin nella propria lista nera
