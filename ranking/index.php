@@ -45,6 +45,7 @@
                 			<thead>
                 				<tr>
                     				<th>
+                                    	<Label>#</Label>
                                     </th>
                     				<th id="Utente">
 										<Label><a class="mya" onclick="orderByUser()">Utente</a></Label>

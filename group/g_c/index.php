@@ -333,8 +333,7 @@
                     </div><br>
 					<div class="form-group col-lg-12">
 						<label>Descrizione</label>
-						<textarea placeholder="Insirisci una breve descrizione del gruppo" id="description" class="form-control" style="resize:vertical;height:100px;">									
-                        </textarea>
+						<textarea placeholder="Insirisci una breve descrizione del gruppo" id="description" class="form-control" style="resize:vertical;height:100px;"></textarea>
 					</div>
 				</div>
 				<div class="col-md-4">
