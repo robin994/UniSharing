@@ -8,7 +8,7 @@
         <link href="students/css/login.css" rel="stylesheet" media="screen">
         <link href="css/footer.css" rel="stylesheet" media="screen">
         <link href="css/font-awesome.min.css" rel="stylesheet" media="screen">
-		<script src="js/jquery.1.12.js"></script>
+				<script src="js/jquery.1.12.js"></script>
     	<script src="js/bootstrap.min.js"></script>
         <script src="js/functions.js"></script>
         <script src="js/jquery.cookie.js"></script>
@@ -88,7 +88,7 @@
 							"latitude":data.results[0].latitude,
 							"longitude":data.results[0].longitude
 							}
-														
+
 							var cook_options = {
 								path: "/",
 								domain: window.location.hostname

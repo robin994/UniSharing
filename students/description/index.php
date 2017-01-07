@@ -19,8 +19,8 @@
 		<script>
 			$( function() {
 					//data è il json restituito dal metodo chiamato nella funzione unisharing
-					async function callBackDescription(data){
-
+					function callBackDescription(data){
+						waitingDialog.hide();
 						console.log("DATI");
 						console.log(data);
 
@@ -97,7 +97,6 @@
 
 						//console.log(tmp);
 						$("#feedbacks").html(tmp);
-						waitingDialog.hide();
 					}
 
 					var idUser = 0;

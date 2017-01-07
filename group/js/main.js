@@ -12,7 +12,7 @@ function getGroup(mask_group){
 	}
 
 	function callBackViewGroup(data){
-
+		waitingDialog.hide();
 		console.log(data);
 		if(!data.success){
 			alert("Errore: " + data.messageError);
@@ -54,7 +54,9 @@ function getGroup(mask_group){
 		}
 	}
 
-	$.unisharing("Group", "getPartecipateGroup", "private", param, false, callBackViewGroup);
+	waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
+				$.unisharing("Group", "getPartecipateGroup", "private", param, true, callBackViewGroup);
+	}});
 
 
 }
@@ -253,6 +255,7 @@ function getGroupByAdmin(){
 	}
 
 	function callBackViewAdminGroup(data){
+		waitingDialog.hide();
 
 		if(data.results.length <= 0){
 
@@ -284,10 +287,9 @@ function getGroupByAdmin(){
 		}
 	}
 
-
-	 $.unisharing("Group", "getAdminGroup", "private", param, false, callBackViewAdminGroup);
-
-
+	waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
+			$.unisharing("Group", "getAdminGroup", "private", param, true, callBackViewAdminGroup);
+	}});
 }
 
 
