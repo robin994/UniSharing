@@ -15,6 +15,7 @@
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
+        <script src="../../js/bootstrap-waitingfor.js"></script>
         <script>
 			$(function() {
 				var distance = null;
@@ -201,10 +202,18 @@
 							}
 						})
 					}
-					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, false, callBackUsers);
-
+					waitingDialog.show('Attendere',{	
+						dialogSize: 'sm',
+						onShow: function() {
+							console.log("start loading");
+							$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, false, callBackUsers);
+							waitingDialog.hide();
+						},
+						onHide: function(){
+							console.log("end loading");}
+						});				
+					});
 				});
-			});
 		</script>
 	</head>
 	<body>
