@@ -77,7 +77,7 @@
 							return;
 					}
 					function callBackUsers(data){
-
+						waitingDialog.hide();
 						if(!data.success){
 							var tmp = '<center><br>';
 							tmp += '<div class="alert alert-danger">';
@@ -127,7 +127,6 @@
 						}
 						$("#ris").html("");
 						$("#ris").html(tmp);
-						waitingDialog.hide();
 
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista dei compagni di studio ideali
 						$(".addUser").on("click", function() {
