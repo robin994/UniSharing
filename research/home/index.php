@@ -127,6 +127,7 @@
 						}
 						$("#ris").html("");
 						$("#ris").html(tmp);
+						waitingDialog.hide();
 
 						//creo un cookie listaUtenti dove salvo le informazioni degli utenti che aggiungo alla lista dei compagni di studio ideali
 						$(".addUser").on("click", function() {
@@ -202,16 +203,10 @@
 							}
 						})
 					}
-					waitingDialog.show('Attendere',{	
-						dialogSize: 'sm',
-						onShow: function() {
-							console.log("start loading");
-							$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, false, callBackUsers);
-							waitingDialog.hide();
-						},
-						onHide: function(){
-							console.log("end loading");}
-						});				
+
+					waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
+							$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, true, callBackUsers);
+						}});
 					});
 				});
 		</script>

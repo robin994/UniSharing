@@ -112,10 +112,7 @@
 					var idUser = params.get("user");
 
 					waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
-						async function callBack() {
 							$.unisharing("User", "getProfile", "public", {"idUser":  idUser}, true, callBackDescription);
-						};
-						callBack();
 					}});
 				});
 			</script>
