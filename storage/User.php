@@ -20,7 +20,7 @@ class User{
 
 		//inizializzo il json da restituire come risultato del metodo
 		$objJSON = array();
-		var_dump($post);
+		//var_dump($post);
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 
