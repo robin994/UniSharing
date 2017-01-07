@@ -471,6 +471,8 @@ class User extends Account implements IUser{
 				$objJSON["score"] = $rowValori["score"];
 				$objJSON["numberOfFeedback"] = $rowValori["numberOfFeedback"];
 				$objJSON["typeStudent"] = $rowValori["typeStudent"];
+				$objJSON["latitude"] = $rowValori["latitude"];
+				$objJSON["longitude"] = $rowValori["longitude"];
 				$idFaculty =$rowValori["faculty"];
 				$objJSON["idFaculty"] = $rowValori["faculty"];
 				// Query per ottenere i nomi della facolta' e dell'universita'

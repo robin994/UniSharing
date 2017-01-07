@@ -134,7 +134,10 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 		universita.value = data.idUniversity;
 		var facolta = document.getElementById("facolta");
 		facolta.value = data.idFaculty; */
-
+		lat = data.latitude;
+		lng = data.longitude;
+		console.log(lat);
+		console.log(lng);
 		$("#description").html(data.description);
 		$("#telephone").attr('value',data.telephone);
 		$("#name").attr('value',data.name);
@@ -271,6 +274,31 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 				return;
 			}
 			waitingDialog.hide();
+			/*
+			var cook = {
+				"idUser":param.idUser,
+				"username":param.email,
+				"name":param.name,
+				"surname":param.surname,
+				"pathImage":param.pathImage,
+				"latitude":param.latitude,
+				"longitude":param.longitude
+			}
+
+			var cook_options = {
+				path: "/",
+				domain: window.location.hostname
+			}
+
+			if($(".connesso").is(":checked")){
+				cook_options.expires = 60;
+			}
+
+			// creo il cookie
+			$.removeCookie('user', cook_options);
+			$.cookie('user', JSON.stringify(cook), cook_options);
+			*/
+
 			$("#result_message").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br><h4>Utente modificato correttamente<h4><h5>Verrai reindirizzato sulla home fra qualche istante...<h5><h5>Se non vuoi attendere <a href="http://<? echo $_SERVER["HTTP_HOST"]; ?>/research/home/index.php">clicca qui.</a></h5></div></center>');
 
 			// Ridireziona alla home dopo 5 secondi
@@ -278,6 +306,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 				window.location.href = "http://<? echo $_SERVER["HTTP_HOST"]; ?>/research/home/index.php";
 			}, 5000);
 		}
+
 		if($.cookie("user")){
 			var cookie = JSON.parse($.cookie('user'));
 			console.log(cookie.idUser);
