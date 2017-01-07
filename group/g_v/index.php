@@ -17,7 +17,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	<script src="../../js/bootstrap.min.js"></script>
 	<script src="../../js/functions.js"></script>
 	<script src="../js/main.js"></script>
-
+	<script src="../../js/jquery_cookie.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
 	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
 
