@@ -15,7 +15,6 @@
 		<script src="../js/bootstrap.min.js"></script>
         <script src="../js/jquery.cookie.js"></script>
         <script src="../js/functions.js"></script>
-        <script src="../js/bootstrap-waitingfor.js"></script>
 		<script src="js/main.js"></script>
 	</head>
 	<body>
@@ -52,16 +51,3 @@
     <? include($_SERVER['DOCUMENT_ROOT']."/php/footer.php"); ?>
 	</body>
 </html>
-
-<script>
-
-$(function(){
-	
-	waitingDialog.show('Attendere');
-	setTimeout(function () {
-	  waitingDialog.hide();
-	}, 1000);
-		
-})
-
-</script>

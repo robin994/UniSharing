@@ -15,6 +15,7 @@
     	<script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/functions.js"></script>
         <script src="../../js/jquery.cookie.js"></script>
+        <script src="../../js/bootstrap-waitingfor.js"></script>
         <script>
 			$(function() {
 				var distance = null;
@@ -117,7 +118,7 @@
 								tmp += '				<h5>Distanza: '+distanceUser+'</h5>';
 							};
 
-							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'" id="'+data.results[i]["id"]+'">Aggiungi        <span class="glyphicon glyphicon-plus"></span></button>';
+							tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'" id="'+data.results[i]["id"]+'">Aggiungi<span class="glyphicon glyphicon-plus" style=\"margin-left: 5%; margin-right:5%;\" ></span></button>';
 							tmp += '			</td>';
 							tmp += '		</tr>';
 							tmp += '	</tbody>';
@@ -201,10 +202,18 @@
 							}
 						})
 					}
-					$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, false, callBackUsers);
-
+					waitingDialog.show('Attendere',{	
+						dialogSize: 'sm',
+						onShow: function() {
+							console.log("start loading");
+							$.unisharing("Research", "researchUsers", "private", {"features":  arr_features, "parolachiave": parolachiave, 'distance': distance, 'userMain': user}, false, callBackUsers);
+							waitingDialog.hide();
+						},
+						onHide: function(){
+							console.log("end loading");}
+						});				
+					});
 				});
-			});
 		</script>
 	</head>
 	<body>

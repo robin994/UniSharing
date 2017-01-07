@@ -41,14 +41,13 @@
 						boo = false;
 					}else{
 
-
-
-						var tmp = "<h2>Lista ideale</h2>";
+						var tmp = "<h1>Lista dei compagni di studio ideali</h1>";
+							tmp += "<hr>";
 							tmp += "<table class=\"table\">";
 							tmp += "<thead>";
 							tmp += "<tr>";
 							tmp += "<th class=\"colownsmall\"></th>";
-							tmp += "<th></th>";
+							tmp += "<th>Utente</th>";
 							tmp += "<th></th>";
 							tmp += "</tr>";
 							tmp += "</thead>";
@@ -57,10 +56,10 @@
 						for(var i = 0;i < utenti.length;i++){
 							tmp += "<tr>";
 							tmp += "<td><a href=\"../description/index.php?user='"+utenti[i].id+"'\"><img class=\"imageStyle\" src=\"../../"+utenti[i].pathImage+"/icon80x80.jpg\" style=\"border-radius:50px\"></a></td>";
-							tmp += "<td><h5><a href=\"../description/index.php?user='"+utenti[i].id+"'\" class=\"user-link\">"+utenti[i].name+" "+utenti[i].surname+"</a></h5></td>";
-							tmp += "<td><button class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+utenti[i].username+"\">";
+							tmp += "<td><h5 style=\"margin-top: 6%\";><a href=\"../description/index.php?user='"+utenti[i].id+"'\" class=\"user-link\">"+utenti[i].name+" "+utenti[i].surname+"</a></h5></td>";
+							tmp += "<td><button style=\"margin-top: 7%; float: right;\" class=\"removeUser btn btn-danger btn-xs\" user-subhead=\"\" user=\""+utenti[i].username+"\">";
 							tmp += " Rimuovi";
-							tmp += "<span class=\"glyphicon glyphicon-minus\"></span></button></td>";
+							tmp += "<span class=\"glyphicon glyphicon-minus\" style=\"margin-left: 5%; margin-right:5%;\"></span></button></td>";
 							tmp += "</tr>";
 						}
 
@@ -69,7 +68,7 @@
 
 						$("#ris").html(tmp);
 						if(utenti.length > 0){
-							$("#ris").append("<center><a href='<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/group/g_c/'><button type=\"button\" class=\"btn btn-primary\" title=\"crea un nuovo gruppo\">Crea gruppo</button></center>");
+							$("#ris").append("<a href='<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/group/g_c/'><input  style=\"float: right\"; value=\"Crea gruppo\" type=\"button\" class=\"btn btn-primary\" ></input>");
 						}
 					}
 				}
