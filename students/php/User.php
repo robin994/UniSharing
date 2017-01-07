@@ -31,6 +31,9 @@ interface IUser{
 
 	// metodo che rimuove l'utente dalla blacklist
 	public function removeFromBlackList($param);
+	
+	//metodo che invia un suggerimento al gestore del sistema
+	public function sendReport($param);
 
 }
 
@@ -795,7 +798,23 @@ class User extends Account implements IUser{
 		return json_encode($objJSON);
 
 	}
+	
+	
+	  public function sendReport($post) {
+		
+		//////////////////////////////////////////////////
+		/////////// INVIO L'EMAIL DI BENVENUTO ///////////
+		//////////////////////////////////////////////////
+	
+		$from = $post['account'];
+		$object = $post['object'];
+	
+		//creo il messaggio di benvenuto all'utente iscritto
+		$message = $post['message'];
+		
+		$this->notify->send($from, "robin994@hotmail.it", $object, $message);
 
+	 }
 }
 
 ?>

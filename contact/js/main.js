@@ -14,10 +14,10 @@ function sendReport(){
 	}
 
 	function callBackSendReport(data){
-    console.log(data);
+    	console.log(data);
 	}
 
-	$.unisharing("Contact", "sendReport", "private", param, false, callBackSendReport);
+	$.unisharing("User", "sendReport", "private", param, false, callBackSendReport);
 }
 
 function sendClear() {

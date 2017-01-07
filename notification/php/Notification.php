@@ -36,7 +36,7 @@ class Notification implements INotification{
 		$this->send->Username = 'info@quidfacis.it';                 // SMTP username
 		$this->send->Password = 'neonato2000'; 
 		//$this->send->SMTPDebug = 4;
-		                          // SMTP password
+		// SMTP password
 		//$this->send->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
 		$this->send->Port = 587; 
 		
@@ -63,8 +63,6 @@ class Notification implements INotification{
 	}
 	
 }
-
-
 
 
 
