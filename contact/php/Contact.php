@@ -9,7 +9,7 @@ interface IContact{
 
 class Contact implements IContact{
 
-  public function init(){
+	public function init(){
 
 		//istanzio l'oggetto ConnectionDB
 		$this->connect = new ConnectionDB();
@@ -22,18 +22,18 @@ class Contact implements IContact{
 
 	}
 
-  public function sendReport($post) {
-    //////////////////////////////////////////////////
-    /////////// INVIO L'EMAIL DI BENVENUTO ///////////
-    //////////////////////////////////////////////////
+	public function sendReport($post) {
+		//////////////////////////////////////////////////
+		/////////// INVIO L'EMAIL DI BENVENUTO ///////////
+		//////////////////////////////////////////////////
 
-    $from = $post['account'];
-    $object = $post['object'];
+		$from = $post['account'];
+		$object = $post['object'];
 
-    //creo il messaggio di benvenuto all'utente iscritto
-    $message = $post['message'];
-    
-    $this->notify->send($from, "robin994@hotmail.it", $object, $message);
-  }
+		//creo il messaggio di benvenuto all'utente iscritto
+		$message = $post['message'];
+
+		$this->notify->send($from, "robin994@hotmail.it", $object, $message);
+	}
 }
 ?>

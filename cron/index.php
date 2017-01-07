@@ -25,19 +25,19 @@ $sendNotification -> init();
 $object = "Congratulazioni!!";
 
 for ($i=0; $i<$expiretedResults.length; $i++){
-	
+
 	//Creiamo il messaggio che l'utente ricevente deve visualizzare
 	$message = "<html>
-					<body>
-						<h1>Complimenti hai portato a termine il lavoro con il gruppo: $expiretedResults[$i]->{'name'} </h1>
-						<a href='http://".$_SERVER["HTTP_HOST"]."/feedback/?g=".$expiretedGroup[$i]->{"idGroup"}."''>					                        inserisci i feedback</a>
-					</body>
-				</html>";
-				
-	
+	<body>
+	<h1>Complimenti hai portato a termine il lavoro con il gruppo: $expiretedResults[$i]->{'name'} </h1>
+	<a href='http://".$_SERVER["HTTP_HOST"]."/feedback/?g=".$expiretedGroup[$i]->{"idGroup"}."''>					                        inserisci i feedback</a>
+	</body>
+	</html>";
+
+
 	$sendNotification -> send ("Unisharing", $exipiratedResults[$i]->{'account'}, $object, $message);
-	
-	}
+
+}
 
 $conn->disconnetti();
 

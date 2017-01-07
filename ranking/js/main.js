@@ -73,41 +73,41 @@ function getRanking(order, cresc){
 	console.log(param);
 
 	function callBackRanking(data) {
-			console.log(data);
-			if(!data.success){
-				alert("Errore! " + data.errorMessage);
-				return;
-			}
-			var tmp = "";
-			for(var i = 0; i < data.results.length;i++){
+		console.log(data);
+		if(!data.success){
+			alert("Errore! " + data.errorMessage);
+			return;
+		}
+		var tmp = "";
+		for(var i = 0; i < data.results.length;i++){
 
-				tmp += '<tr>';
-				tmp +=  '<td>'+(i+1)+'</td>';
-				tmp +=  '<td><a href="../../students/description/index.php?user='+data.results[i].id+'">'+data.results[i].name+' '+data.results[i].surname+'</a></td>';
-				tmp +=  '<td>'+ data.results[i].score+ ' </td>';
-				tmp +=	'<td>';
-				tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5" style="float: right;">';
+			tmp += '<tr>';
+			tmp +=  '<td>'+(i+1)+'</td>';
+			tmp +=  '<td><a href="../../students/description/index.php?user='+data.results[i].id+'">'+data.results[i].name+' '+data.results[i].surname+'</a></td>';
+			tmp +=  '<td>'+ data.results[i].score+ ' </td>';
+			tmp +=	'<td>';
+			tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5" style="float: right;">';
 
-				// CREAZIONE STELLE PER IL RANKING
-				var k=0;
-				tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
-				while (k < data.results[i].percent/20-1) {
-					console.log(data.results[i].percent);
-					tmp += '<i class="fa fa-star" aria-hidden="true"></i>';
-					k++;
-				}
-				if (data.results[i].percent/20 > Math.trunc(data.results[i].percent/20)) {
-					tmp += '<i class="fa fa-star-half-o" aria-hidden="true"></i>';
-				} else {
-					tmp += '<i class="fa fa-star" aria-hidden="true"></i>';
-				}
+			// CREAZIONE STELLE PER IL RANKING
+			var k=0;
+			tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
+			while (k < data.results[i].percent/20-1) {
+				console.log(data.results[i].percent);
+				tmp += '<i class="fa fa-star" aria-hidden="true"></i>';
 				k++;
-				for (var j = 0; j<5-k;j++) {
-						tmp += '<i class="fa fa-star-o" aria-hidden="true"></i>';
-				}
-				tmp += '</div>'
-
 			}
+			if (data.results[i].percent/20 > Math.trunc(data.results[i].percent/20)) {
+				tmp += '<i class="fa fa-star-half-o" aria-hidden="true"></i>';
+			} else {
+				tmp += '<i class="fa fa-star" aria-hidden="true"></i>';
+			}
+			k++;
+			for (var j = 0; j<5-k;j++) {
+				tmp += '<i class="fa fa-star-o" aria-hidden="true"></i>';
+			}
+			tmp += '</div>'
+
+		}
 
 		$("#idRanking").append(tmp);
 	}

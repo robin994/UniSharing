@@ -29,7 +29,7 @@ class Ranking implements IRanking{
 		//eseguo la connessione al database definita in ConnectionDB.php
 		$this->connect->connetti();
 		//costruisco la query di select
-	  $query = " SELECT *, (5 * (_user.score / _user.numberOfFeedback)) AS perc FROM _user WHERE score > 0 ORDER BY ".$post['orderBy'];
+		$query = " SELECT *, (5 * (_user.score / _user.numberOfFeedback)) AS perc FROM _user WHERE score > 0 ORDER BY ".$post['orderBy'];
 
 		if ($post['cresc'] == "true") {
 			$query .= " ASC";

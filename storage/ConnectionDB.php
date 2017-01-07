@@ -1,13 +1,13 @@
 <?php
 
 interface IConnectionDB{
-	
-	// metodo che connette al db	
+
+	// metodo che connette al db
 	public function connetti();
-	
+
 	//metodo che disconnette dal db
 	public function disconnetti();
-	
+
 	// metodo che implementa query multiple
 	public function myMultiQuery($query);
 
@@ -22,10 +22,10 @@ interface IConnectionDB{
 
 	// metodo che restituisce il valore AUTO_INCREMENT nelle insert
 	public function insert_id();
-	
+
 	// metodo che itera le righe provenienti dal db
 	public function myFetch($result);
-	
+
 }
 
 
@@ -47,11 +47,11 @@ class ConnectionDB implements IConnectionDB{
 			$this->connessione = mysqli_connect($this->db_host,$this->db_user,$this->db_password, $this->db_database) or die("Errore1: ".mysqli_connect_error());
 			mysqli_set_charset($this->connessione,'utf8');
 			if(!mysqli_connect_errno())
-     		 {
+			{
 				$this->attiva = true;
 
-			 }
-		 }
+			}
+		}
 
 		return $this->connessione;
 	}
@@ -84,7 +84,7 @@ class ConnectionDB implements IConnectionDB{
 		mysqli_close($this->connessione);
 		$this->attiva = false;
 	}
-	
+
 	public function myFetch($result){
 		return mysqli_fetch_array($result);
 	}
