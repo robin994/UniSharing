@@ -106,7 +106,7 @@ function getRanking(order, cresc){
 			for (var j = 0; j<5-k;j++) {
 				tmp += '<i class="fa fa-star-o" aria-hidden="true"></i>';
 			}
-			tmp += '</div>'
+			tmp += '</div>';
 
 		}
 

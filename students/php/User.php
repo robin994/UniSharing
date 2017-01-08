@@ -402,7 +402,7 @@ class User extends Account implements IUser{
 				$query2 = "SELECT * FROM _feedback as fb WHERE fb.account = (SELECT email FROM _user WHERE _user.idUser = ".$post["idUser"].")";
 
 				// Query per ottenere i dati relativi all'utente
-				$query = "SELECT * FROM _user where _user.idUser = ".$post["idUser"];
+				$query = "SELECT * , (5 * (_user.score / _user.numberOfFeedback)) AS perc FROM _user where _user.idUser = ".$post["idUser"];
 
 				//la passo la motore MySql
 				$result = $this->connect->myQuery($query);
@@ -475,6 +475,7 @@ class User extends Account implements IUser{
 				$objJSON["longitude"] = $rowValori["longitude"];
 				$idFaculty =$rowValori["faculty"];
 				$objJSON["idFaculty"] = $rowValori["faculty"];
+				$objJSON["perc"] = $rowValori["perc"];
 				// Query per ottenere i nomi della facolta' e dell'universita'
 				$query3 = "SELECT _university.name AS \"UF\", _faculty.name AS \"NF\" , _university.idUniversity as \"idU\" FROM _university, _faculty WHERE _faculty.idUniversity=_university.idUniversity AND _faculty.idFaculty =".$idFaculty;
 				$result3 = $this->connect->myQuery($query3);
