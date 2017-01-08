@@ -34,6 +34,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	var emailOld = "";
 	var lat = 0;
 	var lng = 0;
+	var cookPathImage;
 
 	$(function() {
 
@@ -157,6 +158,8 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 		$("#bday").attr('value',data.birthOfDay);
 		//$("#imagePath")attr('value',"<img src=\"../../"+data.pathImage+"\">");
 		$('#cellulare').attr('value',data.telephone);
+		cookPathImage = data.pathImage;
+
 
 		$("input:checkbox").each(function(){
 			for (var i = 0;i < data.features.length; i++) {
@@ -267,37 +270,35 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 
 
 
-		var callBackSignin = function(data){
+		var callBackModProfile = function(data){
 
 			if(!data.success){
 				alert("Errore! " + data.messageError);
 				return;
 			}
 			waitingDialog.hide();
-			/*
+			
 			var cook = {
-				"idUser":param.idUser,
-				"username":param.email,
-				"name":param.name,
-				"surname":param.surname,
-				"pathImage":param.pathImage,
-				"latitude":param.latitude,
-				"longitude":param.longitude
+				"idUser": idUser,
+				"username": email,
+				"name": name,
+				"surname": surname,
+				"pathImage": cookPathImage,
+				"latitude": lat,
+				"longitude": lng
 			}
 
 			var cook_options = {
 				path: "/",
 				domain: window.location.hostname
 			}
-
-			if($(".connesso").is(":checked")){
-				cook_options.expires = 60;
-			}
-
+			
+			console.log(cook);
+			
 			// creo il cookie
 			$.removeCookie('user', cook_options);
 			$.cookie('user', JSON.stringify(cook), cook_options);
-			*/
+			
 
 			$("#result_message").html('<center><br><div class="alert alert-success"><i class="glyphicon glyphicon-ok" style="font-size:22px;"/><br><br><h4>Utente modificato correttamente<h4><h5>Verrai reindirizzato sulla home fra qualche istante...<h5><h5>Se non vuoi attendere <a href="http://<? echo $_SERVER["HTTP_HOST"]; ?>/research/home/index.php">clicca qui.</a></h5></div></center>');
 
@@ -348,7 +349,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 
 		waitingDialog.show('Invio dati al server, attendere...',{dialogSize: 'sm',  onShow: function () {
 			async function callBack() {
-				$.unisharing("User", "modifyProfile", "private", param, true, callBackSignin);
+				$.unisharing("User", "modifyProfile", "private", param, true, callBackModProfile);
 			};
 			callBack();
 		}});
