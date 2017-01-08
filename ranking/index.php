@@ -18,8 +18,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	<link href="css/ranking.css" rel="stylesheet" media="screen">
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="js/main.js"></script>
-
-
+	<script src="../../js/bootstrap-waitingfor.js"></script>
 	<script>
 	// ONLOAD JQUERY
 	$(function(){

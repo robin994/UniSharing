@@ -73,6 +73,7 @@ function getRanking(order, cresc){
 	console.log(param);
 
 	function callBackRanking(data) {
+		waitingDialog.hide();
 		console.log(data);
 		if(!data.success){
 			alert("Errore! " + data.errorMessage);
@@ -112,5 +113,7 @@ function getRanking(order, cresc){
 		$("#idRanking").append(tmp);
 	}
 
-	$.unisharing("Ranking" , "getRanking" , "private" , param, false, callBackRanking);
+	waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
+		$.unisharing("Ranking" , "getRanking" , "private" , param, true, callBackRanking);
+	}});
 }
