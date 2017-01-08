@@ -15,7 +15,7 @@ $cookie = json_decode($_COOKIE['user']);
 			<div class="collapse navbar-collapse" id="navHeaderCollapse">
 				<ul class= "nav navbar-nav navbar-right">
 					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/blacklist/index.php">Lista nera</a></li>
-					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/ideallist/index.php">Lista compagni di studi <span class="badge" id="numIdealList"></span></a></li>
+					<li><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/students/ideallist/index.php">Lista compagni di studio <span class="badge" id="numIdealList"></span></a></li>
 					<li class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">Gruppi <b class="caret"></b></a>
 						<ul class="dropdown-menu">

@@ -42,6 +42,11 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 </head>
 <body>
 	<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/research/home/index.php">Home</a></li>
+        <li class="breadcrumb-item"><a>Gruppi</a></li>
+		<li class="breadcrumb-item active">Visualizzazione gruppo</li>
+	</ol>
 	<div class="container">
 		<div class="row" id="Message"></div>
 		<div class="row" id="Mask_view_group"></div>

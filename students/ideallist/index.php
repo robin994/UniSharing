@@ -103,7 +103,10 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 <body>
 
 	<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
-
+	<ol class="breadcrumb">
+    	<li class="breadcrumb-item"><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/research/home/index.php">Home</a></li>
+   		<li class="breadcrumb-item active">Lista ideale</li>
+	</ol>
 	<div class: "container">
 		<div class: "row">
 			<div class="col-lg-3"></div>

@@ -50,6 +50,12 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 <body>
 	<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
 	<div class="container">
+       	<div class="row">
+        	<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/research/home/index.php">Home</a></li>
+        		<li class="breadcrumb-item active">Inserisci feedback</li>
+        	</ol>
+		</div>
 		<div class= "row">
 			<div class= "col-lg-2"></div>
 			<div class= "col-lg-8" id="Mask_feedback"></div>

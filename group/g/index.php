@@ -33,13 +33,12 @@
 </head>
 <body>
 	<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
-	<!-- <div>
 	<ol class="breadcrumb">
-	<li class="breadcrumb-item"><a href="#">Home</a></li>
-	<li class="breadcrumb-item active">Gruppi partecipanti</li>
-</ol>
-</div> -->
-<div class="container">
+		<li class="breadcrumb-item"><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/research/home/index.php">Home</a></li>
+    	<li class="breadcrumb-item"><a>Gruppi</a></li>
+    	<li class="breadcrumb-item active">Gruppi a cui partecipo</li>
+	</ol>
+	<div class="container">
 	<div class="row" id="Message"></div>
 	<div class= "row">
 		<div class= "col-lg-2"></div>
