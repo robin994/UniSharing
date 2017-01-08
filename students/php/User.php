@@ -647,6 +647,29 @@ class User extends Account implements IUser{
 			$row = mysqli_fetch_array($result);
 			$email = $row["email"];
 
+			//controllo che l'utente non sia gia' bloccato
+			//Ritorna 1 se l'utente e' gia' bloccato , 0 se viceversa
+			$queryControllo = "SELECT CASE WHEN EXISTS (
+				SELECT *
+				FROM _blacklist
+				WHERE user = '".$this->cookie->{"username"}."' AND blockedUser = '".$email."'
+			)
+			THEN 1
+			ELSE 0 END AS controllo";
+			$result = $this->connect->myQuery($queryControllo);
+			$row = mysqli_fetch_array($result);
+			//var_dump($row);
+
+			if ($row["controllo"] == "1") {
+				$objJSON["success"] = false;
+				$objJSON["messageError"] = "Errore: ";
+				$objJSON["error"] = "Utente gia' bloccato";
+
+				//Disconnetto dal database
+				$this->connect->disconnetti();
+				//var_dump($objJSON);
+				return json_encode($objJSON);
+			}
 			// formulo la query
 			$query = "INSERT IGNORE INTO _blacklist (user, blockedUser) VALUES ('".$this->cookie->{"username"}."','".$email."')";
 
