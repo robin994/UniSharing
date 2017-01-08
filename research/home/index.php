@@ -65,6 +65,9 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 				}
 			});
 			console.log(arr_features);
+
+			//CASO IN CUI NON VIENE SELEZIONATA ALCUNA CARATTERISTICA
+
 			if(!boo){
 				var tmp = '<center><br>';
 				tmp += '<div class="alert alert-warning">';
@@ -76,8 +79,14 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 				$("#ris").html("");
 				return;
 			}
+
+			//RISULTATI RICERCA
+
 			function callBackUsers(data){
 				waitingDialog.hide();
+
+				//CASO IN CUI LA RICERCA PRODUCE ERRORE
+
 				if(!data.success){
 					var tmp = '<center><br>';
 					tmp += '<div class="alert alert-danger">';
@@ -89,6 +98,8 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 					$("#ris").html("");
 					return;
 				}
+
+				//CASO IN CUI LA RICERCA NON PRODUCE RISULTATI
 
 				if(data.results.length <= 0){
 					var tmp = '<center><br>';
@@ -102,10 +113,11 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 					return;
 				}
 
+				//STAMPA RISULTATI RICERCA
+
 				var tmp = "";
 				for(var i = 0; i < data.results.length;i++){
 					console.log(data.results[i]);
-
 					tmp += '<div class="col-lg-4">';
 					tmp += '<table class="table user-list">';
 					tmp += 	'<tbody>';
