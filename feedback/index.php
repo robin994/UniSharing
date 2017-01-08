@@ -18,6 +18,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
 	<script type="text/javascript" src="../../js/functions.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script src="../../js/bootstrap-waitingfor.js"></script>
 	<script>
 
 	var mask_feedback = "";

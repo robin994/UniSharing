@@ -34,7 +34,7 @@ function checkFeedback(idGruppo, userLoggato){
 
 	// funzione di callback
 	function callBackCheckFeedback(data){
-
+		waitingDialog.hide();
 		console.log("Ricevo dati dei feedback");
 		console.log(data);
 
@@ -160,7 +160,10 @@ function checkFeedback(idGruppo, userLoggato){
 		}
 	}
 
-	$.unisharing("Feedback", "checkFeedback", "private", {"gruppo": idGruppo, "user": userLoggato}, false, callBackCheckFeedback);
+	waitingDialog.show('Contattando il server, attendere...',{dialogSize: 'sm',  onShow: function () {
+			$.unisharing("Feedback", "checkFeedback", "private", {"gruppo": idGruppo, "user": userLoggato}, true, callBackCheckFeedback);
+		},
+	});
 }
 
 
@@ -171,6 +174,7 @@ function checkFeedback(idGruppo, userLoggato){
 function insertFeedback(feed){
 
 	function callBackFeedback(data){
+		waitingDialog.hide();
 		console.log(data);
 
 		if(!data.success){
@@ -191,6 +195,9 @@ function insertFeedback(feed){
 	}
 
 	// invoco il metodo di insertFeedback
-	$.unisharing("Feedback", "insertFeedback", "private", feed, false, callBackFeedback);
 
+	waitingDialog.show('Contattando il server, attendere...',{dialogSize: 'sm',  onShow: function () {
+			$.unisharing("Feedback", "insertFeedback", "private", feed, true, callBackFeedback);
+		},
+	});
 }

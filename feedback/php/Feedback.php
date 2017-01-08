@@ -78,7 +78,7 @@ class Feedback implements IFeedback{
 			) as USER ON USER.email = _accountpartecipategroup.account
 
 
-			WHERE 	groupId ='".$post["gruppo"]."' AND
+			WHERE _accountpartecipategroup.accepted = '1' AND	groupId ='".$post["gruppo"]."' AND
 			account != '".$post["user"]."' AND
 			account NOT IN (
 				SELECT account FROM _feedback
@@ -88,7 +88,7 @@ class Feedback implements IFeedback{
 				_feedback.groups = '".$post["gruppo"]."'
 				)";
 
-
+				//var_dump($query);
 				//la passo la motore MySql
 				$result = $this->connect->myQuery($query);
 
