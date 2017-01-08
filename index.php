@@ -100,7 +100,12 @@
 
 					// creo il cookie
 					$.cookie('user', JSON.stringify(cook), cook_options);
-					document.location.href = "/research/home/";
+					if ($.cookie('urlRequest') != null) {
+						var urlRequest = $.cookie("urlRequest");
+						document.location.href = urlRequest;
+					} else {
+						document.location.href = "/research/home/";
+					}
 				}
 			}
 
