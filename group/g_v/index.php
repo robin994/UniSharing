@@ -20,6 +20,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	<script src="../../js/jquery.cookie.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../js/jquery-confirm-master/jquery-confirm.min.css"/>
 	<script type="text/javascript" src="../../js/jquery-confirm-master/jquery-confirm.min.js"></script>
+	<script src="../../js/bootstrap-waitingfor.js"></script>
 
 	<script>
 	$(function(){

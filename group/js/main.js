@@ -303,6 +303,7 @@ function getDetailGroup(idGroup, mask_group){
 
 	   function callBackDetailGroup(data){
 
+		  waitingDialog.hide();
 		  if(!data.success){
 				var tmp = '<center><br>';
 				tmp += '<div class="alert alert-danger">';
@@ -357,10 +358,11 @@ function getDetailGroup(idGroup, mask_group){
 				$("#ris_partecipate").html(tmp);
 
 			}
-	  }
-
-	  $.unisharing("Group", "getDetailsGroup", "private", param, false, callBackDetailGroup);
-
+	 	}
+		
+		waitingDialog.show('Attendere',{dialogSize: 'sm',  onShow: function () {
+	  		$.unisharing("Group", "getDetailsGroup", "private", param, true, callBackDetailGroup);
+		}});
 }
 
 
