@@ -1,7 +1,7 @@
 <br /><br /><br /><br />
 <footer class="footer">
 	<div class="footerContainer">
-		<span class="text-muted">Copyright © 2016 UniSharing. All rights reserved.</span>
+		<span class="text-muted">Copyright © 2017 UniSharing. All rights reserved.</span>
 	</div>
 </footer>
 
@@ -10,7 +10,7 @@
 $(function(){
 
 	$(window).scroll(function(){
-		$(".footer").css({position: "fixed", bottom: "0px"});
+		$(".footer").css({position: "absolute", bottom: "0px"});
 	});
 
 });

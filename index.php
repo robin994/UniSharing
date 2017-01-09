@@ -133,7 +133,6 @@
 							<img src="../../img/logo_login.png" class="img-responsive" alt=""></center>
 							<input id="username" type="email" name="email" placeholder="Username" required class="form-control input-lg">
 							<input id="password" type="password" class="form-control input-lg" id="password" placeholder="Password" required=""><ul class="error-list"></ul>
-
 							<input type="checkbox" value="si" class="connesso" /> Mantieni una sessione su questo computer
 							<button name="go" class="btn btn-lg btn-primary btn-block" id="btn-login">Accedi</button>
 							<span id="Message"></span>
