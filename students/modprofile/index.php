@@ -424,7 +424,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 					<div class="form-group col-lg-6">
 						<Label>Cellulare</Label>
 						<div class="input-group" style="width:100%;">
-							<input type="text" id="cellulare" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
+							<input type="number" id="cellulare" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
 						</div>
 					</div>
 				</div>
@@ -624,10 +624,10 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 						</div>
 						<!-- fine FEATURES -->
 					</div>
-					<div class="col-md-4">
-						<br>
-						<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
-						<input type="button" class="btn btn-primary" id="btn-modifica" value="Conferma">
+					<div class="col-md-12">
+						<br>						
+						<input style='margin-left: 5px' type="button" class="pull-right btn btn-primary" id="btn-modifica" value="Conferma">
+                        <input type="button" class="pull-right btn btn-default" id="btn-annulla" value="Annulla">
 					</div>
 				</div>
 			</div>

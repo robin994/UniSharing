@@ -357,7 +357,7 @@ $("#btn-iscriviti").on("click", function() {
 				<div class="form-group col-lg-6">
 					<Label>Cellulare</Label>
 					<div class="input-group" style="width:100%;">
-						<input type="text" id="cellulare" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
+						<input type="number" id="cellulare" class="form-control" placeholder="Cellulare" aria-describedby="basic-addon1">
 					</div>
 				</div>
 			</div>

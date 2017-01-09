@@ -87,7 +87,7 @@ function getRanking(order, cresc){
 			tmp +=  '<td><a href="../../students/description/index.php?user='+data.results[i].id+'">'+data.results[i].name+' '+data.results[i].surname+'</a></td>';
 			tmp +=  '<td>'+ data.results[i].score+ ' </td>';
 			tmp +=	'<td>';
-			tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5" style="float: right;">';
+			tmp += '<div id="stars-existing" class="starrr coloreStelle" data-rating="5">';
 
 			// CREAZIONE STELLE PER IL RANKING
 			var k=0;

@@ -43,10 +43,10 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 					<textarea id="message" class="form-control" placeholder="Inserisci una breve descrizione del problema" style="resize:vertical;height:100px;"></textarea>
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-12">
 				<br>
-				<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
-				<input type="button" class="btn btn-primary" id="btn-segnalazione" onclick="sendReport()" value="Conferma">
+				<input style='margin-left: 5px' type="button" class="pull-right btn btn-primary" id="btn-segnalazione" onclick="sendReport()" value="Conferma">
+                <input type="button" class="pull-right btn btn-default" id="btn-annulla" value="Annulla">
 			</div>
 		</div>
 		<div class="col-lg-3">

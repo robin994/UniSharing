@@ -340,10 +340,10 @@ $("#btn-create-group").on("click", function() {
 						<textarea placeholder="Insirisci una breve descrizione del gruppo" id="description" class="form-control" style="resize:vertical;height:100px;"></textarea>
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-12">
 					<br>
-					<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
-					<input type="button" class="btn btn-primary" id="btn-create-group" value="Conferma">
+                    <input style='margin-left: 5px' type="button" class="btn btn-primary pull-right" id="btn-create-group" value="Conferma">
+					<input type="button" class="btn btn-default pull-right" id="btn-annulla" value="Annulla">
 				</div>
 			</div>
 			<div class="col-log-2"></div>

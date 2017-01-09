@@ -101,7 +101,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 
 				//CASO IN CUI LA RICERCA NON PRODUCE RISULTATI
 
-				if(data.results.length <= 0){
+				if(data.results.length <= 0){					
 					var tmp = '<center><br>';
 					tmp += '<div class="alert alert-warning">';
 					tmp += '<i class="glyphicon glyphicon-delete"/> ';
@@ -119,23 +119,24 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 				for(var i = 0; i < data.results.length;i++){
 					console.log(data.results[i]);
 					tmp += '<div class="col-lg-4">';
-					tmp += '<table class="table user-list">';
-					tmp += 	'<tbody>';
-					tmp += 		'<tr>';
-					tmp += '			<td>';
-					tmp += '				<a href="../../students/description/index.php?user='+data.results[i]["id"]+'"><img src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="border-radius: 50px; float:left; margin-right: 3%; width: 80px; height: 80px" alt=""></a>';
-					tmp += '				<h5><a href="../../students/description/index.php?user='+data.results[i]["id"]+'" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
+					tmp += '<div class="media">';
+					tmp += 	'<a class="pull-left">';
+					tmp += 		'<img class="media-object img-circle" src="../../'+data.results[i]["pathImage"]+'/icon80x80.jpg" style="width: 100px;height:100px;">';
+					tmp += '			 </a>';
+					tmp += '				<div class="media-body">';
+					tmp += '					<h5 class="media-heading"><a href="../../students/description/index.php?user='+data.results[i]["id"]+'" class="user-link">'+data.results[i]["name"]+' '+data.results[i]["surname"]+'</a></h5>';
 					if (data.results[i]["distance"]!= null) {
 						var distanceUser = parseFloat(data.results[i]["distance"]).toFixed(2) + ' km';
 						tmp += '				<h5>Distanza: '+distanceUser+'</h5>';
-					};
-
-					tmp += '				<button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'" id="'+data.results[i]["id"]+'">Aggiungi<span class="glyphicon glyphicon-plus" style=\"margin-left: 5%; margin-right:5%;\" ></span></button>';
-					tmp += '			</td>';
-					tmp += '		</tr>';
-					tmp += '	</tbody>';
+					}	else {
+						tmp += '				<h5><br></h5>';
+					}	
+					tmp += '					<hr style="margin:8px auto">';				
+					tmp += '					<span><button class="addUser btn btn-success btn-xs" user-subhead" name="'+data.results[i]["name"]+'" surname="'+data.results[i]["surname"]+'" pathImage="'+data.results[i]["pathImage"]+'" username="'+data.results[i]["username"]+'" id="'+data.results[i]["id"]+'">Aggiungi</button></span>';
+					tmp += '			</div>';
+					tmp += '		</div>';
+					tmp += '	</div>';
 					tmp += '</table>';
-					tmp += '</div>';
 				}
 				$("#ris").html("");
 				$("#ris").html(tmp);
@@ -225,11 +226,6 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 <body>
 	<? include($_SERVER['DOCUMENT_ROOT']."/php/navbar.php"); ?>
 	<div id="container">
-    	<div class="row">
-        	<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
-        	</ol>
-		</div>
 		<div class="row">
 			<div class="col-lg-4"></div>
 			<div class="col-lg-4" id="Message"></div>
