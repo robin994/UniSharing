@@ -1,3 +1,6 @@
+<?
+	include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
+?>
 <!doctype html>
 <html><head>
 	<meta charset="utf-8">
