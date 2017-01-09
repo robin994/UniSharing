@@ -14,7 +14,7 @@
 	<script src="js/jquery.cookie.js"></script>
 	<script>
 	$(function() {
-
+ 
 		if($.cookie("user")){
 			var cookie = JSON.parse($.cookie('user'));
 			console.log(cookie.name);
