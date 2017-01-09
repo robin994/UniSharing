@@ -14,7 +14,7 @@
 	<script src="js/jquery.cookie.js"></script>
 	<script>
 	$(function() {
- 
+
 		if($.cookie("user")){
 			var cookie = JSON.parse($.cookie('user'));
 			console.log(cookie.name);
@@ -102,6 +102,7 @@
 					$.cookie('user', JSON.stringify(cook), cook_options);
 					if ($.cookie('urlRequest') != null) {
 						var urlRequest = $.cookie("urlRequest");
+						document.cookie = 'urlRequest'+"="+null+"; path=/";
 						document.location.href = urlRequest;
 					} else {
 						document.location.href = "/research/home/";
