@@ -46,7 +46,7 @@ include($_SERVER['DOCUMENT_ROOT']."/php/cookiescontrol.php");
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="<? echo "http://".$_SERVER["HTTP_HOST"]; ?>/research/home/index.php">Home</a></li>
         <li class="breadcrumb-item"><a>Gruppi</a></li>
-		<li class="breadcrumb-item active">Visualizzazione gruppo</li>
+		<li class="breadcrumb-item active">Dettagli gruppo</li>
 	</ol>
 	<div class="container">
 		<div class="row" id="Message"></div>
