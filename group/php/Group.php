@@ -355,7 +355,8 @@ class Group implements IGroup{
 
 				FROM _user, _accountpartecipategroup
 				WHERE 	_user.email = _accountpartecipategroup.account AND
-				_accountpartecipategroup.groupId = '".$post["gruppo"]."' AND _accountpartecipategroup.account <> '".$this->cookie->{"username"}."'";
+				_accountpartecipategroup.groupId = '".$post["gruppo"]."' AND _accountpartecipategroup.account <> '".$this->cookie->{"username"}."'
+				ORDER BY accepted DESC, name, surname";
 
 
 				//la passo la motore MySql
