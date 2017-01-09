@@ -8,7 +8,6 @@
 	<title>UniSharing</title>
 	<script src="../../js/jquery.1.12.js"></script>
 	<link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
-	<link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="../../css/footer.css" rel="stylesheet" media="screen">
 	<link href="../../css/navbar.css" rel="stylesheet" media="screen">
 	<script src="../../js/bootstrap.min.js"></script>
