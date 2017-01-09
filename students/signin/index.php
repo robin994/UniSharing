@@ -557,10 +557,10 @@ $("#btn-iscriviti").on("click", function() {
 					</div>
 					<!-- fine FEATURES -->
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-12">
 					<br>
-					<input type="button" class="btn btn-default" id="btn-annulla" value="Annulla">
-					<input type="button" class="btn btn-primary" id="btn-iscriviti" value="Iscriviti">
+					<input style='margin-left: 5px' type="button" class="pull-right btn btn-primary" id="btn-iscriviti" value="Iscriviti">
+                    <input type="button" class="pull-right btn btn-default" id="btn-annulla" value="Annulla">
 				</div>
 			</div>
 		</div>
