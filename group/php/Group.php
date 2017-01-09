@@ -8,7 +8,7 @@ interface IGroup{
 	public function getExpiratedGroupWithUser();
 
 	//metodo che permette di controllare se un gruppo è scaduto o meno
-	public function getExpiratedGroup();
+	public function deleteExpiratedGroup();
 
 	// metodo che implementa l'abbandono dell'utente dal gruppo
 	public function leaveGroup($param);
@@ -868,16 +868,58 @@ class Group implements IGroup{
 				////////////////////////////////////////////////////////////////////////////////////
 				/////////// INIZIO DEL METODO CHE CONTROLLA I GRUPPI CHE SONO SCADUTI //////////////
 				////////////////////////////////////////////////////////////////////////////////////
-				public function getExpiratedGroup(){
+				public function deleteExpiratedGroup(){
+
+					$objJSON = array();
+
 					//eseguo la connessione al database definita in ConnectionDB.php
 					$this->connect->connetti();
 
-					$query= "DELETE FROM _group WHERE _group.expirationDate < date('Y-m-d') AND _group.idGroup NOT IN (SELECT groupId FROM _accountpartecipategroup)";
+					//QUERY CHE TROVA I GRUPPI CON INVITI SCADUTI IN DATA ODIERNA, RITORNA idGruppo, Numero persone che hanno accettato al gruppo E data di scadenza degli inviti
+					$query= "SELECT _group.account , _group.name, groupId ,SUM(accepted) AS GroupStatus, _group.expirationInvite
+											FROM `_accountpartecipategroup`
+											JOIN _group
+											ON _accountpartecipategroup.groupId = _group.idGroup
+											WHERE _group.expirationInvite = CURDATE()
+											GROUP BY groupId";
+
+					//la passo la motore MySql
+					$result = $this->connect->myQuery($query);
+
+					$cont = 0;
+					while($rowValori = mysqli_fetch_array($result)){
+						$objJSON["exipiratedGroupToday"][$cont]["admin"] = $rowValori["admin"];
+						$objJSON["exipiratedGroupToday"][$cont]["namegroup"] = $rowValori["namegroup"];
+						$objJSON["exipiratedGroupToday"][$cont]["groupId"] = $rowValori["groupId"];
+						$objJSON["exipiratedGroupToday"][$cont]["GroupStatus"] = $rowValori["GroupStatus"];
+						$objJSON["exipiratedGroupToday"][$cont]["expirationInvite"] = $rowValori["expirationInvite"];
+						$cont++;
+					}
+
+					$toRemoveGroup = array();
+
+					$c = 0;
+					for ($cont = 0 ; $cont < count($objJSON["exipiratedGroupToday"]); $cont++){
+						if ($objJSON["exipiratedGroupToday"][$c]["GroupStatus"] <= 0) {
+							$toRemoveGroup["exipiratedGroupToday"][$cont]["admin"] = 	$objJSON["exipiratedGroupToday"][$cont]["admin"];
+							$toRemoveGroup["exipiratedGroupToday"][$cont]["namegroup"] = 	$objJSON["exipiratedGroupToday"][$cont]["namegroup"];
+							$toRemoveGroup["exipiratedGroupToday"][$cont]["groupId"] = 	$objJSON["exipiratedGroupToday"][$cont]["groupId"];
+							$toRemoveGroup["exipiratedGroupToday"][$cont]["GroupStatus"] = $objJSON["exipiratedGroupToday"][$cont]["GroupStatus"];
+							$toRemoveGroup["exipiratedGroupToday"][$cont]["expirationInvite"] = $objJSON["exipiratedGroupToday"][$cont]["expirationInvite"];
+						}
+						$c++;
+					}
+
+					for ($cont = 0 ; $cont < count($toRemoveGroup["exipiratedGroupToday"]); $cont++){
+						$query = "DELETE FROM _group WHERE _group.idGroup = ".$toRemoveGroup["exipiratedGroupToday"][$cont]["groupId"];
+						$query2 = "DELETE FROM _accountpartecipategroup WHERE _accountpartecipategroup.groupId = ".$toRemoveGroup["exipiratedGroupToday"][$cont]["groupId"];
+						$this->connect->myQuery($query2);
+						$this->connect->myQuery($query);
+					}
 
 					//Disconnetto dal database e restituisco il risultato
 					$this->connect->disconnetti();
-					return json_encode($objJSON);
-
+					return json_encode($toRemoveGroup); //restituisce risultati cancellati
 				}
 
 				//////////////////////////////////////////////////////////////////////////
@@ -896,7 +938,7 @@ class Group implements IGroup{
 
 					$query= "SELECT _group.name, _group.idGroup, _accountpartecipategroup.account
 					FROM _group JOIN _accountpartecipategroup on _group.idGroup=_accountpartecipategroup.groupId
-					WHERE _group.expirationDate < date('Y-m-d')";
+					WHERE _group.expirationDate = CURDATE()"; //si utilizza l'uguaglianza per non effettuare cambi lato database
 
 					//inizializzo il json da restituire come risultato del metodo
 					$objJSON = array();
@@ -926,6 +968,7 @@ class Group implements IGroup{
 							$objJSON["results"][$cont]["name"] = $rowValori["name"];
 							$objJSON["results"][$cont]["idGroup"] = $rowValori["idGroup"];
 							$objJSON["results"][$cont]["account"] = $rowValori["account"];
+							$cont++;
 						}
 					}
 
